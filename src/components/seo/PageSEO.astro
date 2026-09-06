@@ -1,0 +1,23 @@
+---
+import BaseSEO from "./BaseSEO.astro"
+
+interface Props {
+  currentPage: string
+  title?: string
+  description?: string
+  jsonType?: string
+  extraJson?: Record<string, unknown>
+  ogImage?: string
+}
+
+const { currentPage, jsonType = "LocalBusiness", extraJson = {}, ogImage, title, description } = Astro.props as Props
+---
+
+<BaseSEO
+  currentPage={currentPage}
+  title={title}
+  description={description}
+  jsonType={jsonType}
+  extraJson={extraJson}
+  ogImage={ogImage}
+/>

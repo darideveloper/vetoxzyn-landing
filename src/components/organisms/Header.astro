@@ -1,0 +1,15 @@
+---
+import { EMAIL, PHONES } from "@/data/site-config"
+---
+
+<header class="border-b">
+  <nav class="mx-auto flex max-w-5xl items-center justify-between px-4 py-3" aria-label="Primary">
+    <a href="/" class="font-semibold">Vetoxzyn</a>
+    <div class="flex items-center gap-4 text-sm">
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+      <a href={PHONES.main.href}>{PHONES.main.formatted}</a>
+      <a href={EMAIL.href} class="hidden sm:inline">{EMAIL.address}</a>
+    </div>
+  </nav>
+</header>

@@ -1,0 +1,89 @@
+---
+import { BUSINESS_DATA } from "@/data/site-config"
+import { SITE_DESCRIPTION, SITE_TITLE } from "@/consts"
+
+interface Props {
+  currentPage: string
+  title?: string
+  description?: string
+  baseDescription?: string
+  baseKeywords?: string
+  jsonType?: string
+  extraJson?: Record<string, unknown>
+  ogImage?: string
+  useTagLine?: boolean
+}
+
+const {
+  currentPage,
+  title,
+  description,
+  baseDescription,
+  baseKeywords,
+  jsonType = "LocalBusiness",
+  extraJson = {},
+  ogImage,
+  useTagLine = true,
+} = Astro.props as Props
+
+const isProd = import.meta.env.PROD
+
+const resolvedTitle = title ?? SITE_TITLE
+const resolvedDescription = description ?? baseDescription ?? SITE_DESCRIPTION
+const pageTitle =
+  useTagLine && resolvedTitle !== BUSINESS_DATA.name && currentPage !== "home"
+    ? `${resolvedTitle} | ${BUSINESS_DATA.name}`
+    : resolvedTitle
+
+const canonicalUrl = `${BUSINESS_DATA.url}${Astro.url.pathname}`
+const socialImageUrl = ogImage ?? `${BUSINESS_DATA.url}${BUSINESS_DATA.ogImage}`
+
+const ogTypeMap: Record<string, string> = {
+  LocalBusiness: "website",
+  Service: "website",
+}
+const ogType = ogTypeMap[jsonType] ?? "website"
+
+const baseSchema: Record<string, unknown> = {
+  "@context": "https://schema.org",
+  "@type": jsonType,
+  "@id": `${BUSINESS_DATA.url}#${jsonType.toLowerCase()}`,
+  name: pageTitle,
+  description: resolvedDescription,
+  url: canonicalUrl,
+  image: socialImageUrl,
+}
+
+// ponytail: LocalBusiness-only branch. Add TouristDestination/Service
+// branches when those page types exist; delete nothing until then.
+if (jsonType === "LocalBusiness") {
+  Object.assign(baseSchema, {
+    logo: `${BUSINESS_DATA.url}${BUSINESS_DATA.logo}`,
+    telephone: BUSINESS_DATA.contact.phone,
+    email: BUSINESS_DATA.contact.email,
+    address: BUSINESS_DATA.contact.address,
+    geo: BUSINESS_DATA.contact.geo,
+    sameAs: Object.values(BUSINESS_DATA.social),
+  })
+}
+
+const jsonLd = { ...baseSchema, ...extraJson }
+---
+
+<title>{pageTitle}</title>
+<meta name="description" content={resolvedDescription} />
+{baseKeywords && <meta name="keywords" content={baseKeywords} />}
+<link rel="canonical" href={canonicalUrl} />
+{!isProd && <meta name="robots" content="noindex, nofollow" />}
+<meta property="og:type" content={ogType} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={resolvedDescription} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:image" content={socialImageUrl} />
+<meta property="og:locale" content="en_US" />
+<meta property="og:site_name" content={BUSINESS_DATA.name} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={resolvedDescription} />
+<meta name="twitter:image" content={socialImageUrl} />
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

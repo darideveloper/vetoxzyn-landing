@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Maximize Yield Now - Vetoxzyn</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;family=Open+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-container": "#795120",
+                        "tertiary-fixed-dim": "#ffb77a",
+                        "error": "#ba1a1a",
+                        "surface-container": "#eeedf2",
+                        "surface-container-high": "#e8e8ec",
+                        "secondary-container": "#ffc78b",
+                        "on-tertiary-fixed": "#2e1500",
+                        "surface-container-low": "#f3f3f7",
+                        "secondary": "#7f5624",
+                        "surface-variant": "#e2e2e6",
+                        "on-tertiary-container": "#fffbff",
+                        "background": "#f9f9fd",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed": "#2b1700",
+                        "tertiary-container": "#af6100",
+                        "on-tertiary-fixed-variant": "#6d3a00",
+                        "primary": "#396700",
+                        "surface-tint": "#3a6a00",
+                        "on-primary-fixed": "#0e2000",
+                        "inverse-surface": "#2f3034",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#98d85a",
+                        "outline": "#727a67",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#e2e2e6",
+                        "surface": "#f9f9fd",
+                        "surface-dim": "#d9dade",
+                        "surface-bright": "#f9f9fd",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#1a1c1f",
+                        "tertiary": "#8b4c00",
+                        "on-error-container": "#93000a",
+                        "primary-fixed-dim": "#98d85a",
+                        "inverse-on-surface": "#f0f0f5",
+                        "secondary-fixed-dim": "#f3bc81",
+                        "on-background": "#1a1c1f",
+                        "on-surface-variant": "#424939",
+                        "on-primary-container": "#f9ffeb",
+                        "outline-variant": "#c2c9b4",
+                        "tertiary-fixed": "#ffdcc2",
+                        "on-primary-fixed-variant": "#2b5000",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#b3f573",
+                        "primary-container": "#4a8302",
+                        "secondary-fixed": "#ffddba",
+                        "on-secondary-fixed-variant": "#643f0e",
+                        "brand-orange": "#fd530a",
+                        "brand-pink": "#db6f85"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "80px",
+                        "base": "8px",
+                        "sm": "12px",
+                        "margin-desktop": "64px",
+                        "md": "24px",
+                        "lg": "48px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Open Sans"],
+                        "body-md": ["Open Sans"],
+                        "headline-md": ["Montserrat"],
+                        "caption": ["Open Sans"],
+                        "display-lg": ["Montserrat"],
+                        "headline-sm": ["Montserrat"],
+                        "display-lg-mobile": ["Montserrat"],
+                        "label-bold": ["Open Sans"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "caption": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-sm": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "label-bold": ["14px", { "lineHeight": "20px", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { background-color: #f9f9fd; position: relative; }
+        .gradient-primary { background: linear-gradient(135deg, #fd530a 0%, #db6f85 100%); }
+        .gradient-primary:hover { background: linear-gradient(135deg, #db6f85 0%, #fd530a 100%); }
+        .shadow-ambient { box-shadow: 0 24px 48px -12px rgba(219, 111, 133, 0.25); }
+        .glass-panel { background: rgba(249, 249, 253, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.6); }
+        
+        /* Fluid Blob Backgrounds */
+        .blob-1 {
+            position: absolute; top: -10%; left: -10%; width: 60vw; height: 60vw;
+            background: radial-gradient(circle, rgba(219,111,133,0.15) 0%, rgba(219,111,133,0) 70%);
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            animation: morph 15s ease-in-out infinite alternate;
+            z-index: -1; pointer-events: none;
+        }
+        .blob-2 {
+            position: absolute; top: 30%; right: -20%; width: 70vw; height: 70vw;
+            background: radial-gradient(circle, rgba(253,83,10,0.1) 0%, rgba(253,83,10,0) 70%);
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            animation: morph 20s ease-in-out infinite alternate-reverse;
+            z-index: -1; pointer-events: none;
+        }
+        .blob-3 {
+            position: absolute; bottom: 0; left: 10%; width: 50vw; height: 50vw;
+            background: radial-gradient(circle, rgba(219,111,133,0.15) 0%, rgba(219,111,133,0) 70%);
+            border-radius: 50% 50% 30% 70% / 50% 70% 30% 50%;
+            animation: morph 18s ease-in-out infinite alternate;
+            z-index: -1; pointer-events: none;
+        }
+
+        @keyframes morph {
+            0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: rotate(0deg) scale(1); }
+            100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: rotate(15deg) scale(1.05); }
+        }
+
+        /* Diagonal Section Bleeds */
+        .clip-diagonal {
+            clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
+        }
+        .clip-diagonal-reverse {
+            clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 95%);
+        }
+
+        /* Tilted and Floating */
+        .tilt-float {
+            transform: perspective(1000px) rotateY(-5deg) rotateX(5deg);
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .tilt-float:hover {
+            transform: perspective(1000px) rotateY(0deg) rotateX(0deg) translateY(-10px);
+        }
+        .tilt-float-reverse {
+            transform: perspective(1000px) rotateY(5deg) rotateX(5deg) rotateZ(-2deg);
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .tilt-float-reverse:hover {
+            transform: perspective(1000px) rotateY(0deg) rotateX(0deg) translateY(-10px);
+        }
+
+        /* Zig-zag layouts */
+        .zig-zag-row:nth-child(even) { flex-direction: row-reverse; }
+        @media (max-width: 768px) {
+            .zig-zag-row:nth-child(even) { flex-direction: column; }
+        }
+    </style>
+</head>
+<body class="text-on-surface font-body-md antialiased overflow-x-hidden selection:bg-brand-pink selection:text-white">
+<div class="blob-1"></div>
+<div class="blob-2"></div>
+<div class="blob-3"></div>
+<!-- TopNavBar -->
+<header class="bg-surface/50 backdrop-blur-xl full-width top-0 sticky z-50 shadow-sm border-b border-white/50">
+<div class="flex justify-between items-center max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop py-4">
+<div class="w-40 md:w-56"><img alt="Vetoxzyn Logo" class="w-full h-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRJO2tDmVG4tw2f_WDoqoXmr1KuCm7N0Lcyz3OubmReml1V30QMJnzx8cdfH3bYV1b7zQCBfHITdAJoaqTxlFbiEmMl6Niups_Jvh4JJHdDKLWRp5Es0sMiomfD_u84HKp8HN7WqQHVRbCQOU_rVKqp7Rh9-FJpgWFzzfT-IT6VncqM9wweMDAkqxJK8pqq0WecLHuLc3fJwCQ5efJVSC4006-QTqVEhBEu0tWaAI967RTHJ0UHr_yb7tebGHiQDfIxg"/></div>
+<nav class="hidden md:flex gap-gutter items-center">
+<a class="font-headline-sm text-headline-sm-mobile md:text-[18px] text-on-surface-variant hover:text-brand-pink transition-colors duration-200" href="#">Paradigms</a>
+<a class="font-headline-sm text-headline-sm-mobile md:text-[18px] text-on-surface-variant hover:text-brand-pink transition-colors duration-200" href="#">Innovations</a>
+<a class="font-headline-sm text-headline-sm-mobile md:text-[18px] text-on-surface-variant hover:text-brand-pink transition-colors duration-200" href="#">Echoes</a>
+<a class="font-headline-sm text-headline-sm-mobile md:text-[18px] text-on-surface-variant hover:text-brand-pink transition-colors duration-200" href="#">Matrix</a>
+</nav>
+<div class="flex items-center gap-md">
+<button class="hidden md:block font-label-bold text-label-bold text-brand-pink hover:text-brand-orange transition-colors">Sync</button>
+<button class="gradient-primary text-white font-label-bold text-label-bold px-md py-sm rounded-full active:scale-95 transition-transform shadow-lg shadow-brand-pink/30">Initialize</button>
+</div>
+</div>
+</header>
+<main>
+<!-- Hero Section (Fluid) -->
+<section class="relative pt-xl pb-lg px-margin-mobile md:px-margin-desktop max-w-[1280px] mx-auto overflow-visible min-h-[80vh] flex items-center">
+<div class="flex flex-col md:flex-row gap-gutter items-center relative w-full">
+<div class="w-full md:w-1/2 z-20 md:-mr-12">
+<div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel mb-md border-l-4 border-brand-pink">
+<span class="material-symbols-outlined text-brand-pink text-sm" style="font-variation-settings: 'FILL' 1;">blur_on</span>
+<span class="font-label-bold text-label-bold text-brand-pink tracking-widest uppercase text-xs">Next-Gen Biosynthesis</span>
+</div>
+<h1 class="font-display-lg text-display-lg-mobile md:text-[64px] leading-[1.1] text-on-surface mb-md tracking-tight">
+                        Pioneer the <br/><span class="text-transparent bg-clip-text gradient-primary">Biological Frontier</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-lg max-w-xl leading-relaxed">
+                        Transcend traditional yield limits with visionary diagnostic matrices. We engineer fluid, adaptive health ecosystems for planetary-scale animal agriculture.
+                    </p>
+<div class="flex flex-wrap gap-md">
+<button class="gradient-primary text-white font-label-bold text-label-bold px-lg py-md rounded-full flex items-center gap-sm hover:scale-105 transition-all shadow-ambient">
+<span class="material-symbols-outlined">network_node</span>
+                            Engage Nexus
+                        </button>
+<button class="glass-panel text-brand-pink font-label-bold text-label-bold px-lg py-md rounded-full flex items-center gap-sm hover:bg-white/50 transition-all">
+<span class="material-symbols-outlined">visibility</span>
+                            Explore Schematics
+                        </button>
+</div>
+</div>
+<div class="w-full md:w-1/2 relative mt-lg md:mt-0 z-10">
+<div class="relative p-2 tilt-float">
+<div class="absolute inset-0 bg-brand-pink/20 rounded-3xl blur-2xl transform translate-x-10 translate-y-10"></div>
+<img class="w-full h-auto rounded-3xl object-cover aspect-[4/3] shadow-ambient border border-white/40" data-alt="A herd of healthy cattle in a modern farm setting with glowing, high-tech holographic HUD elements overlaying data points like 'Health: 98%', 'Yield Projection: +12%', and vital signs over individual animals." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8oh4eRpvX7m8Ix6DxqxcOsMZLcAI15tEvT8Re22Kh5mTazweLb95VebTj4-CGJR03sM6DawYh661t3aoin9TBKWhcp26-bUg0fO8QsIGhOT_29ww9Tmftw__KFcy3gHDkKl3bkqoIxdYt1U3tGwfSuSLosFI3exefAEWAx3pQijr56gAInO7m0ZemnrSl8ysOTsAXJVoDqdSaSpGlq8hpXNM6P67hDjmlvD61JDHNYcZTX6GFWQdM"/>
+<!-- Floating Tech Stats -->
+<div class="absolute -bottom-12 -left-12 glass-panel p-md rounded-2xl shadow-ambient flex flex-col gap-2 border-l-4 border-brand-pink transform -rotate-3 hover:rotate-0 transition-transform">
+<div class="flex items-center gap-3">
+<div class="bg-brand-pink/10 p-sm rounded-full">
+<span class="material-symbols-outlined text-brand-pink">all_inclusive</span>
+</div>
+<div>
+<div class="font-headline-sm text-[28px] text-on-surface leading-none">99.9%</div>
+<div class="font-caption text-caption text-on-surface-variant uppercase tracking-wider mt-1">Symbiotic Accuracy</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Content Section (Broken Overlap) -->
+<section class="relative py-xl px-margin-mobile md:px-margin-desktop bg-surface-container-low/50 backdrop-blur-md clip-diagonal mt-12 overflow-visible">
+<div class="max-w-[1280px] mx-auto py-16">
+<div class="flex flex-col md:flex-row gap-gutter items-center relative">
+<div class="w-full md:w-5/12 relative mt-lg md:mt-0 z-20 md:-mr-24 tilt-float-reverse">
+<div class="relative rounded-3xl shadow-ambient overflow-hidden border border-white/50">
+<img class="w-full h-auto object-cover aspect-[3/4] scale-110 hover:scale-100 transition-transform duration-1000" data-alt="A modern poultry facility with glowing tech overlays showing temperature regulation, feed distribution efficiency, and overall flock health metrics." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC28IlqtXEbwN1_zCgQM2uZLxdBsm557YC8jTzO3gRUbTgLqi-2p40JCGF5QjvnzM6_H4ELCH7-m_yDUCihEmb3pyO0KYuo5kthbxMha2SaAC5AbzuJJU4XDo8gLf9EPUXJ3hKdP8hGBC1CUtTVlrV6dO6FWcM-sts8IQ53rdpa130XcUrdkTVhIyhqrIOZAdztJdfJNWJi6XM98JbIu0lLFFWgVNldQib6AL4Or_VhGqC3zNGO7-z4"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10 pointer-events-none"></div>
+<div class="absolute bottom-8 left-8 z-20">
+<div class="bg-brand-pink/80 backdrop-blur text-white font-label-bold px-4 py-2 rounded-full inline-block mb-3 text-xs tracking-wider uppercase">Beta Phase</div>
+<h3 class="text-white font-headline-sm text-headline-sm leading-tight">Neural Avian<br/>Matrix</h3>
+</div>
+</div>
+</div>
+<div class="w-full md:w-7/12 z-10 glass-panel p-8 md:p-16 rounded-3xl md:pl-32 shadow-xl">
+<h2 class="font-display-lg text-[36px] md:text-[48px] leading-tight text-on-surface mb-md">
+                        Architecting Production Reality
+                    </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-lg leading-relaxed">
+                        Seamlessly intertwine biological flows with digital omniscience. Our perceptive sensors dissolve into your infrastructure, whispering anticipatory insights that rewrite operational destinies before anomalies materialize.
+                    </p>
+<ul class="space-y-6 mb-lg">
+<li class="flex items-start gap-4">
+<div class="bg-brand-pink/10 p-2 rounded-full shrink-0">
+<span class="material-symbols-outlined text-brand-pink">bubble_chart</span>
+</div>
+<span class="font-body-md text-on-surface-variant pt-1 text-lg">Quantum-inspired predictive epidemiology for macro-herds.</span>
+</li>
+<li class="flex items-start gap-4">
+<div class="bg-brand-pink/10 p-2 rounded-full shrink-0">
+<span class="material-symbols-outlined text-brand-pink">water_drop</span>
+</div>
+<span class="font-body-md text-on-surface-variant pt-1 text-lg">Fluidic, autonomous nutritional recalibration algorithms.</span>
+</li>
+<li class="flex items-start gap-4">
+<div class="bg-brand-pink/10 p-2 rounded-full shrink-0">
+<span class="material-symbols-outlined text-brand-pink">cloud_sync</span>
+</div>
+<span class="font-body-md text-on-surface-variant pt-1 text-lg">Omnipresent, ethereal telemetry accessed from any node.</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<!-- Product Gallery (Scattered Asymmetry) -->
+<section class="py-xl px-margin-mobile md:px-margin-desktop relative overflow-visible mt-12">
+<div class="max-w-[1280px] mx-auto relative z-10">
+<div class="mb-20 text-left md:text-center max-w-4xl mx-auto glass-panel p-8 rounded-3xl inline-block relative left-1/2 -translate-x-1/2">
+<h2 class="font-headline-md text-[40px] md:text-[56px] text-on-surface mb-sm tracking-tighter">Artifacts of Innovation</h2>
+<p class="font-body-md text-body-lg text-on-surface-variant">Visionary implements categorized by their ripple effect across biological paradigms.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 relative">
+<!-- Product Card 1 (Large, Off-center) -->
+<div class="md:col-span-6 md:col-start-2 glass-panel rounded-3xl p-8 md:p-12 shadow-ambient border border-brand-pink/30 relative overflow-hidden group hover:scale-[1.02] transition-transform duration-500 z-20">
+<div class="absolute -right-10 -top-10 w-40 h-40 bg-brand-pink/10 rounded-full blur-xl group-hover:bg-brand-pink/20 transition-colors"></div>
+<div class="flex justify-between items-start mb-md relative z-10">
+<div class="p-4 bg-white/50 rounded-2xl backdrop-blur">
+<span class="material-symbols-outlined text-brand-pink text-5xl">science</span>
+</div>
+<span class="font-caption text-caption text-brand-pink border border-brand-pink/50 px-4 py-2 rounded-full font-bold uppercase tracking-widest">V-Spectrum</span>
+</div>
+<h3 class="font-headline-sm text-[32px] text-on-surface mb-sm relative z-10">Porcine Synthesis Drive</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-lg relative z-10 text-lg">Hyper-velocity automated inoculation matrix. Orchestrates up to 5,000 biological entities per hour with microscopic dosage intent.</p>
+<div class="space-y-4 mb-lg mt-auto relative z-10">
+<div class="flex justify-between items-center border-b border-surface-variant/50 pb-3">
+<span class="font-caption text-caption text-on-surface-variant uppercase tracking-wider">Throughput</span>
+<span class="font-label-bold text-label-bold text-on-surface text-lg">5k entities/hr</span>
+</div>
+<div class="flex justify-between items-center border-b border-surface-variant/50 pb-3">
+<span class="font-caption text-caption text-on-surface-variant uppercase tracking-wider">Precision</span>
+<span class="font-label-bold text-label-bold text-on-surface text-lg">± 0.01ml</span>
+</div>
+</div>
+<button class="w-full bg-brand-pink/10 text-brand-pink border border-brand-pink/30 font-label-bold text-label-bold py-4 rounded-xl hover:bg-brand-pink hover:text-white transition-all mt-4 relative z-10">Extract Schematics</button>
+</div>
+<!-- Product Card 2 (Small, Floating right) -->
+<div class="md:col-span-5 md:col-start-8 glass-panel rounded-3xl p-8 shadow-ambient border border-white/60 relative overflow-hidden group hover:scale-[1.02] transition-transform duration-500 md:-mt-20 z-10">
+<div class="flex justify-between items-start mb-md">
+<span class="material-symbols-outlined text-brand-orange text-4xl">water_ec</span>
+<span class="font-caption text-caption text-brand-orange bg-brand-orange/10 px-3 py-1 rounded-full font-bold uppercase tracking-wider">N-Spectrum</span>
+</div>
+<h3 class="font-headline-sm text-2xl text-on-surface mb-sm">Avian Elixir Conduit</h3>
+<p class="font-body-md text-sm text-on-surface-variant mb-lg">Liquid nutrition topography for massive flocks. Weaves into extant aquatic arteries for dynamic mineral harmony.</p>
+<div class="space-y-3 mb-lg mt-auto">
+<div class="flex justify-between items-center border-b border-surface-variant/50 pb-2">
+<span class="font-caption text-[10px] text-on-surface-variant uppercase tracking-wider">Velocity</span>
+<span class="font-label-bold text-sm text-on-surface">120L/min</span>
+</div>
+<div class="flex justify-between items-center border-b border-surface-variant/50 pb-2">
+<span class="font-caption text-[10px] text-on-surface-variant uppercase tracking-wider">Nerve Center</span>
+<span class="font-label-bold text-sm text-on-surface">IoT Linked</span>
+</div>
+</div>
+<button class="w-full bg-white/50 text-brand-orange font-label-bold text-sm py-3 rounded-xl hover:bg-brand-orange hover:text-white transition-all mt-2">Extract Schematics</button>
+</div>
+<!-- Product Card 3 (Wide, Overlapping bottom) -->
+<div class="md:col-span-8 md:col-start-3 glass-panel rounded-3xl p-8 md:p-10 shadow-ambient border-t-4 border-brand-pink relative overflow-hidden group hover:scale-[1.02] transition-transform duration-500 md:-mt-10 z-30 flex flex-col md:flex-row gap-8 items-center">
+<div class="flex-1">
+<div class="flex justify-between items-start mb-md">
+<div class="p-3 bg-brand-pink/10 rounded-xl">
+<span class="material-symbols-outlined text-brand-pink text-4xl">radar</span>
+</div>
+<span class="font-caption text-caption text-brand-pink bg-brand-pink/10 px-3 py-1 rounded-full font-bold uppercase tracking-wider hidden md:block">D-Spectrum</span>
+</div>
+<h3 class="font-headline-sm text-3xl text-on-surface mb-sm">Bovine Oracle Core</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">Omniscient herd consciousness platform. Employs neural networks to divine yield ripples and illuminate latent mastitis shadows.</p>
+</div>
+<div class="w-full md:w-64 shrink-0 bg-white/40 p-6 rounded-2xl backdrop-blur">
+<div class="space-y-4 mb-6">
+<div class="flex justify-between items-center border-b border-surface-variant/50 pb-2">
+<span class="font-caption text-xs text-on-surface-variant uppercase">Cognition</span>
+<span class="font-label-bold text-sm text-on-surface">Edge/Cloud</span>
+</div>
+<div class="flex justify-between items-center border-b border-surface-variant/50 pb-2">
+<span class="font-caption text-xs text-on-surface-variant uppercase">Synapse</span>
+<span class="font-label-bold text-sm text-on-surface">API vX</span>
+</div>
+</div>
+<button class="w-full bg-brand-pink text-white font-label-bold text-sm py-3 rounded-xl hover:bg-brand-orange transition-colors shadow-lg shadow-brand-pink/30">Extract Schematics</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface/60 backdrop-blur-xl full-width pt-xl pb-lg px-margin-mobile md:px-margin-desktop border-t border-white/50 mt-24 clip-diagonal-reverse relative z-10">
+<div class="w-full max-w-[1280px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-gutter mb-lg pt-12">
+<div class="col-span-1 md:col-span-1">
+<div class="font-headline-sm text-headline-sm text-primary dark:text-primary-fixed mb-md w-32"><img alt="Vetoxzyn Logo" class="w-full h-auto object-contain mb-md opacity-80 mix-blend-multiply" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNaW1H0sHhwW3s4j1AFmdI8GU0nsZHhrdZn3JC3s3NxSlH0XXXrIab_r57ZsMTBVeIxbfN4LTASbATN0wI3tqVb6St970PN1VuWAKkfCJJ6Ug1AmNMABr2GFFNcUrbu2lc5LKGHBycRMh2bkCn_H2Noc7u54IIifzpjV_z1GW5V8rvtm8UYX7KCDjnKVqI4EYvFQdPZH74GACTjlWQ5RFzDP5SLhxyjiMpWp32RTi8f0ZTR8kK1oOINLfXFCn_N5PUAw"/></div>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant italic">Designing the Biological Future.</p>
+</div>
+<div class="col-span-1 md:col-span-3 grid grid-cols-2 md:grid-cols-4 gap-md">
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant hover:text-brand-pink transition-colors" href="#">Communicate</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant hover:text-brand-pink transition-colors" href="#">Data Doctrine</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant hover:text-brand-pink transition-colors" href="#">Matrix Specs</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant hover:text-brand-pink transition-colors" href="#">Lifeline</a>
+</div>
+</div>
+<div class="max-w-[1280px] mx-auto border-t border-surface-variant/30 pt-md text-center">
+<p class="font-caption text-caption text-on-surface-variant dark:text-outline-variant uppercase tracking-widest text-[10px]">© 2024 Vetoxzyn Nexus. All realities reserved. Designing the Biological Future.</p>
+</div>
+</footer>
+</body></html>

@@ -1,41 +1,55 @@
+---
+created: 2026-09-06
+updated: 2026-09-06
+tags:
+  - astro
+  - components
+  - architecture
+  - documentation
+type: resource
+status: active
+---
+
 # Component Dependency Map
 
 Living reference of how pages compose components (and subcomponents) in this project.
-Vanilla-only project (see `docs/astro-atomic-components.md`, approach 1). No `ui/`, no `Validated*` tier.
 
 > **Keep this in sync.** Whenever pages or components are added, removed, renamed, or
 > their imports change, regenerate the diagram below and update the Notes section.
 > Re-run `rg "^import" src --glob "*.{astro,ts,tsx,jsx}"` to list imports, then redraw.
-> Method: `docs/component-dependencies-guide.md`. Skeleton: `docs/component-dependencies-template.md`.
 
 ## Pages layer
 
-File-based routing. Single route.
+File-based routing, SSG (`output` default `static`, no SSR adapter). No catch-all, no content collections, no i18n.
 
 ```
 src/pages/
-├── index.astro        ← renders <Layout><Welcome /></Layout>, static (no getStaticPaths, no COMPONENT_MAP)
+├── index.astro       ← landing: hero + benefits + ContactForm island
+├── about.astro       ← static content page
+├── contact.astro     ← contact details + ContactForm island
+├── 404.astro         ← not-found + primary-section links
+└── robots.txt.ts     ← API route (dynamic robots.txt), no components
 ```
 
 ## Full dependency diagram
 
+Pages are few, so per-page trees below are the reference. Overview:
+
 ```
-┌────────────────┐
-│ index.astro    │
-└───────┬────────┘
-        ▼
-┌─────────────────────────┐
-│     Layout.astro        │
-│  inline <style> only    │
-│  <slot/> = page content │
-└───────┬─────────────────┘
-        ▼ (slot content)
-┌─────────────────────────┐
-│   Welcome.astro         │
-│   assets/astro.svg      │
-│   assets/background.svg │
-│   scoped <style> only   │
-└─────────────────────────┘
+┌──────────────────────────────────────────────┐
+│  index / about / contact / 404 (.astro)      │
+└──────────────────┬───────────────────────────┘
+                   ▼
+┌──────────────────────────────────────────────┐
+│  Layout.astro (shared shell)                 │
+│  styles/global.css · Header · <slot/> · Footer│
+│  <slot name="seo"/> ← PageSEO per page       │
+└──────────────────┬───────────────────────────┘
+                   ▼
+┌──────────────────────────────────────────────┐
+│  Shared leaf layer                           │
+│  data/site-config · consts · store · lib     │
+└──────────────────────────────────────────────┘
 ```
 
 ## Per-page trees
@@ -44,64 +58,106 @@ src/pages/
 
 ```
 index.astro
-├── Layout.astro ────► no component imports (leaf: inline <style>, /favicon.svg, /favicon.ico)
-└── Welcome.astro (inside <Layout> slot)
-    ├── assets/astro.svg (leaf)
-    └── assets/background.svg (leaf)
+├── Layout.astro ──► shared shell (see below)
+├── seo/PageSEO.astro ──► SEO chain (see below)
+└── molecules/ContactForm.tsx (client:load)
+    ├── atoms/Input.tsx ──► store/useField ──► store/contact
+    ├── atoms/Textarea.tsx ──► store/useField ──► store/contact
+    ├── atoms/Button.tsx ──► lib/utils (cn)
+    └── store/contact (validateAll, isSubmitted, reset)
 ```
 
-Verified with:
-```bash
-rg "^import" src --glob "*.{astro,ts,tsx,jsx}"
-rg --files src/components | sort
-rg --files src/pages | sort
+### contact.astro tree
+
 ```
-Result (2026-09-06):
-- `src/pages/index.astro`: imports `Welcome`, `Layout`
-- `src/components/Welcome.astro`: imports `assets/astro.svg`, `assets/background.svg`
+contact.astro
+├── Layout.astro ──► shared shell (see below)
+├── seo/PageSEO.astro ──► SEO chain (see below)
+├── data/site-config (EMAIL, PHONES — direct links)
+└── molecules/ContactForm.tsx ──► same subtree as index.astro
+```
+
+### about.astro tree
+
+```
+about.astro
+├── Layout.astro ──► shared shell (see below)
+└── seo/PageSEO.astro ──► SEO chain (see below)
+```
+
+### 404.astro tree
+
+```
+404.astro
+├── Layout.astro ──► shared shell (see below)
+└── seo/PageSEO.astro ──► SEO chain (see below)
+```
 
 ## Shared shell (Layout)
 
 ```
 Layout.astro
-├── /favicon.svg, /favicon.ico (static links in <head>)
-├── inline <style> (html, body reset)
+├── styles/global.css (tailwind v4 theme, single import)
+├── astro:transitions ClientRouter (default fallback)
+├── <slot name="seo"/> ← per-page PageSEO
+├── organisms/Header.astro
+│   └── data/site-config (PHONES, EMAIL)
 ├── <slot/> = page content
-└── (no Header/Footer yet, no styles/global.css yet)
+└── organisms/Footer.astro
+    └── data/site-config (BUSINESS_DATA, PHONES, EMAIL)
 ```
 
 ## Optional chains
 
-None present yet. Add subsections here only when introduced:
+### SEO chain
 
-- SEO chain: absent (no `BaseSEO.astro`, no `data/site-config.ts` yet — see `docs/astro-seo.md` when added).
-- Islands (React/Vue/Svelte): absent (no `client:*` directives — see `docs/astro-react-islands.md` when added).
-- Design-system / showcase page: absent.
-- i18n: absent (single-language, no catch-all route).
+```
+PageSEO.astro ─► seo/BaseSEO.astro
+                 ├── consts.ts (SITE_TITLE, SITE_DESCRIPTION)
+                 └── data/site-config.ts (BUSINESS_DATA)
+```
+
+Single-language only: no i18n, no hreflang, canonical from `BUSINESS_DATA.url + pathname`, `og:locale` hardcoded `en_US`.
+
+### Islands (React)
+
+| Island | Mount | Binds to |
+|---|---|---|
+| `molecules/ContactForm.tsx` | `client:load` on `/` and `/contact` | `store/contact` (fields + submit), `store/useField` via atoms |
+
+One instance per page; surrounding content stays static Astro HTML. Submit is fully client-side (`preventDefault`, never native form navigation, so ClientRouter swaps don't interfere). Zustand `persist` (`vetoxzyn-contact-storage`) survives reloads and VT navigations.
+
+### i18n
+
+Not present (single language — see design Non-Goals).
+
+### Design-system / showcase page
+
+None.
 
 ## Shared leaf layer
 
-Terminal dependencies currently in use:
-
-- `src/assets/astro.svg` — static image imported by `Welcome.astro`
-- `src/assets/background.svg` — static image imported by `Welcome.astro`
-
-Not yet present (add here when created):
-
-- `lib/utils.ts`, `lib/api/…`, `data/site-config.ts`, `consts.ts`, `styles/global.css`, `store/…`
+- `lib/utils.ts` — `cn()` class joiner (atoms only)
+- `data/site-config.ts` — PHONES, EMAIL, ADDRESS, SOCIAL_LINKS, GOOGLE_MAPS, BUSINESS_HOURS, BUSINESS_DATA (`as const`)
+- `src/consts.ts` — SITE_TITLE, SITE_DESCRIPTION (SEO fallback)
+- `styles/global.css` — tailwind v4 + tw-animate-css + `@theme inline` tokens
+- `store/contact.ts` — contactSchema (Zod), field map, setField/validateAll/reset, persist
+- `store/useField.ts` — hydration-safe field hook (injectable into atoms)
+- `lib/api/client.ts` — `safeFetch` + `FetchError` (scaffold, no callers yet)
+- `lib/api/types.ts`, `lib/api/constants.ts` — shared API types/messages (scaffold)
 
 ## Notes
 
-- **Decision (2026-09-06):** project locked to vanilla self-bound atoms. No `src/components/ui/`, no `Validated*` tier. See `AGENTS.md`.
-- **Tech debt:** `src/components/Welcome.astro` is a starter-kit flat component. It does not live in `atoms/`, `molecules/`, or `organisms/`. Migrate or delete on the first real page task, then redraw this map.
-- **Orphaned / not reachable from any page:** none — `Welcome.astro` is reachable from `index.astro`. No dead components.
-- **Routing:** file-based. No catch-all `[...path]`, no content collections, no API routes (`*.ts` in `src/pages/`).
+- Initial setup (`initial-landing-setup`): vanilla-only atoms per `astro-atomic-components` (no `ui/`, no `Validated*`); single Zustand `contact` store (not generic `form.ts`) until a second form exists.
+- All business values in `site-config.ts` are placeholders (`TODO(replace)`) — canonical/JSON-LD wrong until real data lands.
+- No `PUBLIC_*` env vars exist; Dockerfile ships zero `ARG/ENV` pairs by design.
+- Hero/section images: none yet (placeholder SVG not used — Astro won't rasterize SVG via `Image`); any future raster image MUST use `astro:assets Image` (AVIF, widths+sizes, eager hero / lazy rest).
+- **Orphaned / not reachable from any page**: none. Template `Welcome.astro` deleted during setup. `src/assets/astro.svg` unused (harmless template leftover, remove when real brand art lands).
 
 ## Related
 
-- `docs/component-dependencies-guide.md`
-- `docs/component-dependencies-template.md`
-- `docs/astro-atomic-components.md`
-- `docs/astro-react-islands.md`
-- `docs/astro-site-config.md`
-- `docs/astro-seo.md`
+- [[component-dependencies-guide]]
+- [[astro-atomic-components]]
+- [[astro-react-islands]]
+- [[astro-site-config]]
+- [[astro-seo]]

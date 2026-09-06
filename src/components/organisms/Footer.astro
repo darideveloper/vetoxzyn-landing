@@ -1,0 +1,13 @@
+---
+import { BUSINESS_DATA, EMAIL, PHONES } from "@/data/site-config"
+---
+
+<footer class="border-t">
+  <div class="mx-auto flex max-w-5xl flex-col gap-2 px-4 py-6 text-sm sm:flex-row sm:items-center sm:justify-between">
+    <p>© {new Date().getFullYear()} {BUSINESS_DATA.name}</p>
+    <div class="flex gap-4">
+      <a href={PHONES.main.href}>{PHONES.main.formatted}</a>
+      <a href={EMAIL.href}>{EMAIL.address}</a>
+    </div>
+  </div>
+</footer>
