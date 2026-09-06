@@ -1,0 +1,25 @@
+# Matriz Maestra de Identidades de Vetoxzyn® Avatares por orden de prioridad estratégica: {#matriz-maestra-de-identidades-de-vetoxzyn-avatares-por-orden-de-prioridad-estratégica .unnumbered}
+
++-------------------------+------------------------------------------------------------------+-----------------------------------------------------------+----------------------------+------------------------------------------------------------------------------------------------------+
+| **ID**                  | **Identidad de Avatar**                                          | **Perfil Específico**                                     | **Probabilidad de Compra** | **Rol Estratégico en la Comercializadora**                                                           |
++=========================+==================================================================+===========================================================+============================+======================================================================================================+
+| ## A1 {#a1 .unnumbered} | ### Socio Crecimiento {#socio-crecimiento .unnumbered}           | Distribuidores, mayoristas y revendedores regionales.     | **Muy Alta**               | **Escalabilidad:** El motor que mueve el inventario masivo y da capilaridad nacional.                |
++-------------------------+------------------------------------------------------------------+-----------------------------------------------------------+----------------------------+------------------------------------------------------------------------------------------------------+
+| ## A2 {#a2 .unnumbered} | ### Dr. Resultados {#dr.-resultados .unnumbered}                 | MVZ, clínicas, hospitales y cirujanos veterinarios.       | **Alta**                   | **Validación:** Genera confianza técnica. Si el médico lo usa, el mercado lo acepta como estándar.   |
++-------------------------+------------------------------------------------------------------+-----------------------------------------------------------+----------------------------+------------------------------------------------------------------------------------------------------+
+| ## A3 {#a3 .unnumbered} | ### **Ingeniero Eficiencia** {#ingeniero-eficiencia .unnumbered} | Productores Pecuarios (Cerdos, Aves, Ganado, Leche, etc). | **Media**                  | **Volumen:** Contratos de alto litraje que aseguran la capacidad instalada de la fábrica.            |
++-------------------------+------------------------------------------------------------------+-----------------------------------------------------------+----------------------------+------------------------------------------------------------------------------------------------------+
+| ## A4 {#a4 .unnumbered} | ### **Guardián de Aire** {#guardián-de-aire .unnumbered}         | Cetreros, colombófilos y dueños de aves de alto valor.    | **Alta**                   | **Nicho de Especialidad:** Venta rápida por ausencia de competencia y alta sensibilidad al producto. |
++-------------------------+------------------------------------------------------------------+-----------------------------------------------------------+----------------------------+------------------------------------------------------------------------------------------------------+
+| ## A5 {#a5 .unnumbered} | ### **Estratega de Fauna** {#estratega-de-fauna .unnumbered}     | Zoológicos, rescatistas de fauna y dueños de exóticos.    | **Media**                  | **Posicionamiento:** Proyectos de prestigio que demuestran la inocuidad extrema del producto.        |
++-------------------------+------------------------------------------------------------------+-----------------------------------------------------------+----------------------------+------------------------------------------------------------------------------------------------------+
+| ## A6 {#a6 .unnumbered} | ### **Dueño Responsable** {#dueño-responsable .unnumbered}       | Consumidor final / Dueño de perro o gato.                 | **Baja**                   | **Marketing Pull:** Generan demanda indirecta para que A1 y A2 sigan comprando.                      |
++-------------------------+------------------------------------------------------------------+-----------------------------------------------------------+----------------------------+------------------------------------------------------------------------------------------------------+
+
+# Recomendaciones de implementación: {#recomendaciones-de-implementación .unnumbered}
+
+## A1 y A2 son \"Innovadores\": Aunque el volumen grande está en A3, los primeros dos grupos son los que nos darán el flujo de caja para financiar el crecimiento de la comercializadora.
+
+## A4 es un \"Océano Azul\": Es un grupo con poca competencia dónde Vetoxzyn puede dominar rápidamente.
+
+## A6 es la \"Fuerza de Marca\": No es recomendable desgastar al equipo de ventas aquí; se debe automatizar este canal para que sirva como soporte de validación social.
