@@ -21,14 +21,14 @@ export function Input({ field, useField = defaultUseField, label, className, ...
   return (
     <div className="flex flex-col gap-2 p-2">
       {label && (
-        <label className={cn("text-sm font-medium", error ? "text-red-500" : "text-foreground")}>
+        <label className={cn("mb-3 text-xs font-bold uppercase tracking-widest", error ? "text-red-500" : "text-black/70")}>
           {label}
         </label>
       )}
       <input
         className={cn(
-          "h-8 w-full rounded-2xl border border-transparent bg-input/50 px-2.5 py-1 text-base transition-colors outline-none",
-          "focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30",
+          "w-full border-0 border-b-2 border-black/10 bg-transparent px-0 py-3 text-lg transition-colors outline-none",
+          "focus:border-[#fd530a] placeholder:text-[#5c4038]/40",
           error ? "border-red-500" : "",
           className
         )}

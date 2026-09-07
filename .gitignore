@@ -34,3 +34,5 @@ docs/
 
 # ignore by default all hiden folders (like agents folders)
 .*/
+
+design/stitch

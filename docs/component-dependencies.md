@@ -27,6 +27,8 @@ src/pages/
 ├── index.astro       ← landing: hero + benefits + ContactForm island
 ├── about.astro       ← static content page
 ├── contact.astro     ← contact details + ContactForm island
+├── design-system.astro ← dev showcase: all atoms + variants (see below)
+├── _demos.tsx        ← page-local React island for design-system (demo store, never a route)
 ├── 404.astro         ← not-found + primary-section links
 └── robots.txt.ts     ← API route (dynamic robots.txt), no components
 ```
@@ -63,8 +65,21 @@ index.astro
 └── molecules/ContactForm.tsx (client:load)
     ├── atoms/Input.tsx ──► store/useField ──► store/contact
     ├── atoms/Textarea.tsx ──► store/useField ──► store/contact
+    ├── atoms/Checkbox.tsx ──► store/useField ──► store/contact
     ├── atoms/Button.tsx ──► lib/utils (cn)
     └── store/contact (validateAll, isSubmitted, reset)
+```
+
+### design-system.astro tree
+
+```
+design-system.astro
+├── Layout.astro ──► shared shell (see below)
+├── seo/PageSEO.astro ──► SEO chain (currentPage="design-system", custom title/desc)
+├── atoms/Eyebrow.astro · atoms/Badge.astro · atoms/Icon.astro · atoms/Card.astro (static)
+└── _demos.tsx (client:load, page-local demo store — never touches store/contact)
+    ├── atoms/Input.tsx · atoms/Textarea.tsx · atoms/Checkbox.tsx
+    └── atoms/Button.tsx (all variants × sizes × tones)
 ```
 
 ### contact.astro tree
@@ -92,6 +107,32 @@ about.astro
 ├── Layout.astro ──► shared shell (see below)
 └── seo/PageSEO.astro ──► SEO chain (see below)
 ```
+
+## Atom catalogue (standardized 2026-09-07, Stitch showcase vote)
+
+Vanilla-only (`atoms/` self-contained, no `ui/`, no `Validated*`).
+Decisions: primary Button B2 orange pill (submit reuses B2, B1 gradient + B5 large dropped);
+secondary Button B3 glass pill (hero) + B4 rectangular w-full uppercase (product cards only);
+Eyebrow E2 orange-tint pill (E1/E3 dropped); Badge P1 glass feature pill + P2 black
+`CLINICAL GRADE` tag w/ orange border (P3 vertical dropped); Icon I1 w-10 pink circle;
+Input F1 underline; Textarea F3 glass; Checkbox F2 pill; Card C1 glass.
+
+```
+src/components/atoms/
+├── Button.tsx    (React, variant primary|secondary|product, size md|sm, tone light|dark for product) ──► lib/utils
+├── Input.tsx     (F1 underline, store-bound) ──► store/useField ──► store/contact
+├── Textarea.tsx  (F3 glass, store-bound) ──► store/useField ──► store/contact
+├── Checkbox.tsx  (F2 pill, store-bound) ──► store/useField ──► store/contact
+├── Icon.astro    (I1 circle default; variant bare, tone pink|orange|primary|green, size md|lg — GAP-A)
+├── Badge.astro   (P1 feature | P2 tag with tone dark|primary|light + icon — GAP-B)
+├── Eyebrow.astro (E2, static)
+└── Card.astro    (C1 glass shell, static)
+```
+
+`Layout.astro` loads Material Symbols Outlined (FILL 0..1) for Icon/Badge/Eyebrow.
+Orphaned / not reachable yet: Icon, Badge, Eyebrow, Card, Checkbox (no page uses them
+until hero/challenges/testimonials/products organisms land). `atoms.astro` showcase
+page was temporary and deleted the same day.
 
 ## Shared shell (Layout)
 
@@ -141,7 +182,9 @@ None.
 - `data/site-config.ts` — PHONES, EMAIL, ADDRESS, SOCIAL_LINKS, GOOGLE_MAPS, BUSINESS_HOURS, BUSINESS_DATA (`as const`)
 - `src/consts.ts` — SITE_TITLE, SITE_DESCRIPTION (SEO fallback)
 - `styles/global.css` — tailwind v4 + tw-animate-css + `@theme inline` tokens
-- `store/contact.ts` — contactSchema (Zod), field map, setField/validateAll/reset, persist
+- `store/contact.ts` — contactSchema (Zod: name/email/message required + clinica/telefono
+  optional strings + lineaTopico/lineaInstalaciones/lineaDistribucion booleans), field map,
+  setField/validateAll/reset, persist
 - `store/useField.ts` — hydration-safe field hook (injectable into atoms)
 - `lib/api/client.ts` — `safeFetch` + `FetchError` (scaffold, no callers yet)
 - `lib/api/types.ts`, `lib/api/constants.ts` — shared API types/messages (scaffold)

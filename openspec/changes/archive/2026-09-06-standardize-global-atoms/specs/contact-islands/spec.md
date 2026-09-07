@@ -1,4 +1,4 @@
-## ADDED Requirements
+## MODIFIED Requirements
 
 ### Requirement: Contact store with Zod validation and persist
 The system SHALL provide `src/store/contact.ts` (contactSchema: name non-empty, email valid, message min 10 chars; `clinica`/`telefono` optional free strings; `lineaTopico`/`lineaInstalaciones`/`lineaDistribucion` booleans defaulting false; `buildFieldSchemaMap` enforcing unique field names; `setField` validating per-keystroke; `validateAll()` for submit; `reset()`; `isSubmitted`/`isLoading` transient flags) persisted to localStorage under `vetoxzyn-contact-storage` with `partialize` stripping `errors`, `isLoading`, `isSubmitted`. `src/store/useField.ts` SHALL provide the hydration-safe hook (`mounted` gate, `initialState` fallback, dotted-path support).
@@ -28,6 +28,8 @@ The system SHALL provide `src/store/contact.ts` (contactSchema: name non-empty, 
 #### Scenario: Static page with one island
 - **WHEN** the landing page loads with JS disabled
 - **THEN** all headings, copy, and layout render as static HTML while only the form island requires hydration; with JS enabled the form is interactive on load
+
+## ADDED Requirements
 
 ### Requirement: ContactForm fully in Spanish
 All user-facing `ContactForm` strings SHALL be Spanish: labels (Nombre, Clínica / Hospital, Teléfono / WhatsApp, Correo, Mensaje), placeholders, submit/success buttons (Enviar solicitud, Enviar otro mensaje), success message, and Zod validation messages in `contactSchema`. NO English UI string SHALL remain in the molecule or its schema messages.

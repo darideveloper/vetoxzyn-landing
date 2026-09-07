@@ -3,9 +3,14 @@ import { persist } from "zustand/middleware"
 import { z } from "zod"
 
 export const contactSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  email: z.string().email("Invalid email"),
-  message: z.string().min(10, "Message must be at least 10 characters"),
+  name: z.string().min(1, "El nombre es obligatorio"),
+  email: z.string().email("Correo electrónico inválido"),
+  message: z.string().min(10, "El mensaje debe tener al menos 10 caracteres"),
+  clinica: z.string(),
+  telefono: z.string(),
+  lineaTopico: z.boolean(),
+  lineaInstalaciones: z.boolean(),
+  lineaDistribucion: z.boolean(),
 })
 
 export type ContactValues = z.infer<typeof contactSchema>
@@ -29,6 +34,11 @@ export const initialState = {
   name: "",
   email: "",
   message: "",
+  clinica: "",
+  telefono: "",
+  lineaTopico: false,
+  lineaInstalaciones: false,
+  lineaDistribucion: false,
 }
 
 interface ContactStore extends ContactValues {

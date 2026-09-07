@@ -1,0 +1,39 @@
+---
+ // I1 standard (+ GAP-A extensions): circle w-10/w-12 or bare symbol.
+ // variant circle: tones pink (hero), orange (challenges), primary, green.
+ // variant bare: no circle; icon size/color via class (quotes, toggles, verified).
+interface Props {
+  name: string
+  filled?: boolean
+  variant?: "circle" | "bare"
+  tone?: "pink" | "orange" | "primary" | "green"
+  size?: "md" | "lg"
+  class?: string
+}
+const { name, filled = false, variant = "circle", tone = "pink", size = "md", class: cls = "" } = Astro.props
+
+const tones = {
+  pink: { text: "text-[#db6f85]", bg: "bg-[#ffd9de]/40" },
+  orange: { text: "text-[#fd530a]", bg: "bg-[#fd530a]/10" },
+  primary: { text: "text-[#a83200]", bg: "bg-[#a83200]/10" },
+  green: { text: "text-[#a0d66a]", bg: "bg-[#a0d66a]/20" },
+} as const
+
+const sizes = {
+  md: { circle: "h-10 w-10", icon: "text-[20px]" },
+  lg: { circle: "h-12 w-12", icon: "text-2xl" },
+} as const
+---
+
+{variant === "bare" ? (
+  <span class:list={["material-symbols-outlined", tones[tone].text, filled && "filled", cls]}>{name}</span>
+) : (
+  <span class:list={["inline-flex shrink-0 items-center justify-center rounded-full", sizes[size].circle, tones[tone].bg, cls]}>
+    <span class:list={["material-symbols-outlined", sizes[size].icon, tones[tone].text, filled && "filled"]}>{name}</span>
+  </span>
+)}
+
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'opsz' 24; }
+  .filled { font-variation-settings: 'FILL' 1; }
+</style>

@@ -1,5 +1,6 @@
 import * as React from "react"
 import { Button } from "@/components/atoms/Button"
+import { Checkbox } from "@/components/atoms/Checkbox"
 import { Input } from "@/components/atoms/Input"
 import { Textarea } from "@/components/atoms/Textarea"
 import { useContactStore } from "@/store/contact"
@@ -21,9 +22,9 @@ export function ContactForm() {
   if (isSubmitted) {
     return (
       <div className="p-2">
-        <p role="status">Thanks — your message was recorded. We will get back to you soon.</p>
+        <p role="status">Gracias — tu mensaje fue registrado. Te contactaremos pronto.</p>
         <p className="mt-4">
-          <Button onClick={() => reset()}>Send another message</Button>
+          <Button onClick={() => reset()} size="sm">Enviar otro mensaje</Button>
         </p>
       </div>
     )
@@ -31,11 +32,18 @@ export function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="flex max-w-lg flex-col gap-2">
-      <Input field="name" label="Name" placeholder="e.g. Sarah" autoComplete="name" />
-      <Input field="email" label="Email" type="email" placeholder="you@example.com" autoComplete="email" />
-      <Textarea field="message" label="Message" placeholder="How can we help?" rows={5} />
+      <Input field="name" label="Nombre" placeholder="Dr. Juan Pérez" autoComplete="name" />
+      <Input field="clinica" label="Clínica / Hospital" placeholder="Hospital Veterinario Central" autoComplete="organization" />
+      <Input field="telefono" label="Teléfono / WhatsApp" type="tel" placeholder="+52 55 1234 5678" autoComplete="tel" />
+      <Input field="email" label="Correo" type="email" placeholder="contacto@clinica.com" autoComplete="email" />
+      <div className="flex flex-wrap gap-3 p-2">
+        <Checkbox field="lineaTopico" label="Tópico" />
+        <Checkbox field="lineaInstalaciones" label="Instalaciones" />
+        <Checkbox field="lineaDistribucion" label="Distribución" />
+      </div>
+      <Textarea field="message" label="Mensaje" placeholder="Especifique sus requerimientos de volumen o dudas adicionales..." rows={5} />
       <div className="p-2">
-        <Button type="submit">Send message</Button>
+        <Button type="submit" size="sm">Enviar solicitud</Button>
       </div>
     </form>
   )
