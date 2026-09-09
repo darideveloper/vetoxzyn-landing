@@ -1,0 +1,76 @@
+---
+import { Image } from "astro:assets"
+import Eyebrow from "@/components/atoms/Eyebrow.astro"
+import Icon from "@/components/atoms/Icon.astro"
+import { Button } from "@/components/atoms/Button.tsx"
+import heroImg from "@/assets/hero/hero-clinica-512.webp"
+
+const bullets = [
+  { icon: "water_drop", label: "pH neutro" },
+  { icon: "hub", label: "HOCl biomimético" },
+  { icon: "health_and_safety", label: "Grado 0 de irritación" },
+  { icon: "shield", label: "Cero corrosión" },
+  { icon: "eco", label: "Sin residuos" },
+]
+---
+
+<section
+  aria-labelledby="hero-heading"
+  class="relative flex min-h-[90vh] items-center justify-center overflow-hidden bg-surface-ice pt-xl pb-xl font-body-md text-on-surface"
+>
+  <div aria-hidden="true" class="blob-bg top-[-10%] left-[-10%] h-[60vw] w-[60vw] rounded-full bg-secondary-fixed/40"></div>
+  <div aria-hidden="true" class="blob-bg right-[-10%] bottom-[-10%] h-[50vw] w-[50vw] rounded-full bg-primary-fixed-dim/30" style="animation-delay: -5s;"></div>
+  <div class="relative z-10 mx-auto grid w-full max-w-max-width grid-cols-1 items-center gap-lg px-gutter lg:grid-cols-12">
+    <div class="z-20 flex flex-col gap-md lg:col-span-7">
+      <Eyebrow>Tecnología oxidativa para práctica veterinaria</Eyebrow>
+      <h1 id="hero-heading" class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg">
+        vetoxzyn®: bioseguridad avanzada para tu clínica.
+      </h1>
+      <p class="max-w-2xl font-body-lg text-body-lg text-on-surface-variant">
+        Integra a tu clínica una tecnología de limpieza externa especializada que protege el tejido vivo y asegura la integridad de tu instrumental quirúrgico.
+      </p>
+      <ul class="mt-sm flex flex-col gap-sm">
+        {bullets.map((b) => (
+          <li class="flex items-center gap-md">
+            <Icon name={b.icon} filled />
+            <span class="text-body-md text-on-surface-variant">{b.label}</span>
+          </li>
+        ))}
+      </ul>
+      <div class="mt-lg flex flex-wrap gap-md">
+        <Button variant="primary" size="md" href="#section-5" className="tilt-float">
+          Cotiza para tu clínica
+          <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+        </Button>
+        <Button variant="secondary" size="md" href="#section-3" className="tilt-float">
+          Ver línea Tópico
+        </Button>
+      </div>
+    </div>
+    <div class="relative z-10 mt-lg flex justify-center lg:col-span-5 lg:mt-0 lg:justify-end">
+      <div class="glass-panel shadow-ambient tilt-float relative aspect-[4/5] w-full max-w-md overflow-hidden rounded-xl border-l-[4px] border-l-brand-pink">
+        <Image
+          src={heroImg}
+          widths={[384, 512]}
+          sizes="(max-width: 1024px) 100vw, 512px"
+          loading="eager"
+          fetchpriority="high"
+          alt="Instrumental quirúrgico veterinario sobre una bandeja estéril"
+          class="h-full w-full object-cover opacity-80 mix-blend-luminosity"
+        />
+        <div class="absolute right-md bottom-md left-md">
+          <div class="flex items-center justify-between rounded-lg border border-glass-border bg-surface-ice/80 p-sm backdrop-blur-md">
+            <div class="flex items-center gap-sm">
+              <Icon name="biotech" filled />
+              <div>
+                <div class="font-label-bold text-label-bold">Dr. Resultados</div>
+                <div class="font-caption text-caption text-on-surface-variant">División Veterinaria</div>
+              </div>
+            </div>
+            <Icon name="verified" variant="bare" tone="primary" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

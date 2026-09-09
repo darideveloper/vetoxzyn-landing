@@ -12,6 +12,8 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   // tone only applies to variant="product": light = orange (light card),
   // dark = secondary burdeos (dark card).
   tone?: "light" | "dark"
+  // href renders an <a> with identical styling (hero CTAs); otherwise <button>.
+  href?: string
 }
 
 const sizes = {
@@ -39,17 +41,26 @@ export function Button({
   variant = "primary",
   size = "md",
   tone = "light",
+  href,
   ...props
 }: ButtonProps) {
+  const cls = cn(
+    "inline-flex items-center justify-center gap-2",
+    variants[variant],
+    variant === "product" ? tones[tone] : sizes[size],
+    className
+  )
+  if (href !== undefined) {
+    return (
+      <a href={href} className={cls} {...props}>
+        {children}
+      </a>
+    )
+  }
   return (
     <button
       type={type}
-      className={cn(
-        "inline-flex items-center justify-center gap-2",
-        variants[variant],
-        variant === "product" ? tones[tone] : sizes[size],
-        className
-      )}
+      className={cls}
       {...props}
     >
       {children}

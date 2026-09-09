@@ -62,6 +62,11 @@ Pages are few, so per-page trees below are the reference. Overview:
 index.astro
 ├── Layout.astro ──► shared shell (see below)
 ├── seo/PageSEO.astro ──► SEO chain (see below)
+├── organisms/Hero.astro (static, no client: directive)
+│   ├── atoms/Eyebrow.astro (E2, A2 eyebrow)
+│   ├── atoms/Icon.astro ×7 (bullets ×5 circle pink md filled + biotech circle + verified bare)
+│   ├── atoms/Button.tsx ×2 (primary md href="#section-5" + secondary md href="#section-3", static render)
+│   └── assets/hero/hero-clinica-512.webp ──► astro:assets Image (eager, widths 384/512)
 └── molecules/ContactForm.tsx (client:load)
     ├── atoms/Input.tsx ──► store/useField ──► store/contact
     ├── atoms/Textarea.tsx ──► store/useField ──► store/contact
@@ -119,7 +124,7 @@ Input F1 underline; Textarea F3 glass; Checkbox F2 pill; Card C1 glass.
 
 ```
 src/components/atoms/
-├── Button.tsx    (React, variant primary|secondary|product, size md|sm, tone light|dark for product) ──► lib/utils
+├── Button.tsx    (React, variant primary|secondary|product, size md|sm, tone light|dark for product, optional href → renders <a> with identical classes) ──► lib/utils
 ├── Input.tsx     (F1 underline, store-bound) ──► store/useField ──► store/contact
 ├── Textarea.tsx  (F3 glass, store-bound) ──► store/useField ──► store/contact
 ├── Checkbox.tsx  (F2 pill, store-bound) ──► store/useField ──► store/contact
@@ -129,9 +134,18 @@ src/components/atoms/
 └── Card.astro    (C1 glass shell, static)
 ```
 
+```
+src/components/organisms/
+├── Hero.astro    (static A2 hero: 01-hero-layout shell + bullet-list Icon rows; bespoke visual card, NOT Card C1) ──► atoms/{Eyebrow,Icon,Button} + astro:assets
+├── Header.astro
+└── Footer.astro
+```
+
 `Layout.astro` loads Material Symbols Outlined (FILL 0..1) for Icon/Badge/Eyebrow.
-Orphaned / not reachable yet: Icon, Badge, Eyebrow, Card, Checkbox (no page uses them
-until hero/challenges/testimonials/products organisms land). `atoms.astro` showcase
+Orphaned / not reachable yet: Badge, Card, Checkbox (no page uses them
+until challenges/testimonials/products organisms land). Eyebrow + Icon are now
+reachable via `Hero` on `/`; Button `href` anchors (`#section-3`/`#section-5`)
+are dead targets until galería/contacto sections land. `atoms.astro` showcase
 page was temporary and deleted the same day.
 
 ## Shared shell (Layout)
@@ -191,6 +205,13 @@ None.
 
 ## Notes
 
+- Hybrid hero (`recreate-hero-section`): `organisms/Hero.astro` = `01-hero-layout`
+  shell (blobs, 12-col 7+5, bottom avatar overlay) + `01-hero-bullet-list` Icon
+  rows ×5 (bullets replace the badges row — same 5 items, no duplication).
+  React `Button` inside static Astro MUST use `className`, never `class`.
+- Hero image is a 512px Stitch placeholder (`src/assets/hero/`, see README):
+  widths reduced to native 512/384 (no upscaling); re-export at 1024+ when
+  brand art lands. No external hotlinks in code.
 - Initial setup (`initial-landing-setup`): vanilla-only atoms per `astro-atomic-components` (no `ui/`, no `Validated*`); single Zustand `contact` store (not generic `form.ts`) until a second form exists.
 - All business values in `site-config.ts` are placeholders (`TODO(replace)`) — canonical/JSON-LD wrong until real data lands.
 - No `PUBLIC_*` env vars exist; Dockerfile ships zero `ARG/ENV` pairs by design.

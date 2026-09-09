@@ -4,4 +4,98 @@
 @theme inline {
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --color-brand-500: oklch(0.62 0.18 20);
+
+  /* Hero tokens ported from design/stitch/01-hero-layout/code.html (verbatim hexes) */
+  --color-surface-ice: #f9f9fd;
+  --color-on-surface: #1a1c1f;
+  --color-on-surface-variant: #5c4038;
+  --color-on-primary: #ffffff;
+  --color-primary: #a83200;
+  --color-primary-fixed-dim: #ffb59d;
+  --color-secondary: #9d3e54;
+  --color-secondary-fixed: #ffd9de;
+  --color-brand-pink: #db6f85;
+  --color-brand-orange: #fd530a;
+  --color-glass-border: rgba(255, 255, 255, 0.6);
+  --color-surface-container-highest: #e2e2e6;
+
+  --spacing-gutter: 24px;
+  --spacing-margin-mobile: 16px;
+  --spacing-margin-desktop: 64px;
+  --spacing-xl: 80px;
+  --spacing-lg: 48px;
+  --spacing-md: 24px;
+  --spacing-sm: 12px;
+  --spacing-xs: 4px;
+
+  --container-max-width: 1280px;
+
+  --font-display-lg: "Montserrat", sans-serif;
+  --font-display-lg-mobile: "Montserrat", sans-serif;
+  --font-body-lg: "Open Sans", sans-serif;
+  --font-body-md: "Open Sans", sans-serif;
+  --font-caption: "Open Sans", sans-serif;
+  --font-label-bold: "Open Sans", sans-serif;
+
+  --text-display-lg: 64px;
+  --text-display-lg--line-height: 1.1;
+  --text-display-lg--letter-spacing: -0.02em;
+  --text-display-lg--font-weight: 700;
+  --text-display-lg-mobile: 32px;
+  --text-display-lg-mobile--line-height: 1.25;
+  --text-display-lg-mobile--font-weight: 700;
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 28px;
+  --text-body-md: 16px;
+  --text-body-md--line-height: 24px;
+  --text-caption: 12px;
+  --text-caption--line-height: 16px;
+  --text-caption--letter-spacing: 0.02em;
+  --text-label-bold: 14px;
+  --text-label-bold--line-height: 20px;
+  --text-label-bold--letter-spacing: 0.05em;
+  --text-label-bold--font-weight: 700;
+}
+
+/* Stitch hero effects (from 01-hero-layout <style>) */
+.tilt-float {
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.tilt-float:hover {
+  transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) scale3d(1.02, 1.02, 1.02) translateY(-4px);
+}
+
+.shadow-ambient {
+  box-shadow:
+    0 20px 40px -10px rgba(219, 111, 133, 0.25),
+    0 10px 20px -5px rgba(219, 111, 133, 0.15);
+}
+
+.glass-panel {
+  background: rgba(249, 249, 253, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.gradient-primary {
+  background: linear-gradient(135deg, #db6f85, #a83200);
+}
+
+.blob-bg {
+  position: absolute;
+  filter: blur(80px);
+  opacity: 0.5;
+  z-index: 0;
+  animation: moveBlob 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes moveBlob {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(5%, 10%) scale(1.1); }
+  100% { transform: translate(-5%, -5%) scale(0.9); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blob-bg { animation: none; }
+  .tilt-float { transition: none; }
 }
