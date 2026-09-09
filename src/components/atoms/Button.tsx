@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils"
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode
   // Standard variants (atom showcase 2026-09-07):
-  // primary = B2 orange pill (hero CTA + submit), secondary = B3 glass pill (hero),
+  // primary = B2 orange pill (hero CTA + submit), secondary = B3 ghost pill (hero),
   // product = B4 rectangular w-full uppercase (product cards; bg via tone).
   variant?: "primary" | "secondary" | "product"
   // size md = B2 hero spec; sm = form/compact contexts (e.g. ContactForm submit).
@@ -25,7 +25,7 @@ const variants = {
   primary:
     "rounded-full bg-[#fd530a] font-bold text-white shadow-[0_20px_40px_-10px_rgba(219,111,133,0.25)] transition-transform hover:scale-105",
   secondary:
-    "rounded-full border border-white/60 bg-[#f9f9fd]/70 font-bold text-[#a83200] backdrop-blur-xl transition-transform hover:scale-105",
+    "rounded-full border-2 border-[#a83200]/40 bg-transparent font-bold text-[#a83200] transition hover:scale-105 hover:border-[#a83200] hover:bg-[#a83200]/10",
   product: "w-full rounded py-3 text-sm font-bold uppercase tracking-wider transition-colors",
 } as const
 

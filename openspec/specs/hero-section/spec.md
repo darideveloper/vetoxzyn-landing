@@ -1,5 +1,7 @@
-## ADDED Requirements
+## Purpose
 
+Hybrid A2 hero organism (layout shell + bullet list + visual card) for the landing page.
+## Requirements
 ### Requirement: Hybrid A2 hero structure
 The system SHALL render a hero organism combining the `01-hero-layout` shell (animated blob background, content column + visual glass card) with the `01-hero-bullet-list` vertical feature rows, using hardcoded A2 Dr. Resultados copy from `design/docs/client-pages-sections.md` Sec 1. The visual glass card SHALL render at its designed width (28rem cap, filling its 5-col cell); width utilities shadowed by the Stitch spacing scale (bare `max-w-xs/sm/md/lg/xl`, which compile to 4/12/24/48/80px) SHALL NOT be used — explicit arbitrary rem values SHALL be used instead.
 
@@ -23,11 +25,19 @@ The hero SHALL use the exact A2 strings (eyebrow `Tecnología oxidativa para pr�
 - **THEN** the browser navigates to `#section-5` (form) or `#section-3` (galería) respectively, keyboard-focusable with visible focus state
 
 ### Requirement: Hero responsive behavior
-The hero SHALL be fully responsive: single-column stacked layout (content first, visual below) on mobile, `lg:grid-cols-12` (7+5) on desktop, fluid type (`display-lg-mobile` → `md:display-lg`), and no horizontal overflow at 390/768/1280px viewports.
+The hero SHALL be fully responsive: single-column stacked layout (content first, visual below) on mobile with all content-column items centered below the `md` breakpoint (eyebrow, H1, subcopy, bullet block, and CTA row) and left-aligned at `md` and up, `lg:grid-cols-12` (7+5) on desktop, fluid type (`display-lg-mobile` → `md:display-lg`), and no horizontal overflow at 390/768/1280px viewports.
 
 #### Scenario: Mobile stacking
 - **WHEN** the viewport is 390px wide
 - **THEN** content stacks above the visual card with Stitch spacing (`px-gutter`), CTAs wrap without horizontal scroll, and blobs are clipped without horizontal scroll
+
+#### Scenario: Mobile centering
+- **WHEN** the viewport is below the `md` breakpoint
+- **THEN** the eyebrow, H1, and subcopy are text-centered, the bullet list renders as a shrink-wrapped centered block with icon rows left-aligned inside, and the CTA row is center-justified
+
+#### Scenario: Tablet and desktop alignment
+- **WHEN** the viewport is at `md` or wider
+- **THEN** the content column returns to left-aligned (`items-start`, `text-left`), the subcopy loses its auto margins, and the CTA row is start-justified
 
 ### Requirement: Hero local WebP image
 The hero visual SHALL render a local WebP image from `src/assets/hero/` via `astro:assets Image` (eager, `fetchpriority="high"`, widths+sizes) converted from the Stitch source; no external `googleusercontent` hotlink SHALL remain in the hero.
@@ -42,3 +52,11 @@ The hero SHALL contain exactly one H1 per page, unskipped heading order, decorat
 #### Scenario: Assistive-tech pass
 - **WHEN** a screen-reader or keyboard user traverses the hero
 - **THEN** one H1 is announced, blobs are ignored, CTAs are reachable/operable by keyboard, and the image exposes its alt text
+
+### Requirement: Single motion owner for hero CTAs
+Each hero CTA SHALL have exactly one hover-motion owner: the `Button` atom's own `hover:scale-105`. The `tilt-float` effect SHALL NOT be applied to hero `Button`s; it remains available for non-interactive surfaces such as the hero visual card.
+
+#### Scenario: Smooth CTA hover
+- **WHEN** a visitor hovers either hero CTA
+- **THEN** the button scales smoothly once with no snap, pop, or competing tilt/lift motion
+
