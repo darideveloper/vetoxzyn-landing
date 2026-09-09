@@ -67,6 +67,12 @@ index.astro
 │   ├── atoms/Icon.astro ×7 (bullets ×5 circle pink md filled + biotech circle + verified bare)
 │   ├── atoms/Button.tsx ×2 (primary md href="#section-5" + secondary md href="#section-3", static render)
 │   └── assets/hero/hero-clinica-512.webp ──► astro:assets Image (eager, widths 384/512)
+├── organisms/Testimonials.astro (static, id="section-3", no client: directive)
+│   ├── atoms/Eyebrow.astro (E2, "EVIDENCIA CLÍNICA")
+│   ├── molecules/TestimonialCard.astro ×3 ──► data/testimonials
+│   │   ├── atoms/Card.astro (C1 glass shell, class: relative h-full overflow + tilt-float)
+│   │   └── atoms/Icon.astro (bare filled format_quote, tone per accent)
+│   └── data/testimonials.ts (TESTIMONIALS const ×3, accent orange|pink|green)
 └── molecules/ContactForm.tsx (client:load)
     ├── atoms/Input.tsx ──► store/useField ──► store/contact
     ├── atoms/Textarea.tsx ──► store/useField ──► store/contact
@@ -137,15 +143,23 @@ src/components/atoms/
 ```
 src/components/organisms/
 ├── Hero.astro    (static A2 hero: 01-hero-layout shell + bullet-list Icon rows; bespoke visual card, NOT Card C1) ──► atoms/{Eyebrow,Icon,Button} + astro:assets
+├── Testimonials.astro (static 03-testimonials: id="section-3" bg decor + E2 header + grid ×3 TestimonialCard) ──► molecules/TestimonialCard + atoms/Eyebrow + data/testimonials
 ├── Header.astro
 └── Footer.astro
 ```
 
+```
+src/components/molecules/
+├── ContactForm.tsx (client:load island, see Islands below)
+└── TestimonialCard.astro (static: Card C1 + bare Icon + footer) ──► atoms/{Card,Icon} + data/testimonials (type-only)
+```
+
 `Layout.astro` loads Material Symbols Outlined (FILL 0..1) for Icon/Badge/Eyebrow.
-Orphaned / not reachable yet: Badge, Card, Checkbox (no page uses them
-until challenges/testimonials/products organisms land). Eyebrow + Icon are now
-reachable via `Hero` on `/`; Button `href` anchors (`#section-3`/`#section-5`)
-are dead targets until galería/contacto sections land. `atoms.astro` showcase
+`Card` is now reachable via `Testimonials` on `/`; `Badge` is reachable only
+via the `design-system` showcase until challenges/products organisms land.
+Eyebrow + Icon were already reachable via `Hero` on `/`; Button `href`
+anchor `#section-3` now resolves to `Testimonials` (`#section-5` stays dead
+until the contact section gains that id). `atoms.astro` showcase
 page was temporary and deleted the same day.
 
 ## Shared shell (Layout)
@@ -194,6 +208,7 @@ None.
 
 - `lib/utils.ts` — `cn()` class joiner (atoms only)
 - `data/site-config.ts` — PHONES, EMAIL, ADDRESS, SOCIAL_LINKS, GOOGLE_MAPS, BUSINESS_HOURS, BUSINESS_DATA (`as const`)
+- `data/testimonials.ts` — TESTIMONIALS (`as const` ×3: quote/name/role/accent) + `Testimonial`/`TestimonialAccent` types (testimonials section only)
 - `src/consts.ts` — SITE_TITLE, SITE_DESCRIPTION (SEO fallback)
 - `styles/global.css` — tailwind v4 + tw-animate-css + `@theme inline` tokens
 - `store/contact.ts` — contactSchema (Zod: name/email/message required + clinica/telefono

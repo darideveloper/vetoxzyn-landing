@@ -1,0 +1,29 @@
+---
+import Card from "@/components/atoms/Card.astro"
+import Icon from "@/components/atoms/Icon.astro"
+import type { Testimonial } from "@/data/testimonials"
+
+type Props = Testimonial
+
+const { quote, name, role, accent } = Astro.props
+
+const accents = {
+  orange: { bar: "bg-brand-orange", tone: "orange" },
+  pink: { bar: "bg-brand-pink", tone: "pink" },
+  green: { bar: "bg-[#a0d66a]", tone: "green" },
+} as const
+---
+
+<Card class="tilt-float relative h-full overflow-hidden">
+  <div aria-hidden="true" class:list={["absolute top-0 left-0 h-full w-1", accents[accent].bar]}></div>
+  <div class="relative z-10 flex h-full flex-col">
+    <div class="mb-4" aria-hidden="true">
+      <Icon name="format_quote" variant="bare" filled tone={accents[accent].tone} class="text-4xl opacity-50" />
+    </div>
+    <p class="mb-lg font-body-lg text-body-lg text-on-surface italic">{quote}</p>
+    <div class="mt-auto border-t border-glass-border pt-4">
+      <p class="font-label-bold text-label-bold text-on-surface">{name}</p>
+      <p class="font-caption text-caption text-on-surface-variant">{role}</p>
+    </div>
+  </div>
+</Card>
