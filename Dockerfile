@@ -5,8 +5,9 @@ FROM node:lts-alpine AS build
 RUN corepack enable && corepack prepare pnpm@10.18.3 --activate
 WORKDIR /app
 
-# NOTE: no PUBLIC_* vars exist yet, so zero ARG/ENV pairs. Add one ARG/ENV
-# pair per PUBLIC_* var when the first one lands, and pass it as a build arg.
+# Build-time environment variables — one ARG/ENV pair per PUBLIC_* var.
+ARG PUBLIC_SITE_URL
+ENV PUBLIC_SITE_URL=$PUBLIC_SITE_URL
 
 # Install dependencies (cached layer — only invalidates on lockfile change)
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./

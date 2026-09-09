@@ -12,8 +12,8 @@ export const PHONES = {
 } as const
 
 export const EMAIL = {
-  address: "info@vetoxzyn.mx",
-  href: "mailto:info@vetoxzyn.mx",
+  address: "info@vetoxzyncomercial.mx",
+  href: "mailto:info@vetoxzyncomercial.mx",
 } as const
 
 export const ADDRESS = {
@@ -48,7 +48,9 @@ export const BUSINESS_HOURS = {
 export const BUSINESS_DATA = {
   name: "Vetoxzyn",
   legalName: "Vetoxzyn",
-  url: "https://vetoxzyn.mx",
+  // Build-inlined via import.meta.env (client-safe context); falls back to
+  // the prod host when PUBLIC_SITE_URL is unset.
+  url: import.meta.env.PUBLIC_SITE_URL ?? "https://vetoxzyncomercial.mx",
   logo: "/assets/img/logo.png",
   ogImage: "/og-image.jpg",
   contact: {
