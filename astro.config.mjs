@@ -18,7 +18,13 @@ try {
   // No .env — process.env / fallback below apply.
 }
 export default defineConfig({
-  site: process.env.PUBLIC_SITE_URL ?? 'https://vetoxzyncomercial.mx',
+  // Origin chain: per-checkout Portless URL wins in dev (each worktree gets
+  // its own branch-subdomain URL), explicit SITE_URL covers Docker/CI builds.
+  // Fallback is the prod domain (documented in docs/astro-worktrees.md,
+  // docs/astro-portless.md, docs/astro-site-config.md): dev never reaches the
+  // fallback, and a build without env must emit prod — never localhost —
+  // into sitemap/canonicals.
+  site: process.env.PORTLESS_URL ?? process.env.SITE_URL ?? 'https://vetoxzyncomercial.mx',
   build: {
     inlineStylesheets: 'always',
   },
@@ -28,6 +34,10 @@ export default defineConfig({
   },
   vite: {
     plugins: [tailwindcss()],
+    server: {
+      port: process.env.PORT ? parseInt(process.env.PORT) : 4321,
+      strictPort: true,
+    },
   },
   integrations: [react(), sitemap()],
 });

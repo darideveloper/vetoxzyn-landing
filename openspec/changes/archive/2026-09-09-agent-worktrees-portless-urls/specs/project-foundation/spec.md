@@ -1,4 +1,4 @@
-## ADDED Requirements
+## MODIFIED Requirements
 
 ### Requirement: Dependency and config baseline
 The system SHALL provide the React-islands + Tailwind v4 + SSG baseline: pinned deps, astro config with site/sitemap/react/tailwind/inlineStylesheets/PORT-aware server with `strictPort: true` on both `server` and `vite.server`, `@/*` TS aliases with `jsx: react-jsx` and `jsxImportSource: react`, and default static output (no explicit `output` key, no SSR adapter). `site` SHALL resolve `process.env.PORTLESS_URL ?? process.env.SITE_URL` with fallback `https://vetoxzyncomercial.mx` (prod-safe fallback; dev never reaches it since Portless always injects `PORTLESS_URL`).

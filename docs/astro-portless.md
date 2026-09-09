@@ -55,7 +55,7 @@ npm install -g portless
 }
 ```
 
-Behind a MITM corporate proxy, prefix with `NODE_OPTIONS=--use-openssl-ca`. Full merged scripts table lives in [astro-base-config](./astro-base-config.md) §3.
+Behind a MITM corporate proxy, prefix with `NODE_OPTIONS=--use-openssl-ca`.
 
 3. Configure `astro.config.mjs` to accept the `PORT` env var:
 
@@ -67,8 +67,6 @@ export default defineConfig({
   },
 })
 ```
-
-Full merged config lives in [astro-base-config](./astro-base-config.md) §1.
 
 4. Create `.env` with the dev URL (used for redirects, canonical links, etc.):
 
@@ -87,6 +85,18 @@ SITE_URL=https://<project-name>.localhost
 
 > There is **no per-route stop command**. `portless stop <name>` parses `stop` as an app name and registers a bogus `stop.localhost` route instead of stopping anything. `portless proxy stop` stops the proxy itself. With worktrees, stop each checkout's server first, then remove the worktree — see [Git Worktrees + Portless](./astro-worktrees.md).
 
+## Running under AI agents
+
+Astro ≥7.3 auto-backgrounds the dev server when it detects an agent environment (e.g. `OPENCODE` / `OPENCODE_PID` set): the `portless run` supervisor exits while the Astro child keeps the port, so the proxy route unregisters (proxy 404) while the direct port still answers. Default policy: servers are started manually — agents never autostart them.
+
+Fix pattern — stop the orphan, relaunch foreground with agent vars stripped, kept under supervision in a persistent/detached session:
+
+```bash
+astro dev stop
+env -u OPENCODE -u OPENCODE_PID pnpm run dev
+portless list   # route present + proxy 200 before continuing
+```
+
 ## Environment Variables
 
 Portless injects the following into the child process:
@@ -95,7 +105,7 @@ Portless injects the following into the child process:
 - `HOST` — Typically `127.0.0.1`
 - `PORTLESS_URL` — Public URL (e.g. `https://<project-name>.localhost`; inside a worktree the branch is prepended, e.g. `https://<branch>.<project-name>.localhost` — `portless list` is the source of truth)
 
-`SITE_URL` (`.env`, server-only) should resolve through the same chain: `PORTLESS_URL → SITE_URL → https://<project-name>.localhost` fallback — see [Git Worktrees + Portless](./astro-worktrees.md) and [All Config in One Place](./astro-site-config.md).
+`SITE_URL` (`.env`, server-only) should resolve through the same chain: `PORTLESS_URL → SITE_URL → prod-domain fallback` (`https://vetoxzyncomercial.mx` — dev never reaches it since Portless always injects `PORTLESS_URL`) — see [Git Worktrees + Portless](./astro-worktrees.md) and [All Config in One Place](./astro-site-config.md).
 
 ## Troubleshooting
 
@@ -105,6 +115,7 @@ Portless injects the following into the child process:
 | `.localhost` doesn't resolve (Safari, Firefox) | Run `portless hosts sync` to add entries to `/etc/hosts` |
 | Port conflict on 443 | Portless falls back to 1355; check `portless status` |
 | Dev server won't start | Ensure no other process is on the assigned port; stop that checkout's server (Ctrl+C) then retry |
+| Proxy 404 but direct `http://127.0.0.1:<port>/` answers, route missing from `portless list` | Astro ≥7.3 auto-backgrounded under agent env (e.g. `OPENCODE`/`OPENCODE_PID` set) and orphaned the `portless run` supervisor. Fix: `astro dev stop`, relaunch with agent vars stripped — see "Running under AI agents" |
 
 ## Key Rules
 

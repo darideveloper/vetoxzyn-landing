@@ -190,7 +190,7 @@ Ensure `package.json` has the pnpm engines constraint:
 
 Astro inlines `PUBLIC_*` variables at build time. Pass them as Docker build args so they're available during `pnpm build`.
 
-> `SITE_URL` is dev-only (Portless worktree URLs) and is **not** a Docker build arg — `.dockerignore` excludes `.env*` and production canonicals come from `site:` / `BUSINESS_DATA.url`. See [Git Worktrees + Portless](./astro-worktrees.md).
+> `SITE_URL` is a server-only Docker build arg in this project (`ARG SITE_URL` / `ENV SITE_URL` in the `Dockerfile`; pass `--build-arg SITE_URL=https://vetoxzyncomercial.mx`). `.dockerignore` excludes `.env*`, so the build never reads the dev `.env` — production canonicals come from the passed `SITE_URL` (or the prod-domain fallback in `site:` / `BUSINESS_DATA.url`). See [Git Worktrees + Portless](./astro-worktrees.md).
 
 ## New Project Setup
 

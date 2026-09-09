@@ -1,4 +1,4 @@
-## ADDED Requirements
+## MODIFIED Requirements
 
 ### Requirement: Two-layer single-language SEO hierarchy
 The system SHALL provide `BaseSEO.astro` (core engine, `useTagLine` default `true`) and thin `PageSEO.astro` wrapper (defaults `jsonType="LocalBusiness"`; does not forward `useTagLine`). Title resolves prop → `SITE_TITLE`; description resolves prop → `baseDescription` → `SITE_DESCRIPTION`. Off-home pages append `| BUSINESS_DATA.name` unless `useTagLine` is `false`. No i18n/hreflang branches SHALL exist. `BUSINESS_DATA.url` (the origin prefix for canonical, `og:url`, `og:image`, JSON-LD `url`/`@id`/`logo`/`image`) SHALL be the checkout's own URL in dev (Portless branch-subdomain) and the prod domain in builds.

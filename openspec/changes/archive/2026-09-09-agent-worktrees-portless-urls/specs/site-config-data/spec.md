@@ -1,4 +1,4 @@
-## ADDED Requirements
+## MODIFIED Requirements
 
 ### Requirement: Centralized business data source
 The system SHALL hold all business identity in `src/data/site-config.ts` with `as const` exports: `PHONES`, `EMAIL`, `ADDRESS`, `SOCIAL_LINKS`, `GOOGLE_MAPS`, `BUSINESS_HOURS`, and the SEO bundle `BUSINESS_DATA` (name, legalName, url, logo, ogImage, contact, social). `BUSINESS_DATA.url` SHALL resolve server-side from `process.env.PORTLESS_URL ?? process.env.SITE_URL` with fallback `"https://vetoxzyncomercial.mx"`; `EMAIL` SHALL be `address: "info@vetoxzyncomercial.mx"`, `href: "mailto:info@vetoxzyncomercial.mx"` (explicit literals, never string-derived from the URL). Client islands SHALL receive the origin via props from `.astro` parents, never via `import.meta.env`.

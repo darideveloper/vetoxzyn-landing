@@ -1,4 +1,4 @@
-## ADDED Requirements
+## MODIFIED Requirements
 
 ### Requirement: Typed fetch client scaffold
 The system SHALL provide `src/lib/api/client.ts` (`FetchError` with `network|timeout|http|parse|abort`, `AbortSignal.timeout` default 30s, retry ONLY network/timeout with capped exponential backoff, max 2 retries) plus `src/lib/api/types.ts` and `src/lib/api/constants.ts`; no endpoint modules SHALL ship in this change and no component SHALL call raw `fetch()`.

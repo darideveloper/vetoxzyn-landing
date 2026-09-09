@@ -48,9 +48,11 @@ export const BUSINESS_HOURS = {
 export const BUSINESS_DATA = {
   name: "Vetoxzyn",
   legalName: "Vetoxzyn",
-  // Build-inlined via import.meta.env (client-safe context); falls back to
-  // the prod host when PUBLIC_SITE_URL is unset.
-  url: import.meta.env.PUBLIC_SITE_URL ?? "https://vetoxzyncomercial.mx",
+  // Server-read origin chain (all importers are server-rendered .astro
+  // frontmatter): per-checkout PORTLESS_URL wins in dev, explicit SITE_URL
+  // covers builds, prod host is the fallback. Future client islands must
+  // receive the origin via props — never import.meta.env.
+  url: process.env.PORTLESS_URL ?? process.env.SITE_URL ?? "https://vetoxzyncomercial.mx",
   logo: "/assets/img/logo.png",
   ogImage: "/og-image.jpg",
   contact: {
