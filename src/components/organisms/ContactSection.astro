@@ -1,0 +1,116 @@
+---
+import { Image } from "astro:assets"
+import Icon from "@/components/atoms/Icon.astro"
+import { ContactForm } from "@/components/molecules/ContactForm.tsx"
+import contactImg from "@/assets/contact/contact-clinica-512.webp"
+---
+
+<section
+  id="section-5"
+  aria-labelledby="contact-heading"
+  class="relative overflow-x-clip bg-surface-ice font-body-md text-on-surface"
+>
+  <!-- Immersive background (Stitch 05-contact-form, section-scoped) -->
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 overflow-hidden">
+    <div class="organic-blob-1 absolute -top-20 -left-20 h-[600px] w-[600px] bg-brand-pink/10 blur-[100px]"></div>
+    <div class="organic-blob-2 absolute top-1/2 -right-40 h-[800px] w-[800px] bg-brand-orange/10 blur-[120px]"></div>
+    <div class="absolute -bottom-40 left-1/4 h-[500px] w-[500px] rounded-full bg-tertiary/10 blur-[80px]"></div>
+    <div class="pointer-events-none absolute top-1/4 left-0 w-full -rotate-12 scale-150 text-center opacity-[0.03]">
+      <p class="font-impact text-massive whitespace-nowrap text-on-surface">BIOSEGURIDAD</p>
+    </div>
+  </div>
+
+  <div class="relative z-10 mx-auto flex w-full max-w-[1400px] flex-col items-center px-4 py-20 md:px-8">
+    <!-- Header (flattened in-flow from the Stitch lg:absolute overlay) -->
+    <div class="mb-12 w-full text-left">
+      <h2 id="contact-heading" class="text-display-lg-mobile md:text-display-lg max-w-3xl leading-tight text-on-surface">
+        ¿Listo para elevar la <span class="bg-gradient-to-r from-brand-orange to-brand-pink bg-clip-text text-transparent">bioseguridad</span> de tu clínica?
+      </h2>
+      <p class="font-body-lg text-body-lg mt-6 max-w-md text-on-surface-variant">
+        Inicie el protocolo de integración biológica. Conecte su infraestructura con la precisión clínica de nuestra matriz oxidativa.
+      </p>
+    </div>
+
+    <!-- Asymmetric stack: stacked on mobile, absolute overlap at lg -->
+    <div class="relative flex w-full flex-col gap-8 lg:ml-auto lg:block lg:min-h-[800px] lg:w-2/3">
+      <!-- Contact form (base layer) -->
+      <div class="w-full lg:absolute lg:right-0 lg:bottom-10 lg:max-w-2xl z-stack-1">
+        <ContactForm client:load />
+      </div>
+
+      <!-- FAQ layer (overlapping) -->
+      <div class="glass-panel-heavy floating-element w-full rounded-3xl p-8 shadow-2xl backdrop-blur-md lg:absolute lg:top-20 lg:-left-12 lg:max-w-md z-stack-2 lg:rotate-[3deg]">
+        <div class="mb-8 flex items-center gap-4">
+          <Icon name="info" variant="circle" tone="pink" size="lg" filled />
+          <h3 class="font-headline-sm text-headline-sm m-0 leading-none text-on-surface">Frecuencia de Diagnóstico</h3>
+        </div>
+        <div class="space-y-3">
+          <details class="group cursor-pointer rounded-2xl border border-white/50 bg-white/60 p-5 shadow-sm transition-all hover:bg-white/90">
+            <summary class="font-label-bold text-label-bold flex list-none items-center justify-between text-on-surface outline-none">
+              ¿Es un desinfectante clínico de grado médico?
+              <Icon name="add_circle" variant="bare" tone="orange" class="transition-transform group-open:rotate-180" />
+            </summary>
+            <div class="font-body-md text-body-md mt-4 leading-relaxed text-on-surface-variant">
+              Es una tecnología oxidativa sin residuos para protocolos de limpieza veterinaria, con protección de instrumental (cero corrosión) y desinfección superficial.
+            </div>
+          </details>
+          <details class="group cursor-pointer rounded-2xl border border-white/50 bg-white/60 p-5 shadow-sm transition-all hover:bg-white/90">
+            <summary class="font-label-bold text-label-bold flex list-none items-center justify-between text-on-surface outline-none">
+              ¿Cura heridas profundas o infectadas?
+              <Icon name="add_circle" variant="bare" tone="orange" class="transition-transform group-open:rotate-180" />
+            </summary>
+            <div class="font-body-md text-body-md mt-4 leading-relaxed text-on-surface-variant">
+              Ayuda a mantener la zona limpia para apoyar el proceso de estabilización del tejido. Su función principal es la higiene; consulte a su médico veterinario.
+            </div>
+          </details>
+          <details class="group cursor-pointer rounded-2xl border border-white/50 bg-white/60 p-5 shadow-sm transition-all hover:bg-white/90">
+            <summary class="font-label-bold text-label-bold flex list-none items-center justify-between text-on-surface outline-none">
+              ¿Deja residuos en quirófano?
+              <Icon name="add_circle" variant="bare" tone="orange" class="transition-transform group-open:rotate-180" />
+            </summary>
+            <div class="font-body-md text-body-md mt-4 leading-relaxed text-on-surface-variant">
+              No genera residuos persistentes; sus componentes base son agua y sales minerales.
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <!-- Image & disclaimer layer (stacked on mobile, anchored at lg) -->
+      <div class="floating-element flex w-full flex-col gap-6 lg:absolute lg:-left-20 lg:bottom-0 lg:w-80 z-stack-3" style="animation-delay: 2s;">
+        <div class="relative h-56 overflow-hidden rounded-3xl border-4 border-white/80 shadow-2xl">
+          <Image
+            src={contactImg}
+            widths={[384, 512]}
+            sizes="(max-width: 1024px) 100vw, 320px"
+            loading="lazy"
+            decoding="async"
+            alt="Clínica veterinaria de alta tecnología con superficies de vidrio e instrumental metálico bajo luz blanca"
+            class="h-full w-full object-cover"
+          />
+        </div>
+        <div class="glass-panel-heavy flex items-start gap-4 rounded-2xl border-l-4 border-l-brand-orange p-5 shadow-xl">
+          <Icon name="warning" variant="bare" tone="orange" filled class="mt-1" />
+          <div>
+            <p class="font-caption text-caption leading-tight text-on-surface-variant">
+              <strong>Aviso Importante:</strong><br /> vetoxzyn® no es un medicamento, consulte a su médico veterinario.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    document.querySelectorAll("#section-5 details").forEach((detail) => {
+      detail.addEventListener("toggle", () => {
+        if (detail.open) {
+          document.querySelectorAll("#section-5 details").forEach((other) => {
+            if (other !== detail && other.open) {
+              other.open = false;
+            }
+          });
+        }
+      });
+    });
+  </script>
+</section>
