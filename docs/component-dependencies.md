@@ -24,7 +24,7 @@ File-based routing, SSG (`output` default `static`, no SSR adapter). No catch-al
 
 ```
 src/pages/
-├── index.astro       ← landing: hero + challenges + products + ContactForm island
+├── index.astro       ← landing: hero + challenges + testimonials + products + ContactForm island
 ├── about.astro       ← static content page
 ├── contact.astro     ← contact details + ContactForm island
 ├── design-system.astro ← dev showcase: all atoms + variants (see below)
@@ -65,14 +65,20 @@ index.astro
 ├── organisms/Hero.astro (static, no client: directive)
 │   ├── atoms/Eyebrow.astro (E2, A2 eyebrow)
 │   ├── atoms/Icon.astro ×7 (bullets ×5 circle pink md filled + biotech circle + verified bare)
-│   ├── atoms/Button.tsx ×2 (primary md href="#section-5" + secondary md href="#section-3", static render)
+│   ├── atoms/Button.tsx ×2 (primary md href="#section-5" + secondary md href="#section-4", static render)
 │   └── assets/hero/hero-clinica-512.webp ──► astro:assets Image (eager, widths 384/512)
 ├── organisms/Challenges.astro (static, section#desafios, no client: directive)
 │   ├── atoms/Eyebrow.astro (E2, "Dr. Resultados")
 │   ├── atoms/Icon.astro ×3 (circle orange lg: shield, water_drop, eco)
 │   ├── atoms/Badge.astro ×2 (tag dark CLINICAL GRADE + tag light icon=verified 99.9% PURE)
 │   └── assets/challenges/challenges-clinica-512.webp ──► astro:assets Image (lazy, widths 384/512)
-├── organisms/Products.astro (static, no client: directive, id="section-3")
+├── organisms/Testimonials.astro (static, id="section-3", no client: directive)
+│   ├── atoms/Eyebrow.astro (E2, "EVIDENCIA CLÍNICA")
+│   ├── molecules/TestimonialCard.astro ×3 ──► data/testimonials
+│   │   ├── atoms/Card.astro (C1 glass shell, relative h-full overflow + tilt-float)
+│   │   └── atoms/Icon.astro (bare filled format_quote, tone per accent)
+│   └── data/testimonials.ts (TESTIMONIALS const ×3, accent orange|pink|green)
+├── organisms/Products.astro (static, no client: directive, id="section-4")
 │   ├── atoms/Badge.astro ×2 (feature vertical: water_drop + cleaning_services, P3-drop restyle)
 │   ├── atoms/Button.tsx ×2 (product tone light|dark href="#section-5", static render)
 │   └── assets/products/topico-512.webp + instalaciones-512.webp ──► astro:assets Image (lazy, widths 384/512)
@@ -147,19 +153,26 @@ src/components/atoms/
 src/components/organisms/
 ├── Hero.astro    (static A2 hero: 01-hero-layout shell + bullet-list Icon rows; bespoke visual card, NOT Card C1) ──► atoms/{Eyebrow,Icon,Button} + astro:assets
 ├── Challenges.astro (static 02-challanges: content card + tilted overlapping media card; bespoke cards, NOT Card C1) ──► atoms/{Eyebrow,Icon,Badge} + astro:assets
+├── Testimonials.astro (static 03-testimonials: id="section-3" bg decor + E2 header + grid ×3 TestimonialCard) ──► molecules/TestimonialCard + atoms/Eyebrow + data/testimonials
 ├── Products.astro (static 04-products split: in-flow h2 header + light/dark panels + formula banner; HUD panels bespoke, NOT Card C1) ──► atoms/{Badge,Button} + astro:assets
 ├── Header.astro
 └── Footer.astro
 ```
 
+```
+src/components/molecules/
+├── ContactForm.tsx (client:load island, see Islands below)
+└── TestimonialCard.astro (static: Card C1 + bare Icon + footer) ──► atoms/{Card,Icon} + data/testimonials (type-only)
+```
+
 `Layout.astro` loads Material Symbols Outlined (FILL 0..1) for Icon/Badge/Eyebrow.
-Orphaned / not reachable yet: Card only (no page uses it until
-testimonials organism lands). Badge `feature` + Button `product` are reachable
-via `Products` on `/` (`#section-3`); Badge tag + Icon orange + Eyebrow are
+`Card` C1 is reachable via `Testimonials` on `/` (`#section-3`) + the
+`design-system` showcase. Badge `feature` + Button `product` are reachable
+via `Products` on `/` (`#section-4`); Badge tag + Icon orange + Eyebrow are
 reachable via `Challenges` (`#desafios`) + `Hero` on `/`; Checkbox is reachable
 via `ContactForm` on `/` + `/contact`. Button `href` anchors are live targets
-(`#section-3` Products, `#section-5` contact section on `/`, `#desafios`
-Challenges). `atoms.astro` showcase page was temporary and deleted the same day.
+(`#section-3` Testimonials, `#section-4` Products, `#section-5` contact section
+on `/`, `#desafios` Challenges). `atoms.astro` showcase page was temporary and deleted the same day.
 
 ## Shared shell (Layout)
 
@@ -207,6 +220,7 @@ None.
 
 - `lib/utils.ts` — `cn()` class joiner (atoms only)
 - `data/site-config.ts` — PHONES, EMAIL, ADDRESS, SOCIAL_LINKS, GOOGLE_MAPS, BUSINESS_HOURS, BUSINESS_DATA (`as const`)
+- `data/testimonials.ts` — TESTIMONIALS (`as const` ×3: quote/name/role/accent) + `Testimonial`/`TestimonialAccent` types (testimonials section only)
 - `src/consts.ts` — SITE_TITLE, SITE_DESCRIPTION (SEO fallback)
 - `styles/global.css` — tailwind v4 + tw-animate-css + `@theme inline` tokens
   (hero set + `04-products` set: inverse-surface, inverse-on-surface,
@@ -243,6 +257,7 @@ None.
 - Hero/section images: none yet (placeholder SVG not used — Astro won't rasterize SVG via `Image`); any future raster image MUST use `astro:assets Image` (AVIF, widths+sizes, eager hero / lazy rest).
 - **Orphaned / not reachable from any page**: none. Template `Welcome.astro` deleted during setup. `src/assets/astro.svg` unused (harmless template leftover, remove when real brand art lands).
 - Challenges section (`add-challenges-section`): `organisms/Challenges.astro` replicates `design/stitch/02-challanges` (content card 7-col + tilted media card 5-col, `lg:-ml-16`, hover lift via `tilt-float` — Stitch's static `-rotate-3` dropped after live measurement showed ~22px badge-text clip at 1024–1280px; offsets `-ml-6`/`-mr-6` = `px-gutter`, verified 0px overflow/clip at 390/768/1024/1280/1440); feature-row Icons are `circle orange lg` (w-12 in Stitch = our `lg`, doc previously said `md` — corrected here and in `atoms-page-global-components.md`); media image is a 512px Stitch placeholder (`src/assets/challenges/`, landscape JPEG cropped via `object-cover` in the `aspect-[4/5]` card, lazy, widths capped at native 512/384); no `Card C1`/`Button`/island in this section.
+- Testimonials section (`add-testimonials-section`, merged from `feature/testimonials`): `organisms/Testimonials.astro` = `03-testimonials` (E2 eyebrow `EVIDENCIA CLÍNICA` + 3-col grid of `molecules/TestimonialCard.astro` over `data/testimonials.ts`, Stitch verbatim ES copy); merge kept main's newer `Hero` (`max-w-[28rem]` card fix), `ContactForm` (`max-w-[32rem]`), `global.css` (products tokens + HUD/image-pan effects) and `hero-section` spec. `id` collision resolved by narrative order: Testimonials keeps `section-3`, Products moved to `section-4`, Hero secondary CTA (`Ver línea Tópico`) retargeted `#section-3` → `#section-4`.
 
 ## Related
 
