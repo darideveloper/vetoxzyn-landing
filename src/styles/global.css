@@ -19,6 +19,17 @@
   --color-glass-border: rgba(255, 255, 255, 0.6);
   --color-surface-container-highest: #e2e2e6;
 
+  /* Products tokens ported from design/stitch/04-products/code.html (verbatim hexes) */
+  --color-inverse-surface: #2f3034;
+  --color-inverse-on-surface: #f0f0f4;
+  --color-secondary-container: #fe8ba2;
+  --color-on-secondary-container: #772138;
+  --color-tertiary: #396700;
+  --color-tertiary-fixed: #bbf383;
+  --color-tertiary-fixed-dim: #a0d66a;
+  --color-on-tertiary-fixed: #0e2000;
+  --color-on-tertiary-fixed-variant: #2b5000;
+
   --spacing-gutter: 24px;
   --spacing-margin-mobile: 16px;
   --spacing-margin-desktop: 64px;
@@ -98,4 +109,32 @@
 @media (prefers-reduced-motion: reduce) {
   .blob-bg { animation: none; }
   .tilt-float { transition: none; }
+  .image-pan { animation: none; }
+}
+
+/* Stitch products panels (from 04-products <style>) */
+.hud-panel {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.hud-panel-dark {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.writing-vertical {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+.image-pan {
+  animation: panImage 30s infinite alternate linear;
+}
+
+@keyframes panImage {
+  0% { object-position: 0% 50%; }
+  100% { object-position: 100% 50%; }
 }

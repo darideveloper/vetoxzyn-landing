@@ -24,7 +24,7 @@ File-based routing, SSG (`output` default `static`, no SSR adapter). No catch-al
 
 ```
 src/pages/
-├── index.astro       ← landing: hero + benefits + ContactForm island
+├── index.astro       ← landing: hero + challenges + products + ContactForm island
 ├── about.astro       ← static content page
 ├── contact.astro     ← contact details + ContactForm island
 ├── design-system.astro ← dev showcase: all atoms + variants (see below)
@@ -72,7 +72,11 @@ index.astro
 │   ├── atoms/Icon.astro ×3 (circle orange lg: shield, water_drop, eco)
 │   ├── atoms/Badge.astro ×2 (tag dark CLINICAL GRADE + tag light icon=verified 99.9% PURE)
 │   └── assets/challenges/challenges-clinica-512.webp ──► astro:assets Image (lazy, widths 384/512)
-└── molecules/ContactForm.tsx (client:load)
+├── organisms/Products.astro (static, no client: directive, id="section-3")
+│   ├── atoms/Badge.astro ×2 (feature vertical: water_drop + cleaning_services, P3-drop restyle)
+│   ├── atoms/Button.tsx ×2 (product tone light|dark href="#section-5", static render)
+│   └── assets/products/topico-512.webp + instalaciones-512.webp ──► astro:assets Image (lazy, widths 384/512)
+└── molecules/ContactForm.tsx (client:load, section id="section-5")
     ├── atoms/Input.tsx ──► store/useField ──► store/contact
     ├── atoms/Textarea.tsx ──► store/useField ──► store/contact
     ├── atoms/Checkbox.tsx ──► store/useField ──► store/contact
@@ -143,19 +147,19 @@ src/components/atoms/
 src/components/organisms/
 ├── Hero.astro    (static A2 hero: 01-hero-layout shell + bullet-list Icon rows; bespoke visual card, NOT Card C1) ──► atoms/{Eyebrow,Icon,Button} + astro:assets
 ├── Challenges.astro (static 02-challanges: content card + tilted overlapping media card; bespoke cards, NOT Card C1) ──► atoms/{Eyebrow,Icon,Badge} + astro:assets
+├── Products.astro (static 04-products split: in-flow h2 header + light/dark panels + formula banner; HUD panels bespoke, NOT Card C1) ──► atoms/{Badge,Button} + astro:assets
 ├── Header.astro
 └── Footer.astro
 ```
 
 `Layout.astro` loads Material Symbols Outlined (FILL 0..1) for Icon/Badge/Eyebrow.
 Orphaned / not reachable yet: Card only (no page uses it until
-testimonials/products organisms land). Badge + Icon orange are now reachable
-via `Challenges` on `/` (tag dark/light, circle orange lg ×3); Eyebrow + Icon
-are reachable via `Hero` on `/`; Checkbox is reachable via `ContactForm` on
-`/` + `/contact`. Button `href` anchors (`#section-3`/`#section-5`) are still
-dead targets until galería/contacto sections land (`#desafios` added by
-`add-challenges-section`, hero hrefs intentionally untouched). `atoms.astro`
-showcase page was temporary and deleted the same day.
+testimonials organism lands). Badge `feature` + Button `product` are reachable
+via `Products` on `/` (`#section-3`); Badge tag + Icon orange + Eyebrow are
+reachable via `Challenges` (`#desafios`) + `Hero` on `/`; Checkbox is reachable
+via `ContactForm` on `/` + `/contact`. Button `href` anchors are live targets
+(`#section-3` Products, `#section-5` contact section on `/`, `#desafios`
+Challenges). `atoms.astro` showcase page was temporary and deleted the same day.
 
 ## Shared shell (Layout)
 
@@ -205,6 +209,10 @@ None.
 - `data/site-config.ts` — PHONES, EMAIL, ADDRESS, SOCIAL_LINKS, GOOGLE_MAPS, BUSINESS_HOURS, BUSINESS_DATA (`as const`)
 - `src/consts.ts` — SITE_TITLE, SITE_DESCRIPTION (SEO fallback)
 - `styles/global.css` — tailwind v4 + tw-animate-css + `@theme inline` tokens
+  (hero set + `04-products` set: inverse-surface, inverse-on-surface,
+  secondary-container, on-secondary-container, tertiary + tertiary-fixed family;
+  effects: tilt-float/blob/shadow-ambient/glass-panel + hud-panel/hud-panel-dark/
+  writing-vertical/image-pan with reduced-motion guard)
 - `store/contact.ts` — contactSchema (Zod: name/email/message required + clinica/telefono
   optional strings + lineaTopico/lineaInstalaciones/lineaDistribucion booleans), field map,
   setField/validateAll/reset, persist
@@ -221,6 +229,14 @@ None.
 - Hero image is a 512px Stitch placeholder (`src/assets/hero/`, see README):
   widths reduced to native 512/384 (no upscaling); re-export at 1024+ when
   brand art lands. No external hotlinks in code.
+- Products (`add-products-section`): `organisms/Products.astro` = `04-products`
+  split (in-flow h2 header flattened from the absolute overlay + light Tópico /
+  dark Instalaciones panels + formula banner). Vertical pills are glass `Badge
+  feature` (intentional P3-drop restyle over the design's solid pills); HUD
+  panels bespoke (C1 is light-only). Product images are hero-reuse placeholders
+  (`src/assets/products/`, see README, lazy widths 384/512); swap files with no
+  markup change when brand art lands. Ficha CTAs point to `#section-5` (contact
+  section tagged in the same change) until real ficha URLs exist.
 - Initial setup (`initial-landing-setup`): vanilla-only atoms per `astro-atomic-components` (no `ui/`, no `Validated*`); single Zustand `contact` store (not generic `form.ts`) until a second form exists.
 - All business values in `site-config.ts` are placeholders (`TODO(replace)`) — canonical/JSON-LD wrong until real data lands.
 - No `PUBLIC_*` env vars exist; Dockerfile ships zero `ARG/ENV` pairs by design.
