@@ -2,12 +2,14 @@
 import Layout from "@/layouts/Layout.astro"
 import PageSEO from "@/components/seo/PageSEO.astro"
 import Hero from "@/components/organisms/Hero.astro"
+import Challenges from "@/components/organisms/Challenges.astro"
 import { ContactForm } from "@/components/molecules/ContactForm.tsx"
 ---
 
 <Layout lang="es">
   <PageSEO currentPage="home" slot="seo" />
   <Hero />
+  <Challenges />
   <section class="mx-auto max-w-5xl px-4 py-12">
     <h2>Why Vetoxzyn</h2>
     <ul class="mt-4 grid gap-4 sm:grid-cols-3">

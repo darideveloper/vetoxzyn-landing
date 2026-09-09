@@ -1,6 +1,6 @@
 ---
 created: 2026-09-06
-updated: 2026-09-06
+updated: 2026-09-09
 tags:
   - astro
   - components
@@ -67,6 +67,11 @@ index.astro
 │   ├── atoms/Icon.astro ×7 (bullets ×5 circle pink md filled + biotech circle + verified bare)
 │   ├── atoms/Button.tsx ×2 (primary md href="#section-5" + secondary md href="#section-3", static render)
 │   └── assets/hero/hero-clinica-512.webp ──► astro:assets Image (eager, widths 384/512)
+├── organisms/Challenges.astro (static, section#desafios, no client: directive)
+│   ├── atoms/Eyebrow.astro (E2, "Dr. Resultados")
+│   ├── atoms/Icon.astro ×3 (circle orange lg: shield, water_drop, eco)
+│   ├── atoms/Badge.astro ×2 (tag dark CLINICAL GRADE + tag light icon=verified 99.9% PURE)
+│   └── assets/challenges/challenges-clinica-512.webp ──► astro:assets Image (lazy, widths 384/512)
 └── molecules/ContactForm.tsx (client:load)
     ├── atoms/Input.tsx ──► store/useField ──► store/contact
     ├── atoms/Textarea.tsx ──► store/useField ──► store/contact
@@ -137,16 +142,20 @@ src/components/atoms/
 ```
 src/components/organisms/
 ├── Hero.astro    (static A2 hero: 01-hero-layout shell + bullet-list Icon rows; bespoke visual card, NOT Card C1) ──► atoms/{Eyebrow,Icon,Button} + astro:assets
+├── Challenges.astro (static 02-challanges: content card + tilted overlapping media card; bespoke cards, NOT Card C1) ──► atoms/{Eyebrow,Icon,Badge} + astro:assets
 ├── Header.astro
 └── Footer.astro
 ```
 
 `Layout.astro` loads Material Symbols Outlined (FILL 0..1) for Icon/Badge/Eyebrow.
-Orphaned / not reachable yet: Badge, Card, Checkbox (no page uses them
-until challenges/testimonials/products organisms land). Eyebrow + Icon are now
-reachable via `Hero` on `/`; Button `href` anchors (`#section-3`/`#section-5`)
-are dead targets until galería/contacto sections land. `atoms.astro` showcase
-page was temporary and deleted the same day.
+Orphaned / not reachable yet: Card only (no page uses it until
+testimonials/products organisms land). Badge + Icon orange are now reachable
+via `Challenges` on `/` (tag dark/light, circle orange lg ×3); Eyebrow + Icon
+are reachable via `Hero` on `/`; Checkbox is reachable via `ContactForm` on
+`/` + `/contact`. Button `href` anchors (`#section-3`/`#section-5`) are still
+dead targets until galería/contacto sections land (`#desafios` added by
+`add-challenges-section`, hero hrefs intentionally untouched). `atoms.astro`
+showcase page was temporary and deleted the same day.
 
 ## Shared shell (Layout)
 
@@ -217,6 +226,7 @@ None.
 - No `PUBLIC_*` env vars exist; Dockerfile ships zero `ARG/ENV` pairs by design.
 - Hero/section images: none yet (placeholder SVG not used — Astro won't rasterize SVG via `Image`); any future raster image MUST use `astro:assets Image` (AVIF, widths+sizes, eager hero / lazy rest).
 - **Orphaned / not reachable from any page**: none. Template `Welcome.astro` deleted during setup. `src/assets/astro.svg` unused (harmless template leftover, remove when real brand art lands).
+- Challenges section (`add-challenges-section`): `organisms/Challenges.astro` replicates `design/stitch/02-challanges` (content card 7-col + tilted media card 5-col, `lg:-ml-16`, hover lift via `tilt-float` — Stitch's static `-rotate-3` dropped after live measurement showed ~22px badge-text clip at 1024–1280px; offsets `-ml-6`/`-mr-6` = `px-gutter`, verified 0px overflow/clip at 390/768/1024/1280/1440); feature-row Icons are `circle orange lg` (w-12 in Stitch = our `lg`, doc previously said `md` — corrected here and in `atoms-page-global-components.md`); media image is a 512px Stitch placeholder (`src/assets/challenges/`, landscape JPEG cropped via `object-cover` in the `aspect-[4/5]` card, lazy, widths capped at native 512/384); no `Card C1`/`Button`/island in this section.
 
 ## Related
 

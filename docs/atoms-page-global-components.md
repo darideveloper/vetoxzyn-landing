@@ -1,6 +1,6 @@
 ---
 created: 2026-09-07
-updated: 2026-09-07
+updated: 2026-09-09
 tags:
   - astro
   - components
@@ -96,7 +96,7 @@ media card organism (position relative)
 |---|---|---|
 | `01-hero-bullet-list` | Vertical feature list ×5 | circle pink md `water_drop, hub, health_and_safety, shield, eco` — direct match |
 | `01-hero-layout` | Badge pills (14px inline icons) | keep inline (smaller than I1); I1 reserved for feature rows |
-| `02-challanges` | Feature rows ×3 | circle orange md `shield, water_drop, eco` |
+| `02-challanges` | Feature rows ×3 | circle orange lg `shield, water_drop, eco` |
 | `01-hero-*` avatar card | `biotech` circle + bare `verified` | circle pink md filled + bare primary |
 | `02-challanges` PURE pill | `verified` inside Badge tag | bare orange via Badge `icon` prop |
 | `03-testimonials` | Quote marks | bare filled `text-4xl opacity-50`, tone orange/pink/green |
