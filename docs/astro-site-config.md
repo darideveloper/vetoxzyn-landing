@@ -108,6 +108,18 @@ export const BUSINESS_DATA = {
 ### Why `BUSINESS_DATA` exists
 All SEO metadata and JSON-LD generation consumes `BUSINESS_DATA` — it bundles the individual constants into a shape ready for `BaseSEO.astro`.
 
+### `SITE_URL` resolution chain (dev canonical)
+
+`BUSINESS_DATA.url` is the **production** canonical origin. The **dev** canonical resolves per checkout so worktrees don't fight over one URL:
+
+```
+PORTLESS_URL → SITE_URL → https://<project-name>.localhost fallback
+```
+
+- `astro.config.mjs`: `site: process.env.PORTLESS_URL ?? process.env.SITE_URL ?? "https://<project-name>.localhost"`
+- App consumers (redirects, canonical links, SEO) read the same order — never hardcode the dev origin.
+- Each worktree therefore resolves its own branch-subdomain URL automatically; override `SITE_URL` per worktree only when canonicals must differ explicitly. Full pattern → see [Git Worktrees + Portless](./astro-worktrees.md).
+
 ## 2. Other Data Files
 
 The same one-file-per-domain pattern extends to any domain-specific data your project needs:
@@ -119,6 +131,8 @@ The same one-file-per-domain pattern extends to any domain-specific data your pr
 Each follows the same structure: typed constants, `as const`, exported for import from any component. These are **optional example patterns** — create them only if your project needs that domain. See `src/data/` in the architecture diagram above for the full layout.
 
 ## 3. Typed Environment Variables (`env.d.ts`)
+
+> Canonical `env.d.ts` (plus `SITE_URL`/`PORT` server types) lives in [astro-base-config](./astro-base-config.md) §4. The snippet below is the `PUBLIC_*` excerpt.
 
 Astro projects handle `PUBLIC_*` env vars natively, but they're untyped by default. Add a type declaration file:
 

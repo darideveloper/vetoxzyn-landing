@@ -32,6 +32,7 @@ The `astro.config.mjs` reads `process.env.PORT` to determine the listen port, fa
 ```js
 server: {
   port: process.env.PORT ? parseInt(process.env.PORT) : 4321,
+  strictPort: true,
 }
 ```
 
@@ -44,15 +45,17 @@ npm install -g portless
 ## Setup per Project
 
 1. Install portless globally (see above)
-2. Change the `dev` script in `package.json` to wrap the Astro dev server:
+2. Use the `dev` script below (canonical). `portless run` derives the app name automatically and prepends the branch inside worktrees — never pin a hardcoded app name:
 
 ```json
 {
   "scripts": {
-    "dev": "portless <project-name> pnpm astro dev"
+    "dev": "portless run pnpm astro dev"
   }
 }
 ```
+
+Behind a MITM corporate proxy, prefix with `NODE_OPTIONS=--use-openssl-ca`. Full merged scripts table lives in [astro-base-config](./astro-base-config.md) §3.
 
 3. Configure `astro.config.mjs` to accept the `PORT` env var:
 
@@ -60,9 +63,12 @@ npm install -g portless
 export default defineConfig({
   server: {
     port: process.env.PORT ? parseInt(process.env.PORT) : 4321,
+    strictPort: true,
   },
 })
 ```
+
+Full merged config lives in [astro-base-config](./astro-base-config.md) §1.
 
 4. Create `.env` with the dev URL (used for redirects, canonical links, etc.):
 
@@ -75,8 +81,11 @@ SITE_URL=https://<project-name>.localhost
 | Action | Command |
 |---|---|
 | Start dev server | `pnpm run dev` |
-| Stop | `portless stop <project-name>` |
+| Stop a checkout | Ctrl+C in its own terminal (each route unregisters when its `portless run` parent exits) |
 | Check status | `portless status` |
+| List live routes | `portless list` |
+
+> There is **no per-route stop command**. `portless stop <name>` parses `stop` as an app name and registers a bogus `stop.localhost` route instead of stopping anything. `portless proxy stop` stops the proxy itself. With worktrees, stop each checkout's server first, then remove the worktree — see [Git Worktrees + Portless](./astro-worktrees.md).
 
 ## Environment Variables
 
@@ -84,7 +93,9 @@ Portless injects the following into the child process:
 
 - `PORT` — Ephemeral port the Astro dev server listens on
 - `HOST` — Typically `127.0.0.1`
-- `PORTLESS_URL` — Public URL (e.g. `https://<project-name>.localhost`)
+- `PORTLESS_URL` — Public URL (e.g. `https://<project-name>.localhost`; inside a worktree the branch is prepended, e.g. `https://<branch>.<project-name>.localhost` — `portless list` is the source of truth)
+
+`SITE_URL` (`.env`, server-only) should resolve through the same chain: `PORTLESS_URL → SITE_URL → https://<project-name>.localhost` fallback — see [Git Worktrees + Portless](./astro-worktrees.md) and [All Config in One Place](./astro-site-config.md).
 
 ## Troubleshooting
 
@@ -93,16 +104,17 @@ Portless injects the following into the child process:
 | `command not found: portless` | Run `npm install -g portless` |
 | `.localhost` doesn't resolve (Safari, Firefox) | Run `portless hosts sync` to add entries to `/etc/hosts` |
 | Port conflict on 443 | Portless falls back to 1355; check `portless status` |
-| Dev server won't start | Ensure no other process is on the assigned port; `portless stop <project-name>` then retry |
+| Dev server won't start | Ensure no other process is on the assigned port; stop that checkout's server (Ctrl+C) then retry |
 
 ## Key Rules
 
 - Portless is installed globally, not in `package.json` dependencies
-- The `strictPort: true` setting ensures the dev server fails fast if the assigned port is taken
-- `.localhost` subdomains resolve natively in Chrome, Firefox, and Edge — no `/etc/hosts` needed for those browsers
+- The `strictPort: true` setting (in the snippet above) ensures the dev server fails fast if the assigned port is taken
+- `.localhost` subdomains resolve natively in Chrome and Edge. Firefox and Safari need `portless hosts sync` to add entries to `/etc/hosts` — see the table above
 - Portless stores its CA, TLS certs, and route state in `~/.portless/`
 
 ## Connection to Other Patterns
 
 - `SITE_URL` env var is consumed by the app for form redirects and canonical links → see [[astro-site-config]]
+- Worktrees (one checkout per branch, branch-subdomain URLs) → see [Git Worktrees + Portless](./astro-worktrees.md)
 - In production, the app is served via Docker/nginx, not portless → see [[astro-docker-deployment]]
