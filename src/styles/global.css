@@ -30,6 +30,9 @@
   --color-on-tertiary-fixed: #0e2000;
   --color-on-tertiary-fixed-variant: #2b5000;
 
+  /* Stitch spacing scale — WARNING: xs/sm/md/lg/xl shadow Tailwind's
+     max-w-xs/sm/md/lg/xl (they compile to 4/12/24/48/80px). Never use those
+     max-w-* names; use arbitrary values (max-w-[28rem]) instead. */
   --spacing-gutter: 24px;
   --spacing-margin-mobile: 16px;
   --spacing-margin-desktop: 64px;

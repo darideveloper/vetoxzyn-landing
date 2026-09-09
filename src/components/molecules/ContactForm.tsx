@@ -31,7 +31,7 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="flex max-w-lg flex-col gap-2">
+    <form onSubmit={handleSubmit} noValidate className="flex max-w-[32rem] flex-col gap-2">
       <Input field="name" label="Nombre" placeholder="Dr. Juan Pérez" autoComplete="name" />
       <Input field="clinica" label="Clínica / Hospital" placeholder="Hospital Veterinario Central" autoComplete="organization" />
       <Input field="telefono" label="Teléfono / WhatsApp" type="tel" placeholder="+52 55 1234 5678" autoComplete="tel" />
