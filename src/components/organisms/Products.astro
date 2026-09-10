@@ -2,12 +2,13 @@
 import SectionHeader from "@/components/molecules/SectionHeader.astro"
 import ProductPanel from "@/components/molecules/ProductPanel.astro"
 import FormulaStrip from "@/components/molecules/FormulaStrip.astro"
+import { SECTION_IDS } from "@/data/section-ids"
 ---
 
 <section
-  id="section-4"
+  id={SECTION_IDS.productos}
   aria-labelledby="products-heading"
-  class="bg-surface-ice font-body-md text-on-surface"
+  class="scroll-mt-20 bg-surface-ice font-body-md text-on-surface"
 >
   <div class="mx-auto max-w-max-width px-gutter pt-xl pb-lg text-center">
     <SectionHeader

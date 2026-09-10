@@ -3,6 +3,7 @@ import DividerImage from "@/components/atoms/DividerImage.astro"
 import SectionHeader from "@/components/molecules/SectionHeader.astro"
 import TestimonialCard from "@/components/molecules/TestimonialCard.astro"
 import { TESTIMONIALS } from "@/data/testimonials"
+import { SECTION_IDS } from "@/data/section-ids"
 
 // Square placeholder dividers (swap URLs only when brand art lands).
 const DIVIDERS = [
@@ -11,7 +12,7 @@ const DIVIDERS = [
 ]
 ---
 
-<section id="section-3" aria-labelledby="testimonials-heading" class="relative overflow-hidden py-xl">
+<section id={SECTION_IDS.testimonios} aria-labelledby="testimonials-heading" class="relative scroll-mt-20 overflow-hidden py-xl">
   <div aria-hidden="true" class="bg-fluid-shape absolute inset-0 -z-10 bg-surface-container-highest/50 backdrop-blur-md"></div>
   <div aria-hidden="true" class="absolute -top-40 -right-40 -z-10 h-96 w-96 rounded-full bg-brand-orange/10 blur-3xl"></div>
   <div aria-hidden="true" class="absolute -bottom-40 -left-40 -z-10 h-[500px] w-[500px] rounded-full bg-brand-pink/10 blur-3xl"></div>

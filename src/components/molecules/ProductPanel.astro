@@ -5,6 +5,7 @@ import ResponsiveImage from "../atoms/ResponsiveImage.astro"
 import SpecGrid from "./SpecGrid.astro"
 import topicoImg from "@/assets/products/topico-512.webp"
 import instalacionesImg from "@/assets/products/instalaciones-512.webp"
+import { SECTION_IDS } from "@/data/section-ids"
 
 interface Props {
   tone?: "light" | "dark"
@@ -116,7 +117,7 @@ const SPECS: Record<"light" | "dark", Spec[]> = {
         aria-hidden="true"
       ></div>
       <SpecGrid tone={tone} items={SPECS[tone]} />
-      <Button variant="product" tone={tone} href="#section-5" className="mt-md">
+      <Button variant="product" tone={tone} href={`#${SECTION_IDS.contacto}`} className="mt-md">
         Ver ficha técnica
         <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span>
       </Button>

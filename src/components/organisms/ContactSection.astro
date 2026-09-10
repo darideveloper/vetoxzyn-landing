@@ -5,12 +5,13 @@ import ContactBackdrop from "@/components/molecules/ContactBackdrop.astro"
 import FaqAccordion from "@/components/molecules/FaqAccordion.astro"
 import ContactMedia from "@/components/molecules/ContactMedia.astro"
 import DisclaimerNote from "@/components/molecules/DisclaimerNote.astro"
+import { SECTION_IDS } from "@/data/section-ids"
 ---
 
 <section
-  id="section-5"
+  id={SECTION_IDS.contacto}
   aria-labelledby="contact-heading"
-  class="relative overflow-x-clip bg-surface-ice font-body-md text-on-surface"
+  class="relative scroll-mt-20 overflow-x-clip bg-surface-ice font-body-md text-on-surface"
 >
   <!-- Immersive background (Stitch 05-contact-form, section-scoped) -->
   <ContactBackdrop />

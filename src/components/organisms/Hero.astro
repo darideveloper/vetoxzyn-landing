@@ -3,11 +3,13 @@ import SectionHeader from "@/components/molecules/SectionHeader.astro"
 import HeroBullets from "@/components/molecules/HeroBullets.astro"
 import HeroActions from "@/components/molecules/HeroActions.astro"
 import HeroMediaCard from "@/components/molecules/HeroMediaCard.astro"
+import { SECTION_IDS } from "@/data/section-ids"
 ---
 
 <section
+  id={SECTION_IDS.inicio}
   aria-labelledby="hero-heading"
-  class="relative flex min-h-[90vh] items-center justify-center overflow-hidden bg-surface-ice pt-xl pb-xl font-body-md text-on-surface"
+  class="relative flex min-h-[90vh] scroll-mt-20 items-center justify-center overflow-hidden bg-surface-ice pt-xl pb-xl font-body-md text-on-surface"
 >
   <div aria-hidden="true" class="blob-bg top-[-10%] left-[-10%] h-[60vw] w-[60vw] rounded-full bg-secondary-fixed/40"></div>
   <div aria-hidden="true" class="blob-bg right-[-10%] bottom-[-10%] h-[50vw] w-[50vw] rounded-full bg-secondary-fixed/30" style="animation-delay: -5s;"></div>

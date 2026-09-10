@@ -1,5 +1,5 @@
 import * as React from "react"
-import { cn } from "@/lib/utils"
+import { cn, toKebab } from "@/lib/utils"
 import { useField as defaultUseField } from "@/store/useField"
 
 interface UseFieldResult {
@@ -9,19 +9,21 @@ interface UseFieldResult {
   mounted: boolean
 }
 
-interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+interface TextareaProps extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "id"> {
   field: string
   useField?: (field: string) => UseFieldResult
   label?: string
+  idPrefix?: string
 }
 
-export function Textarea({ field, useField = defaultUseField, label, className, ...props }: TextareaProps) {
+export function Textarea({ field, useField = defaultUseField, label, idPrefix = "", className, ...props }: TextareaProps) {
   const { value, error, setValue, mounted } = useField(field)
+  const id = `${idPrefix}${toKebab(field)}`
 
   return (
     <div className="flex flex-col gap-2 p-2">
       {label && (
-        <label className={cn("mb-3 text-xs font-bold uppercase tracking-widest", error ? "text-error" : "text-on-surface/70")}>
+        <label htmlFor={id} className={cn("mb-3 text-xs font-bold uppercase tracking-widest", error ? "text-error" : "text-on-surface/70")}>
           {label}
         </label>
       )}
@@ -33,6 +35,7 @@ export function Textarea({ field, useField = defaultUseField, label, className, 
           className
         )}
         {...props}
+        id={id}
         value={mounted ? (value as string) || "" : ""}
         onChange={(e) => setValue(e.target.value)}
       />
