@@ -1,7 +1,5 @@
-## Purpose
+## MODIFIED Requirements
 
-Standardized self-contained vanilla atoms shared across pages (no `ui/`, no `Validated*`).
-## Requirements
 ### Requirement: Standardized Button atom
 `src/components/atoms/Button.tsx` SHALL expose `variant="primary"|"secondary"|"product"`: primary = B2 orange pill, secondary = B3 ghost pill (transparent bg, 2px brand border, brand text, brand-tint hover fill), product = B4 rectangular full-width uppercase with `px-4` horizontal padding (`py-3` vertical rhythm unchanged, so button height is unchanged); `size="md"|"sm"` (md = hero spec `px-12 py-6`, sm = compact `px-6 py-3`, ignored by product); product-only `tone="light"|"dark"` (orange/black-hover vs secondary-burdeus/white-hover); and optional `href?: string` — when `href` is present the atom SHALL render an `<a>` with the identical variant/size/tone class chain (keyboard-focusable, middle-click/open-in-tab capable), otherwise a `<button>`. All color values SHALL be palette-token utilities (`bg-brand-orange`, `text-primary`, `border-primary`, `bg-secondary`, `text-on-primary`, `shadow-ambient`) — hard-coded hexes (`bg-[#fd530a]`, `border-[#a83200]`) and raw `white`/`black` utilities SHALL NOT appear. Dropped looks (B1 gradient, B5 large) SHALL NOT exist.
 

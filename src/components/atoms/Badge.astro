@@ -11,22 +11,22 @@ interface Props {
 const { variant = "feature", tone = "dark", icon, class: cls = "" } = Astro.props
 
 const tagTones = {
-  dark: "rounded-r-lg border-l-4 border-[#fd530a] bg-black/90 text-white backdrop-blur-sm",
-  primary: "rounded-full bg-[#a83200]/90 text-white backdrop-blur-sm",
-  light: "rounded-l-2xl border border-gray-100 bg-white/95 text-[#1a1c1f] shadow-2xl",
+  dark: "rounded-r-lg border-l-4 border-brand-orange bg-inverse-surface/90 text-on-primary backdrop-blur-sm",
+  primary: "rounded-full bg-primary/90 text-on-primary backdrop-blur-sm",
+  light: "rounded-l-2xl border border-surface-container-highest bg-on-primary/95 text-on-surface shadow-2xl",
 } as const
 ---
 
 {variant === "feature" ? (
-  <span class:list={["inline-flex items-center gap-1 rounded-full border border-white/60 bg-[#f9f9fd]/70 px-3 py-1 text-xs backdrop-blur-xl", cls]}>
-    {icon && <span class="material-symbols-outlined text-sm text-[#db6f85]">{icon}</span>}
+  <span class:list={["inline-flex items-center gap-1 rounded-full border border-glass-border bg-surface-ice/70 px-3 py-1 text-xs backdrop-blur-xl", cls]}>
+    {icon && <span class="material-symbols-outlined text-sm text-brand-pink">{icon}</span>}
     <slot />
   </span>
 ) : (
   <span class:list={["inline-flex items-center gap-3 px-4 py-2 text-xs font-bold tracking-[0.1em]", tagTones[tone], cls]}>
     {icon
-      ? <span class="material-symbols-outlined filled text-[#fd530a]">{icon}</span>
-      : tone === "dark" && <span class="h-2 w-2 animate-pulse rounded-full bg-[#fd530a]"></span>}
+      ? <span class="material-symbols-outlined filled text-brand-orange">{icon}</span>
+      : tone === "dark" && <span class="h-2 w-2 animate-pulse rounded-full bg-brand-orange"></span>}
     <slot />
   </span>
 )}

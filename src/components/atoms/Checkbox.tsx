@@ -22,13 +22,13 @@ export function Checkbox({ field, useField = defaultUseField, label, className, 
   return (
     <label
       className={cn(
-        "inline-flex cursor-pointer items-center rounded-full border border-white/50 bg-white/40 px-6 py-3 shadow-sm transition-all hover:bg-white/80",
+        "inline-flex cursor-pointer items-center rounded-full border border-glass-border bg-surface-ice/40 px-6 py-3 shadow-sm transition-all hover:bg-surface-ice/80",
         className
       )}
     >
       <input
         type="checkbox"
-        className="h-5 w-5 accent-[#fd530a]"
+        className="h-5 w-5 accent-brand-orange"
         {...props}
         checked={mounted ? Boolean(value) : false}
         onChange={(e) => setValue(e.target.checked)}

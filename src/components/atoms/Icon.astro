@@ -13,10 +13,10 @@ interface Props {
 const { name, filled = false, variant = "circle", tone = "pink", size = "md", class: cls = "" } = Astro.props
 
 const tones = {
-  pink: { text: "text-[#db6f85]", bg: "bg-[#ffd9de]/40" },
-  orange: { text: "text-[#fd530a]", bg: "bg-[#fd530a]/10" },
-  primary: { text: "text-[#a83200]", bg: "bg-[#a83200]/10" },
-  green: { text: "text-[#a0d66a]", bg: "bg-[#a0d66a]/20" },
+  pink: { text: "text-brand-pink", bg: "bg-secondary-fixed/40" },
+  orange: { text: "text-brand-orange", bg: "bg-brand-orange/10" },
+  primary: { text: "text-primary", bg: "bg-primary/10" },
+  green: { text: "text-tertiary-fixed-dim", bg: "bg-tertiary-fixed-dim/20" },
 } as const
 
 const sizes = {

@@ -21,22 +21,22 @@ export function Input({ field, useField = defaultUseField, label, className, ...
   return (
     <div className="flex flex-col gap-2 p-2">
       {label && (
-        <label className={cn("mb-3 text-xs font-bold uppercase tracking-widest", error ? "text-red-500" : "text-black/70")}>
+        <label className={cn("mb-3 text-xs font-bold uppercase tracking-widest", error ? "text-error" : "text-on-surface/70")}>
           {label}
         </label>
       )}
       <input
         className={cn(
-          "w-full border-0 border-b-2 border-black/10 bg-transparent px-0 py-3 text-lg transition-colors outline-none",
-          "focus:border-[#fd530a] placeholder:text-[#5c4038]/40",
-          error ? "border-red-500" : "",
+          "w-full border-0 border-b-2 border-on-surface/10 bg-transparent px-0 py-3 text-lg transition-colors outline-none",
+          "focus:border-brand-orange placeholder:text-on-surface-variant/40",
+          error ? "border-error" : "",
           className
         )}
         {...props}
         value={mounted ? (value as string) || "" : ""}
         onChange={(e) => setValue(e.target.value)}
       />
-      {error && <span className="text-xs text-red-500 font-medium italic">{error}</span>}
+      {error && <span className="text-xs text-error font-medium italic">{error}</span>}
     </div>
   )
 }

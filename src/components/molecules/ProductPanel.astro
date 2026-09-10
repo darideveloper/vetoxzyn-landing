@@ -54,7 +54,7 @@ const SPECS: Record<"light" | "dark", Spec[]> = {
   aria-labelledby={headingId}
   class:list={[
     "group relative flex min-h-[100vh] w-full items-center justify-center overflow-hidden lg:w-1/2",
-    dark ? "bg-inverse-surface" : "border-r border-surface-container-highest bg-white",
+    dark ? "bg-inverse-surface" : "border-r border-surface-container-highest bg-on-primary",
   ]}
 >
   <div class="absolute inset-0 z-0">
@@ -73,7 +73,7 @@ const SPECS: Record<"light" | "dark", Spec[]> = {
         "absolute inset-0",
         dark
           ? "bg-gradient-to-tl from-inverse-surface/90 via-inverse-surface/60 to-transparent"
-          : "bg-gradient-to-br from-white/80 via-white/40 to-transparent",
+          : "bg-gradient-to-br from-on-primary/80 via-on-primary/40 to-transparent",
       ]}
     ></div>
   </div>
@@ -88,7 +88,7 @@ const SPECS: Record<"light" | "dark", Spec[]> = {
         id={headingId}
         class:list={[
           "mb-2 font-display-lg-mobile text-display-lg-mobile font-bold tracking-tighter",
-          dark ? "text-white" : "text-on-surface",
+          dark ? "text-on-primary" : "text-on-surface",
         ]}
       >
         {title}
@@ -105,7 +105,7 @@ const SPECS: Record<"light" | "dark", Spec[]> = {
     <div
       class:list={[
         "relative mt-auto mb-md w-full max-w-[28rem] overflow-hidden rounded-2xl p-md shadow-2xl",
-        dark ? "hud-panel-dark text-left text-gray-200 sm:mr-md" : "hud-panel sm:ml-md",
+        dark ? "hud-panel-dark text-left text-on-primary/80 sm:mr-md" : "hud-panel sm:ml-md",
       ]}
     >
       <div

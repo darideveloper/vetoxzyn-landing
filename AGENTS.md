@@ -73,6 +73,17 @@ MUST read `docs/astro-atomic-components.md` before any create/edit in
 - Atom-to-atom imports must stay acyclic.
 - Never scaffold `ui/` or `Validated*`. When in doubt, stop and ask instead of guessing.
 
+## Styling / palette (mandatory, token-only)
+
+Sole color source: `src/styles/global.css` (`@theme inline`). Token reference: `docs/design-tokens.md`.
+MUST read `docs/design-tokens.md` before any create/edit that adds or changes color classes in
+`src/components/**`, `src/pages/**`, or `src/layouts/**`.
+
+- Consume colors ONLY as palette-token utilities (`bg-brand-orange`, `text-on-surface`, `border-glass-border`, …) with optional opacity modifiers (`/10`, `/70`). `transparent` and `currentColor` stay legal.
+- BANNED in `src/components/**`, `src/pages/**`, `src/layouts/**`: hex literals (`bg-[#…]`), `rgba()/rgb()/oklch()/hsl()` literals, raw neutral utilities (`white`, `black`, `gray-*`, `red-*`, `slate-*`, `zinc-*`, `neutral-*`), and `style=` color declarations. No new CSS files, no color `<style>` blocks (font-variation `<style>` blocks in atoms are typography, not color, and stay).
+- New color → token first: add `--color-*` to `src/styles/global.css` with a where-used note in `docs/design-tokens.md`, then consume it. Never an inline hex.
+- Verify before finishing: `pnpm run check:palette` (advisory, must report clean) + `astro build` green.
+
 ## Component Dependency Map (mandatory living doc)
 
 Living reference: `docs/component-dependencies.md` (project override — not repo root).
@@ -92,6 +103,7 @@ This is part of Definition of Done. After ANY add, remove, rename, or import-cha
 2. Walk each page top-down to leaves (`lib/`, `data/`, styles) and redraw the affected `Per-page trees`.
 3. Update `Pages layer`, `Shared shell (Layout)`, `Shared leaf layer` if affected.
 4. Update `Notes`: decisions, tradeoffs, and list components unreachable from any page as orphan/cleanup candidates.
+5. If the task added or changed color classes, verify `pnpm run check:palette` is clean (see Styling / palette above).
 
 ## On-demand docs index (reference, not mandatory)
 

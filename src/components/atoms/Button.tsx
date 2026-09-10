@@ -23,15 +23,15 @@ const sizes = {
 
 const variants = {
   primary:
-    "rounded-full bg-[#fd530a] font-bold text-white shadow-[0_20px_40px_-10px_rgba(219,111,133,0.25)] transition-transform hover:scale-105",
+    "rounded-full bg-brand-orange font-bold text-on-primary shadow-ambient transition-transform hover:scale-105",
   secondary:
-    "rounded-full border-2 border-[#a83200]/40 bg-transparent font-bold text-[#a83200] transition hover:scale-105 hover:border-[#a83200] hover:bg-[#a83200]/10",
+    "rounded-full border-2 border-primary/40 bg-transparent font-bold text-primary transition hover:scale-105 hover:border-primary hover:bg-primary/10",
   product: "w-full rounded px-4 py-3 text-sm font-bold uppercase tracking-wider transition-colors",
 } as const
 
 const tones = {
-  light: "bg-[#fd530a] text-white hover:bg-black",
-  dark: "bg-[#9d3e54] text-white hover:bg-white hover:text-black",
+  light: "bg-brand-orange text-on-primary hover:bg-on-surface",
+  dark: "bg-secondary text-on-primary hover:bg-on-primary hover:text-on-surface",
 } as const
 
 export function Button({

@@ -6,6 +6,6 @@ interface Props {
 const { class: cls = "" } = Astro.props
 ---
 
-<div class:list={["rounded-xl border border-white/60 bg-[#f9f9fd]/70 p-6 shadow-[0_20px_40px_rgba(219,111,133,0.15)] backdrop-blur-xl", cls]}>
+<div class:list={["rounded-xl border border-glass-border bg-surface-ice/70 p-6 shadow-ambient backdrop-blur-xl", cls]}>
   <slot />
 </div>
