@@ -2,7 +2,7 @@
 
 ### Requirement: Canonical section-title style owned by SectionHeader
 
-The system SHALL render every section title (Hero `h1`, Challenges/Testimonials/Products/ContactSection `h2`) in one identical visual style — Montserrat 700, `32px/1.25` mobile scaling to `64px/1.1/-0.02em` desktop — with the heading tag as the only difference between Hero and sections.
+The system SHALL render every section title (Hero `h1`, Challenges/Testimonials/Products/ContactSection `h2`) in one identical visual style — Montserrat 700, `25.6px/1.25` mobile scaling to `64px/1.1/-0.02em` desktop — with the heading tag as the only difference between Hero and sections.
 
 #### Scenario: All section titles share one size
 - **WHEN** Hero, Challenges, Testimonials, Products, and ContactSection render their titles at the same viewport
