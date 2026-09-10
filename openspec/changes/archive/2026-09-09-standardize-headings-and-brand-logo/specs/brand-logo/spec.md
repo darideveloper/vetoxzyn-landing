@@ -14,12 +14,12 @@ The system SHALL ship the real logo as `public/brand/logo.webp` (600×244) and p
 
 ### Requirement: Logo in header and footer
 
-The system SHALL render `BrandLogo` in the site header via `PrimaryNav` (`h-10`, eager with high fetch priority, wrapped in the home `NavLink`) and in the footer via `FooterMeta` (`h-8`, lazy), replacing the text wordmarks, with `BUSINESS_DATA.logo` set to `"/brand/logo.webp"` so JSON-LD emits a resolvable logo URL.
+The system SHALL render `BrandLogo` in the site header via `PrimaryNav` (`h-20`, eager with high fetch priority, wrapped in the home `NavLink`) and in the footer via `FooterMeta` (`h-16`, lazy), replacing the text wordmarks, with `BUSINESS_DATA.logo` set to `"/brand/logo.webp"` so JSON-LD emits a resolvable logo URL.
 
 #### Scenario: Header shows linked logo
 - **WHEN** any page renders the header
-- **THEN** the `h-10` logo is shown (no `Vetoxzyn` text wordmark) and activates the home link via click, keyboard, and middle-click
+- **THEN** the `h-20` logo is shown (no `Vetoxzyn` text wordmark) and activates the home link via click, keyboard, and middle-click
 
 #### Scenario: Footer shows logo and resolvable SEO
 - **WHEN** any page renders the footer
-- **THEN** the `h-8` lazy logo is shown beside the copyright line, and the JSON-LD `logo` field resolves to the same `/brand/logo.webp` file
+- **THEN** the `h-16` lazy logo is shown beside the copyright line, and the JSON-LD `logo` field resolves to the same `/brand/logo.webp` file

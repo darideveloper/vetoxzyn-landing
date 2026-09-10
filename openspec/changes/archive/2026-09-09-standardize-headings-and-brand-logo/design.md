@@ -10,7 +10,7 @@ Constraints: vanilla-only tiers (`AGENTS.md`, `docs/astro-atomic-components.md` 
 
 **Goals:**
 - One canonical section-title style owned by `SectionHeader` (h1 hero + h2 sections, identical visuals).
-- Real logo in header (`h-10`, eager) and footer (`h-8`, lazy), replacing text wordmarks; resolvable JSON-LD `logo`.
+- Real logo in header (`h-20`, eager) and footer (`h-16`, lazy), replacing text wordmarks; resolvable JSON-LD `logo`.
 
 **Non-Goals:**
 - No theme token redesign (no fluid `clamp()`, no new sizes — the 32/64px scale stays).
@@ -33,12 +33,12 @@ The core string is defined once as an exported const from `SectionHeader.astro` 
 Copy `logo.webp` → `public/brand/logo.webp` (no re-encode). New `atoms/BrandLogo.astro` renders `<img src="/brand/logo.webp" width=600 height=244 alt="Vetoxzyn" class="h-* w-auto">` with `loading`/`fetchpriority` props. Rejected: `src/assets/` + `astro:assets` — hashed output URL diverges from the stable URL JSON-LD needs, forcing two copies; and `ResponsiveImage`'s `widths=[384,512]` is wrong for a 120–160px header mark. 19KB static + `w-auto` ratio lock needs no optimizer.
 
 **D5 — Adoption shape.**
-`PrimaryNav`: `NavLink href="/"` wraps `<BrandLogo class="h-10 w-auto" loading="eager" fetchpriority="high">` (logo links home, preserves current nav behavior). `FooterMeta`: bare `<BrandLogo class="h-8 w-auto" loading="lazy">` next to the existing `©` line. `BUSINESS_DATA.logo` → `"/brand/logo.webp"`. Tier check: `atoms/BrandLogo` ← `molecules/PrimaryNav, FooterMeta` ← `organisms/Header, Footer` — acyclic, vanilla-legal.
+`PrimaryNav`: `NavLink href="/"` wraps `<BrandLogo class="h-20 w-auto" loading="eager" fetchpriority="high">` (logo links home, preserves current nav behavior). `FooterMeta`: bare `<BrandLogo class="h-16 w-auto" loading="lazy">` next to the existing `©` line. `BUSINESS_DATA.logo` → `"/brand/logo.webp"`. Tier check: `atoms/BrandLogo` ← `molecules/PrimaryNav, FooterMeta` ← `organisms/Header, Footer` — acyclic, vanilla-legal.
 
 ## Risks / Trade-offs
 
 - [Risk] Contact slot duplicates core styling → Mitigation: imports the D3 const; spec scenario pins it; reviewer checks one line.
-- [Risk] `h-10` logo grows header height vs text wordmark → Mitigation: verify build + 390/768/1280 spot-check, no horizontal overflow (standard section-QA precedent).
+- [Risk] `h-20` logo grows header height vs text wordmark → Mitigation: verify build + 390/768/1280 spot-check, no horizontal overflow (standard section-QA precedent).
 - [Risk] Exported const from `.astro` frontmatter is unusual → Mitigation: D3 fallback (comment-pointed duplication) pre-approved, no redesign needed.
 - [Trade-off] Static logo skips hashed caching/optimizer → accepted: 19KB, far below LCP concern; stable SEO URL wins.
 - [Trade-off] JSON-LD logo disagrees with the stock Astro favicon until a favicon change lands → accepted, favicon out of scope.

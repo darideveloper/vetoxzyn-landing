@@ -7,7 +7,7 @@ Section headings drifted: five organisms each own bespoke title classes (hardcod
 - `molecules/SectionHeader.astro` owns the canonical title classes via one shared default core for both levels (identical Montserrat `32px → 64px` visuals; `level` switches the tag only); callers drop bespoke slot classes.
 - New `id` prop on `SectionHeader` so string titles keep heading anchors (`hero-heading`, per-section ids) without slots; the `title` slot survives only for exceptional inline markup (contact gradient span).
 - All five section titles (Hero, Challenges, Testimonials, Products, ContactSection) converge on the single canonical `h2` size; Hero keeps `h1`.
-- Real logo integrated: `public/brand/logo.webp` (copied from `~/Desktop/Downloads/stitch_vetoxzyn/logo/logo.webp`) rendered by a new `atoms/BrandLogo.astro`, adopted in `PrimaryNav` (header, `h-10`, eager) and `FooterMeta` (footer, `h-8`, lazy), replacing the text wordmarks.
+- Real logo integrated: `public/brand/logo.webp` (copied from `~/Desktop/Downloads/stitch_vetoxzyn/logo/logo.webp`) rendered by a new `atoms/BrandLogo.astro`, adopted in `PrimaryNav` (header, `h-20`, eager) and `FooterMeta` (footer, `h-16`, lazy), replacing the text wordmarks.
 - `BUSINESS_DATA.logo` repointed to `/brand/logo.webp` so JSON-LD emits a resolvable URL.
 - Favicon explicitly out of scope (stays Astro stock).
 
