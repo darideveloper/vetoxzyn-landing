@@ -5,12 +5,13 @@ import ContactBackdrop from "@/components/molecules/ContactBackdrop.astro"
 import FaqAccordion from "@/components/molecules/FaqAccordion.astro"
 import ContactMedia from "@/components/molecules/ContactMedia.astro"
 import DisclaimerNote from "@/components/molecules/DisclaimerNote.astro"
+import { SECTION_IDS } from "@/data/section-ids"
 ---
 
 <section
-  id="section-5"
+  id={SECTION_IDS.contacto}
   aria-labelledby="contact-heading"
-  class="relative overflow-hidden overflow-x-clip font-body-md text-on-surface"
+  class="relative scroll-mt-20 overflow-hidden overflow-x-clip font-body-md text-on-surface"
 >
   <!-- Distinctive tint above the global wash (section-local, dies with the section) -->
   <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-gradient-to-b from-brand-pink/[0.07] via-transparent to-brand-orange/[0.09] backdrop-blur-[2px]"></div>

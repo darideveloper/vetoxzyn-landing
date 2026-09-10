@@ -1,13 +1,14 @@
 ---
 import { Button } from "@/components/atoms/Button"
+import { SECTION_IDS } from "@/data/section-ids"
 ---
 
 <div class="mt-lg flex flex-wrap justify-center gap-md md:justify-start">
-  <Button variant="primary" size="md" href="#section-5">
+  <Button variant="primary" size="md" href={`#${SECTION_IDS.contacto}`}>
     Cotiza para tu clínica
     <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
   </Button>
-  <Button variant="secondary" size="md" href="#section-4">
+  <Button variant="secondary" size="md" href={`#${SECTION_IDS.productos}`}>
     Ver línea Tópico
   </Button>
 </div>

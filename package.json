@@ -10,7 +10,8 @@
     "dev": "portless run pnpm astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check:palette": "! rg -n -e '#[0-9a-fA-F]{3,8}\\b' -e 'rgba?\\(|oklch\\(|hsla?\\(' -e '(bg|text|border|ring|from|via|to|outline|decoration|divide|accent|placeholder)-(white|black|gray-[0-9]+|red-[0-9]+|slate-[0-9]+|zinc-[0-9]+|neutral-[0-9]+)' -e 'style=\"[^\"]*(color|background|border|box-shadow|fill|stroke)' src/components src/pages src/layouts && echo 'palette clean'"
   },
   "dependencies": {
     "@astrojs/react": "^6.0.5",

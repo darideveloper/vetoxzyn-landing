@@ -3,6 +3,7 @@ import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
+import { devOnlyPages } from './src/integrations/dev-only-pages.ts';
 
 // https://astro.build/config
 // Production domain: https://vetoxzyncomercial.mx
@@ -39,5 +40,7 @@ export default defineConfig({
       strictPort: true,
     },
   },
-  integrations: [react(), sitemap()],
+  // ponytail: devOnlyPages() injects src/dev-pages/ routes on `dev` only —
+  // prod builds never see them (true 404 + clean sitemap, no filter list).
+  integrations: [react(), sitemap(), devOnlyPages()],
 });

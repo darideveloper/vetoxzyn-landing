@@ -8,7 +8,7 @@ interface Props {
 const { q, a } = Astro.props
 ---
 
-<details class="group rounded-2xl border border-white/50 bg-white/60 p-5 shadow-sm transition-all duration-[var(--duration-hover)] ease-[var(--ease-hover)] hover:bg-white/90">
+<details class="group rounded-2xl border border-glass-border bg-surface-ice/60 p-5 shadow-sm transition-all duration-[var(--duration-hover)] ease-[var(--ease-hover)] hover:bg-surface-ice/90">
   <summary class="font-label-bold text-label-bold flex cursor-pointer list-none items-center justify-between text-on-surface">
     {q}
     <Icon name="add_circle" variant="bare" tone="orange" class="transition-transform duration-[var(--duration-hover)] ease-[var(--ease-hover)] group-open:rotate-180" />

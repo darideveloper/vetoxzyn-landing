@@ -3,7 +3,6 @@
 
 @theme inline {
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --color-brand-500: oklch(0.62 0.18 20);
 
   /* Hero tokens ported from design/stitch/01-hero-layout/code.html (verbatim hexes) */
   --color-surface-ice: #f9f9fd;
@@ -11,7 +10,6 @@
   --color-on-surface-variant: #5c4038;
   --color-on-primary: #ffffff;
   --color-primary: #a83200;
-  --color-primary-fixed-dim: #ffb59d;
   --color-secondary: #9d3e54;
   --color-secondary-fixed: #ffd9de;
   --color-brand-pink: #db6f85;
@@ -21,14 +19,17 @@
 
   /* Products tokens ported from design/stitch/04-products/code.html (verbatim hexes) */
   --color-inverse-surface: #2f3034;
-  --color-inverse-on-surface: #f0f0f4;
   --color-secondary-container: #fe8ba2;
-  --color-on-secondary-container: #772138;
   --color-tertiary: #396700;
   --color-tertiary-fixed: #bbf383;
   --color-tertiary-fixed-dim: #a0d66a;
-  --color-on-tertiary-fixed: #0e2000;
-  --color-on-tertiary-fixed-variant: #2b5000;
+
+  /* Error state (forms) — replaces raw red-500 so errors stay in-palette */
+  --color-error: #b3261e;
+
+  /* Card shadows ported verbatim from hard-coded arbitrary values */
+  --shadow-card: 0 20px 50px rgba(0, 0, 0, 0.08);
+  --shadow-media: 0 30px 60px rgba(0, 0, 0, 0.15);
 
   /* Stitch spacing scale — WARNING: xs/sm/md/lg/xl shadow Tailwind's
      max-w-xs/sm/md/lg/xl (they compile to 4/12/24/48/80px). Never use those
