@@ -168,8 +168,7 @@ testimonials grid (grid md:grid-cols-3 gap-gutter)
 - Gaps closed 2026-09-07: GAP-A (Icon variant/tone/size), GAP-B (Badge tag tones),
   GAP-1/2/3 (all HUD pills mapped to Badge). GAP-4 closed: store has clinica/telefono/
   linea booleans, wired in `ContactForm`.
-- Copy: `ContactForm` labels still mix EN (Name/Email/Message) with ES design copy.
-  Full ES copy pass deferred to organism build.
+- Copy: `ContactForm` ES pass complete in `add-contact-section` (labels, placeholders, submit/success, store fallbacks, both page headings). Island `Textarea` is `rows=3` per the molecule sketch.
 - Molecules unlocked by bare Icon: avatar-row (Icon filled + bare verified + text),
   FAQ accordion (`details`/`summary` + bare `add_circle` toggle).
 

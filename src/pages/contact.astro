@@ -1,20 +1,19 @@
 ---
 import Layout from "@/layouts/Layout.astro"
 import PageSEO from "@/components/seo/PageSEO.astro"
-import { ContactForm } from "@/components/molecules/ContactForm.tsx"
+import ContactSection from "@/components/organisms/ContactSection.astro"
 import { EMAIL, PHONES } from "@/data/site-config"
 ---
 
 <Layout>
-  <PageSEO currentPage="contact" title="Contact" slot="seo" />
+  <PageSEO currentPage="contact" title="Contacto" slot="seo" />
   <section class="mx-auto max-w-5xl px-4 py-16">
-    <h1>Contact</h1>
+    <h1>Contacto</h1>
     <p class="mt-4">
-      Prefer to reach us directly? <a href={PHONES.main.href}>{PHONES.main.formatted}</a> · <a
+      ¿Prefieres contactarnos directamente? <a href={PHONES.main.href}>{PHONES.main.formatted}</a> · <a
         href={EMAIL.href}>{EMAIL.address}</a
       >
     </p>
-    <h2 class="mt-8">Send a message</h2>
-    <ContactForm client:load />
   </section>
+  <ContactSection />
 </Layout>

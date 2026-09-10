@@ -46,6 +46,7 @@
 
   --font-display-lg: "Montserrat", sans-serif;
   --font-display-lg-mobile: "Montserrat", sans-serif;
+  --font-impact: "Montserrat", sans-serif;
   --font-body-lg: "Open Sans", sans-serif;
   --font-body-md: "Open Sans", sans-serif;
   --font-caption: "Open Sans", sans-serif;
@@ -69,6 +70,10 @@
   --text-label-bold--line-height: 20px;
   --text-label-bold--letter-spacing: 0.05em;
   --text-label-bold--font-weight: 700;
+  --text-massive: 12vw;
+  --text-massive--line-height: 0.8;
+  --text-massive--letter-spacing: -0.05em;
+  --text-massive--font-weight: 900;
 }
 
 /* Stitch hero effects (from 01-hero-layout <style>) */
@@ -113,6 +118,9 @@
   .blob-bg { animation: none; }
   .tilt-float { transition: none; }
   .image-pan { animation: none; }
+  .organic-blob-1 { animation: none; }
+  .organic-blob-2 { animation: none; }
+  .floating-element { animation: none; }
 }
 
 /* Stitch products panels (from 04-products <style>) */
@@ -140,4 +148,45 @@
 @keyframes panImage {
   0% { object-position: 0% 50%; }
   100% { object-position: 100% 50%; }
+}
+
+/* Stitch 05-contact-form tokens (from design/stitch/05-contact-form/code.html <style>, verbatim) */
+.glass-panel-heavy {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.organic-blob-1 {
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  animation: morph 8s ease-in-out infinite alternate;
+}
+
+.organic-blob-2 {
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  animation: morph 10s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes morph {
+  0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+  100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+}
+
+.deep-float-shadow {
+  box-shadow: 0 20px 40px -10px rgba(253, 83, 10, 0.3), 0 0 20px rgba(253, 83, 10, 0.1);
+}
+
+.z-stack-1 { z-index: 10; }
+.z-stack-2 { z-index: 20; }
+.z-stack-3 { z-index: 30; }
+
+.floating-element {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
 }

@@ -83,7 +83,7 @@ export const useContactStore = create<ContactStore>()(
           if (fieldSchema) {
             const validation = fieldSchema.safeParse(value)
             if (!validation.success) {
-              newErrors[field] = validation.error.issues[0]?.message ?? "Invalid value"
+              newErrors[field] = validation.error.issues[0]?.message ?? "Valor inválido"
             } else {
               delete newErrors[field]
             }
@@ -102,7 +102,7 @@ export const useContactStore = create<ContactStore>()(
           const value = (state as unknown as Record<string, unknown>)[fieldName]
           const result = schema.safeParse(value)
           if (!result.success) {
-            allErrors[fieldName] = result.error.issues[0]?.message ?? "Invalid value"
+            allErrors[fieldName] = result.error.issues[0]?.message ?? "Valor inválido"
           }
         }
         set({ errors: allErrors })

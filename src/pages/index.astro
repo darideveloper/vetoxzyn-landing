@@ -5,7 +5,7 @@ import Hero from "@/components/organisms/Hero.astro"
 import Challenges from "@/components/organisms/Challenges.astro"
 import Testimonials from "@/components/organisms/Testimonials.astro"
 import Products from "@/components/organisms/Products.astro"
-import { ContactForm } from "@/components/molecules/ContactForm.tsx"
+import ContactSection from "@/components/organisms/ContactSection.astro"
 ---
 
 <Layout lang="es">
@@ -14,8 +14,5 @@ import { ContactForm } from "@/components/molecules/ContactForm.tsx"
   <Challenges />
   <Testimonials />
   <Products />
-  <section id="section-5" class="mx-auto max-w-5xl px-4 py-12" aria-labelledby="contact-heading">
-    <h2 id="contact-heading">Contact us</h2>
-    <ContactForm client:load />
-  </section>
+  <ContactSection />
 </Layout>

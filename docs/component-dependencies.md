@@ -82,12 +82,15 @@ index.astro
 │   ├── atoms/Badge.astro ×2 (feature vertical: water_drop + cleaning_services, P3-drop restyle)
 │   ├── atoms/Button.tsx ×2 (product tone light|dark href="#section-5", static render)
 │   └── assets/products/topico-512.webp + instalaciones-512.webp ──► astro:assets Image (lazy, widths 384/512)
-└── molecules/ContactForm.tsx (client:load, section id="section-5")
-    ├── atoms/Input.tsx ──► store/useField ──► store/contact
-    ├── atoms/Textarea.tsx ──► store/useField ──► store/contact
-    ├── atoms/Checkbox.tsx ──► store/useField ──► store/contact
-    ├── atoms/Button.tsx ──► lib/utils (cn)
-    └── store/contact (validateAll, isSubmitted, reset)
+└── organisms/ContactSection.astro (static shell, section#section-5)
+    ├── molecules/ContactForm.tsx (client:load, form base layer)
+    │   ├── atoms/Input.tsx ──► store/useField ──► store/contact
+    │   ├── atoms/Textarea.tsx ──► store/useField ──► store/contact
+    │   ├── atoms/Checkbox.tsx ──► store/useField ──► store/contact
+    │   ├── atoms/Button.tsx ──► lib/utils (cn)
+    │   └── store/contact (validateAll, isSubmitted, reset)
+    ├── atoms/Icon.astro ×5 (circle pink lg filled info + bare orange add_circle ×3 + bare orange filled warning)
+    └── assets/contact/contact-clinica-512.webp ──► astro:assets Image (lazy, widths 384/512)
 ```
 
 ### design-system.astro tree
@@ -108,8 +111,8 @@ design-system.astro
 contact.astro
 ├── Layout.astro ──► shared shell (see below)
 ├── seo/PageSEO.astro ──► SEO chain (see below)
-├── data/site-config (EMAIL, PHONES — direct links)
-└── molecules/ContactForm.tsx ──► same subtree as index.astro
+├── data/site-config (EMAIL, PHONES — direct links intro block)
+└── organisms/ContactSection.astro ──► same subtree as index.astro
 ```
 
 ### about.astro tree
@@ -155,6 +158,7 @@ src/components/organisms/
 ├── Challenges.astro (static 02-challanges: content card + tilted overlapping media card; bespoke cards, NOT Card C1) ──► atoms/{Eyebrow,Icon,Badge} + astro:assets
 ├── Testimonials.astro (static 03-testimonials: id="section-3" bg decor + E2 header + grid ×3 TestimonialCard) ──► molecules/TestimonialCard + atoms/Eyebrow + data/testimonials
 ├── Products.astro (static 04-products split: in-flow h2 header + light/dark panels + formula banner; HUD panels bespoke, NOT Card C1) ──► atoms/{Badge,Button} + astro:assets
+├── ContactSection.astro (static 05-contact-form: section#section-5 shell with blob background + BIOSEGURIDAD massive type + in-flow header flattened from Stitch lg:absolute; asymmetric stack = ContactForm island base + static FAQ details + image/disclaimer; bespoke glass shells, NOT Card C1) ──► molecules/ContactForm + atoms/Icon + astro:assets
 ├── Header.astro
 └── Footer.astro
 ```
@@ -225,8 +229,10 @@ None.
 - `styles/global.css` — tailwind v4 + tw-animate-css + `@theme inline` tokens
   (hero set + `04-products` set: inverse-surface, inverse-on-surface,
   secondary-container, on-secondary-container, tertiary + tertiary-fixed family;
+  `05-contact-form` set: font-impact, text-massive (12vw/0.8/900/-0.05em);
   effects: tilt-float/blob/shadow-ambient/glass-panel + hud-panel/hud-panel-dark/
-  writing-vertical/image-pan with reduced-motion guard)
+  writing-vertical/image-pan + glass-panel-heavy/organic-blob-1-2/deep-float-shadow/
+  floating-element/z-stack-1-2-3 with reduced-motion guard)
 - `store/contact.ts` — contactSchema (Zod: name/email/message required + clinica/telefono
   optional strings + lineaTopico/lineaInstalaciones/lineaDistribucion booleans), field map,
   setField/validateAll/reset, persist
@@ -258,6 +264,7 @@ None.
 - **Orphaned / not reachable from any page**: none. Template `Welcome.astro` deleted during setup. `src/assets/astro.svg` unused (harmless template leftover, remove when real brand art lands).
 - Challenges section (`add-challenges-section`): `organisms/Challenges.astro` replicates `design/stitch/02-challanges` (content card 7-col + tilted media card 5-col, `lg:-ml-16`, hover lift via `tilt-float` — Stitch's static `-rotate-3` dropped after live measurement showed ~22px badge-text clip at 1024–1280px; offsets `-ml-6`/`-mr-6` = `px-gutter`, verified 0px overflow/clip at 390/768/1024/1280/1440); feature-row Icons are `circle orange lg` (w-12 in Stitch = our `lg`, doc previously said `md` — corrected here and in `atoms-page-global-components.md`); media image is a 512px Stitch placeholder (`src/assets/challenges/`, landscape JPEG cropped via `object-cover` in the `aspect-[4/5]` card, lazy, widths capped at native 512/384); no `Card C1`/`Button`/island in this section.
 - Testimonials section (`add-testimonials-section`, merged from `feature/testimonials`): `organisms/Testimonials.astro` = `03-testimonials` (E2 eyebrow `EVIDENCIA CLÍNICA` + 3-col grid of `molecules/TestimonialCard.astro` over `data/testimonials.ts`, Stitch verbatim ES copy); merge kept main's newer `Hero` (`max-w-[28rem]` card fix), `ContactForm` (`max-w-[32rem]`), `global.css` (products tokens + HUD/image-pan effects) and `hero-section` spec. `id` collision resolved by narrative order: Testimonials keeps `section-3`, Products moved to `section-4`, Hero secondary CTA (`Ver línea Tópico`) retargeted `#section-3` → `#section-4`.
+- Contact section (`add-contact-section`): `organisms/ContactSection.astro` replicates `design/stitch/05-contact-form` content (blob background + `BIOSEGURIDAD` massive type + in-flow header flattened from the Stitch `lg:absolute` overlay per Products precedent) as a simplified static grid in the standard `max-w-max-width` container — left column stacking FAQ + image + disclaimer, right column with the `ContactForm` island at full height; mild skew tilts, no overlap, float disabled (follow-up simplifications of the absolute overlap machine). Deviations from Stitch, all decided in explore: submit is voted `Button primary sm` + `arrow_forward` span (B5-large dropped; span not `Icon` atom — React island boundary); disclaimer sits beside the image in row 2 and stacks visible on mobile (Stitch `hidden lg:flex` dropped — compliance copy). Verified 0px overflow at 390/768/1024/1280/1440 on both `/` and `/contact` (headless, incl. FAQ exclusivity, island hydration, ES validation errors). Contact image is a `src/assets/contact/` placeholder (byte-reuse of the products crop, `TODO(replace)` in README); swap files with no markup change when brand art lands. `ContactForm` shell is now glass grid (`md:grid-cols-2`, pill group, `rows=3`, `flex justify-end` submit) and fully ES (island + store fallbacks + both page headings — the "labels partly EN" note is closed).
 
 ## Related
 
