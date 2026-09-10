@@ -1,0 +1,20 @@
+---
+import Icon from "../atoms/Icon.astro"
+
+const bullets = [
+  { icon: "water_drop", label: "pH neutro" },
+  { icon: "hub", label: "HOCl biomimético" },
+  { icon: "health_and_safety", label: "Grado 0 de irritación" },
+  { icon: "shield", label: "Cero corrosión" },
+  { icon: "eco", label: "Sin residuos" },
+]
+---
+
+<ul class="mt-sm flex w-fit flex-col gap-sm">
+  {bullets.map((b) => (
+    <li class="flex items-center gap-md">
+      <Icon name={b.icon} filled />
+      <span class="text-body-md text-on-surface-variant">{b.label}</span>
+    </li>
+  ))}
+</ul>

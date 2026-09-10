@@ -2,6 +2,7 @@
 import Layout from "@/layouts/Layout.astro"
 import PageSEO from "@/components/seo/PageSEO.astro"
 import ContactSection from "@/components/organisms/ContactSection.astro"
+import NavLink from "@/components/atoms/NavLink.astro"
 import { EMAIL, PHONES } from "@/data/site-config"
 ---
 
@@ -10,8 +11,8 @@ import { EMAIL, PHONES } from "@/data/site-config"
   <section class="mx-auto max-w-5xl px-4 py-16">
     <h1>Contacto</h1>
     <p class="mt-4">
-      ¿Prefieres contactarnos directamente? <a href={PHONES.main.href}>{PHONES.main.formatted}</a> · <a
-        href={EMAIL.href}>{EMAIL.address}</a
+      ¿Prefieres contactarnos directamente? <NavLink href={PHONES.main.href}>{PHONES.main.formatted}</NavLink> · <NavLink
+        href={EMAIL.href}>{EMAIL.address}</NavLink
       >
     </p>
   </section>

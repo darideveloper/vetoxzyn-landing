@@ -362,6 +362,7 @@ For each shadcn component, create a matching presentation wrapper in `atoms/`.
 ## 6. Consistency Rules
 
 - Vanilla atoms in `atoms/*` are self-bound: they MAY import from `store/*` and `lib/*` and manage their own Zustand data via `useField`
+- Molecules MAY compose child molecules (parent→child only, must stay acyclic) — e.g. `ContactForm`→`FormRow`, `ProductPanel`→`SpecGrid`, `FaqAccordion`→`FaqItem`
 - In a vanilla project there is no `Validated*` wrapper tier — the atom binds the store directly
 - Molecules MUST NOT import from `ui/*` — only from `atoms/*`
 - Organisms MUST NOT import from `ui/*` — only from `molecules/*` and `atoms/*`

@@ -1,0 +1,19 @@
+---
+import Icon from "../atoms/Icon.astro"
+
+interface Props {
+  q: string
+  a: string
+}
+const { q, a } = Astro.props
+---
+
+<details class="group cursor-pointer rounded-2xl border border-white/50 bg-white/60 p-5 shadow-sm transition-all hover:bg-white/90">
+  <summary class="font-label-bold text-label-bold flex list-none items-center justify-between text-on-surface outline-none">
+    {q}
+    <Icon name="add_circle" variant="bare" tone="orange" class="transition-transform group-open:rotate-180" />
+  </summary>
+  <div class="font-body-md text-body-md mt-4 leading-relaxed text-on-surface-variant">
+    {a}
+  </div>
+</details>

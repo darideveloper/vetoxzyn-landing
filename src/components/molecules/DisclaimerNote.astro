@@ -1,0 +1,17 @@
+---
+import Icon from "../atoms/Icon.astro"
+
+interface Props {
+  class?: string
+}
+const { class: cls = "" } = Astro.props
+---
+
+<div class:list={["glass-panel-heavy flex w-full items-start gap-4 rounded-2xl border-l-4 border-l-brand-orange p-5 shadow-xl", cls]}>
+  <Icon name="warning" variant="bare" tone="orange" filled class="mt-1" />
+  <div>
+    <p class="font-caption text-caption leading-tight text-on-surface-variant">
+      <strong>Aviso Importante:</strong><br /> vetoxzyn® no es un medicamento, consulte a su médico veterinario.
+    </p>
+  </div>
+</div>

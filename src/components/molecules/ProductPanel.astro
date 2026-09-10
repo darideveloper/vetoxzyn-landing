@@ -1,0 +1,133 @@
+---
+import Badge from "../atoms/Badge.astro"
+import { Button } from "@/components/atoms/Button"
+import ResponsiveImage from "../atoms/ResponsiveImage.astro"
+import SpecGrid from "./SpecGrid.astro"
+import topicoImg from "@/assets/products/topico-512.webp"
+import instalacionesImg from "@/assets/products/instalaciones-512.webp"
+
+interface Props {
+  tone?: "light" | "dark"
+}
+const { tone = "light" } = Astro.props
+const dark = tone === "dark"
+
+const pill = "No requiere enjuague"
+const title = dark ? "Instalaciones" : "Tópico"
+const headingId = dark ? "products-instalaciones-title" : "products-topico-title"
+const tagline = dark
+  ? "Superficies, instrumental, áreas de consulta y quirófano, agua."
+  : "Higiene tópica de piel, mucosas y áreas post-quirúrgicas."
+const img = dark ? instalacionesImg : topicoImg
+const imgAlt = dark
+  ? "Entorno clínico de la línea Instalaciones"
+  : "Entorno clínico luminoso de la línea Tópico"
+const pillIcon = dark ? "cleaning_services" : "water_drop"
+
+interface Spec {
+  term: string
+  value: string
+  note?: string
+  valueClass?: string
+  wide?: boolean
+}
+
+const SPECS: Record<"light" | "dark", Spec[]> = {
+  light: [
+    { term: "Concentración", value: "100 ppm", note: "(0.010%)" },
+    { term: "pH", value: "6.0–7.5", note: "(neutro)" },
+    { term: "ORP", value: "> 850 mV", valueClass: "font-bold text-brand-orange text-xl" },
+    { term: "Toxicidad", value: "Grado 0", note: "(no irritante)", valueClass: "font-semibold text-tertiary" },
+    { term: "Presentaciones", value: "30ml a 950ml", wide: true },
+  ],
+  dark: [
+    { term: "Concentración", value: "500 ppm", note: "(0.050%)" },
+    { term: "pH", value: "6.0–7.5", note: "(neutro)" },
+    { term: "ORP", value: "> 900 mV", valueClass: "font-bold text-secondary-container text-xl" },
+    { term: "Toxicidad", value: "Grado 0", note: "(no irritante)", valueClass: "font-semibold text-tertiary-fixed" },
+    { term: "Presentaciones", value: "1L · 4L · 20L", wide: true },
+  ],
+}
+---
+
+<article
+  aria-labelledby={headingId}
+  class:list={[
+    "group relative flex min-h-[100vh] w-full items-center justify-center overflow-hidden lg:w-1/2",
+    dark ? "bg-inverse-surface" : "border-r border-surface-container-highest bg-white",
+  ]}
+>
+  <div class="absolute inset-0 z-0">
+    <ResponsiveImage
+      src={img}
+      sizes="(max-width: 1024px) 100vw, 50vw"
+      alt={imgAlt}
+      class:list={[
+        "image-pan h-full w-full object-cover mix-blend-luminosity transition-all duration-1000 group-hover:mix-blend-normal",
+        dark ? "opacity-40" : "opacity-60",
+      ]}
+    />
+    <div
+      aria-hidden="true"
+      class:list={[
+        "absolute inset-0",
+        dark
+          ? "bg-gradient-to-tl from-inverse-surface/90 via-inverse-surface/60 to-transparent"
+          : "bg-gradient-to-br from-white/80 via-white/40 to-transparent",
+      ]}
+    ></div>
+  </div>
+  <div
+    class:list={[
+      "relative z-10 flex h-full w-full flex-col justify-between p-lg",
+      dark && "items-end text-right",
+    ]}
+  >
+    <div class="mt-xl mb-8">
+      <h3
+        id={headingId}
+        class:list={[
+          "mb-2 font-display-lg-mobile text-display-lg-mobile font-bold tracking-tighter",
+          dark ? "text-white" : "text-on-surface",
+        ]}
+      >
+        {title}
+      </h3>
+      <p
+        class:list={[
+          "max-w-[24rem] font-body-lg text-body-lg font-bold",
+          dark ? "ml-auto text-secondary-container" : "text-brand-orange",
+        ]}
+      >
+        {tagline}
+      </p>
+    </div>
+    <div
+      class:list={[
+        "relative mt-auto mb-md w-full max-w-[28rem] overflow-hidden rounded-2xl p-md shadow-2xl",
+        dark ? "hud-panel-dark text-left text-gray-200 sm:mr-md" : "hud-panel sm:ml-md",
+      ]}
+    >
+      <div
+        class:list={[
+          "absolute top-0 h-full w-1",
+          dark ? "right-0 bg-secondary-container" : "left-0 bg-brand-orange",
+        ]}
+        aria-hidden="true"
+      ></div>
+      <SpecGrid tone={tone} items={SPECS[tone]} />
+      <Button variant="product" tone={tone} href="#section-5" className="mt-md">
+        Ver ficha técnica
+        <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span>
+      </Button>
+    </div>
+    <div
+      class:list={[
+        "absolute bottom-lg z-30 hidden sm:flex writing-vertical",
+        dark ? "right-4" : "left-4 rotate-180",
+      ]}
+    >
+      <Badge icon={pillIcon} class="font-bold tracking-widest uppercase">{pill}</Badge>
+    </div>
+  </div>
+</article>

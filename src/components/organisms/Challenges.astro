@@ -1,32 +1,7 @@
 ---
-import { Image } from "astro:assets"
-import Eyebrow from "@/components/atoms/Eyebrow.astro"
-import Icon from "@/components/atoms/Icon.astro"
-import Badge from "@/components/atoms/Badge.astro"
-import challengesImg from "@/assets/challenges/challenges-clinica-512.webp"
-
-const features = [
-  {
-    icon: "shield",
-    title: "Cero Corrosión",
-    challenge: "El cloro corroe tu instrumental y encarece su reposición.",
-    solution: "Tecnología oxidativa que protege tu inversión y optimiza tus márgenes.",
-  },
-  {
-    icon: "water_drop",
-    title: "Alta Pureza",
-    challenge: "Necesitas limpieza tópica segura sin dañar el tejido.",
-    solution:
-      "Fórmula biomimética de alta pureza y baja irritabilidad que mantiene condiciones óptimas en la piel.",
-  },
-  {
-    icon: "eco",
-    title: "Biodegradable",
-    challenge: "Los protocolos dejan residuos y riesgo regulatorio.",
-    solution:
-      "Auxiliar de higiene sin residuos persistentes, sin inducir resistencia microbiana.",
-  },
-]
+import SectionHeader from "@/components/molecules/SectionHeader.astro"
+import FeatureList from "@/components/molecules/FeatureList.astro"
+import MediaWithTags from "@/components/molecules/MediaWithTags.astro"
 ---
 
 <section
@@ -36,49 +11,19 @@ const features = [
 >
   <div class="relative z-10 mx-auto grid w-full max-w-max-width grid-cols-1 items-center gap-lg px-gutter lg:grid-cols-12 lg:gap-0">
     <div class="relative z-10 rounded-[24px] border border-gray-100 bg-white p-8 shadow-[0_20px_50px_rgba(0,0,0,0.08)] md:p-12 lg:col-span-7">
-      <Eyebrow>Dr. Resultados</Eyebrow>
-      <h2 id="challenges-heading" class="mt-md font-display-lg-mobile text-4xl leading-tight md:text-5xl">
-        Transciende los Obstáculos Clínicos
-      </h2>
-      <p class="mt-sm max-w-2xl font-body-lg text-body-lg text-on-surface-variant">
-        Soluciones biomiméticas diseñadas para superar los desafíos diarios en bioseguridad e higiene veterinaria, garantizando resultados predecibles y seguros.
-      </p>
-      <div class="mt-lg flex flex-col gap-8">
-        {features.map((f) => (
-          <div class="flex items-start gap-5">
-            <Icon name={f.icon} tone="orange" size="lg" />
-            <div>
-              <h4 class="font-display-lg-mobile text-xl">{f.title}</h4>
-              <p class="font-body-md text-sm leading-relaxed text-on-surface-variant md:text-base">
-                <span class="font-semibold text-on-surface">Desafío:</span> {f.challenge}<br />
-                <span class="font-semibold text-brand-orange">Solución:</span> {f.solution}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
+      <SectionHeader
+        eyebrow="Dr. Resultados"
+        subtitle="Soluciones biomiméticas diseñadas para superar los desafíos diarios en bioseguridad e higiene veterinaria, garantizando resultados predecibles y seguros."
+        subtitleClass="mt-sm max-w-2xl font-body-lg text-body-lg text-on-surface-variant"
+      >
+        <h2 id="challenges-heading" slot="title" class="mt-md font-display-lg-mobile text-4xl leading-tight md:text-5xl">
+          Transciende los Obstáculos Clínicos
+        </h2>
+      </SectionHeader>
+      <FeatureList />
     </div>
     <div class="relative z-20 mt-lg lg:col-span-5 lg:mt-0 lg:-ml-16">
-      <div class="tilt-float relative rounded-[32px] border border-gray-100 bg-white p-4 shadow-[0_30px_60px_rgba(0,0,0,0.15)] transition-transform duration-500">
-        <div class="relative aspect-[4/5] w-full overflow-hidden rounded-[24px] bg-surface-container-highest">
-          <Image
-            src={challengesImg}
-            widths={[384, 512]}
-            sizes="(max-width: 1024px) 100vw, 512px"
-            loading="lazy"
-            decoding="async"
-            alt="Personal veterinario atendiendo a un perro sobre una camilla clínica"
-            class="h-full w-full object-cover"
-          />
-          <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-        </div>
-        <div class="absolute top-12 left-0 z-30 lg:-ml-6">
-          <Badge variant="tag" tone="dark">CLINICAL GRADE</Badge>
-        </div>
-        <div class="absolute right-0 bottom-16 z-30 lg:-mr-6">
-          <Badge variant="tag" tone="light" icon="verified">99.9% PURE</Badge>
-        </div>
-      </div>
+      <MediaWithTags />
     </div>
   </div>
 </section>

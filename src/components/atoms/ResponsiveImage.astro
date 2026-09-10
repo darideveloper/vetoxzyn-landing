@@ -1,0 +1,35 @@
+---
+import { Image } from "astro:assets"
+
+// Local images only — external URLs stay in Avatar/DividerImage (plain <img>).
+interface Props {
+  src: ImageMetadata
+  alt: string
+  sizes: string
+  eager?: boolean
+  class?: string | string[]
+}
+const { src, alt, sizes, eager = false, class: cls = "" } = Astro.props
+---
+
+{eager ? (
+  <Image
+    src={src}
+    widths={[384, 512]}
+    sizes={sizes}
+    loading="eager"
+    fetchpriority="high"
+    alt={alt}
+    class:list={[cls]}
+  />
+) : (
+  <Image
+    src={src}
+    widths={[384, 512]}
+    sizes={sizes}
+    loading="lazy"
+    decoding="async"
+    alt={alt}
+    class:list={[cls]}
+  />
+)}

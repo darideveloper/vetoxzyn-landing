@@ -1,0 +1,13 @@
+---
+import NavLink from "../atoms/NavLink.astro"
+import ContactLinks from "./ContactLinks.astro"
+---
+
+<nav class="mx-auto flex max-w-5xl items-center justify-between px-4 py-3" aria-label="Primary">
+  <NavLink href="/" class="font-semibold">Vetoxzyn</NavLink>
+  <div class="flex items-center gap-4 text-sm">
+    <NavLink href="/about">About</NavLink>
+    <NavLink href="/contact">Contact</NavLink>
+    <ContactLinks emailClass="hidden sm:inline" />
+  </div>
+</nav>

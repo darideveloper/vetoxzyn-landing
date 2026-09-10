@@ -1,0 +1,11 @@
+---
+import { BUSINESS_DATA } from "@/data/site-config"
+import ContactLinks from "./ContactLinks.astro"
+---
+
+<div class="mx-auto flex max-w-5xl flex-col gap-2 px-4 py-6 text-sm sm:flex-row sm:items-center sm:justify-between">
+  <p>© {new Date().getFullYear()} {BUSINESS_DATA.name}</p>
+  <div class="flex gap-4">
+    <ContactLinks />
+  </div>
+</div>

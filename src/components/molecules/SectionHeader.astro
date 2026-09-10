@@ -1,0 +1,44 @@
+---
+import Eyebrow from "../atoms/Eyebrow.astro"
+
+// Shared section heading: optional eyebrow + title + subtitle.
+// `level` sets the heading tag for string titles; the `title` slot bypasses it
+// (preserves ids and inline markup, e.g. Hero h1#hero-heading, contact gradient).
+interface Props {
+  eyebrow?: string
+  title?: string
+  titleClass?: string
+  level?: "h1" | "h2"
+  subtitle?: string
+  subtitleClass?: string
+  align?: "left" | "center"
+  class?: string
+}
+const {
+  eyebrow,
+  title,
+  titleClass = "",
+  level = "h2",
+  subtitle,
+  subtitleClass = "",
+  align = "left",
+  class: cls = "",
+} = Astro.props
+const Tag = level === "h1" ? "h1" : "h2"
+const hasTitleSlot = Astro.slots.has("title")
+const hasSubtitleSlot = Astro.slots.has("subtitle")
+---
+
+<div class:list={[align === "center" && "text-center", cls]}>
+  {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+  {title ? (
+    <Tag class={titleClass}>{title}</Tag>
+  ) : (
+    hasTitleSlot && <slot name="title" />
+  )}
+  {subtitle ? (
+    <p class={subtitleClass}>{subtitle}</p>
+  ) : (
+    hasSubtitleSlot && <slot name="subtitle" />
+  )}
+</div>

@@ -1,0 +1,27 @@
+---
+import Icon from "../atoms/Icon.astro"
+import ResponsiveImage from "../atoms/ResponsiveImage.astro"
+import heroImg from "@/assets/hero/hero-clinica-512.webp"
+---
+
+<div class="glass-panel shadow-ambient tilt-float relative aspect-[4/5] w-full max-w-[28rem] overflow-hidden rounded-xl border-l-[4px] border-l-brand-pink">
+  <ResponsiveImage
+    src={heroImg}
+    sizes="(max-width: 1024px) 100vw, 512px"
+    eager
+    alt="Instrumental quirúrgico veterinario sobre una bandeja estéril"
+    class="h-full w-full object-cover opacity-80 mix-blend-luminosity"
+  />
+  <div class="absolute right-md bottom-md left-md">
+    <div class="flex items-center justify-between rounded-lg border border-glass-border bg-surface-ice/80 p-sm backdrop-blur-md">
+      <div class="flex items-center gap-sm">
+        <Icon name="biotech" filled />
+        <div>
+          <div class="font-label-bold text-label-bold">Dr. Resultados</div>
+          <div class="font-caption text-caption text-on-surface-variant">División Veterinaria</div>
+        </div>
+      </div>
+      <Icon name="verified" variant="bare" tone="primary" />
+    </div>
+  </div>
+</div>

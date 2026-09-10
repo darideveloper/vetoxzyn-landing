@@ -1,5 +1,6 @@
 ---
 import Card from "@/components/atoms/Card.astro"
+import Avatar from "@/components/atoms/Avatar.astro"
 import Icon from "@/components/atoms/Icon.astro"
 import type { Testimonial } from "@/data/testimonials"
 
@@ -17,13 +18,10 @@ const accents = {
 <div class="relative h-full pt-12">
   <Card class="tilt-float relative h-full overflow-visible">
     <div aria-hidden="true" class:list={["absolute top-0 left-0 h-full w-1 rounded-l-xl", accents[accent].bar]}></div>
-    <img
+    <Avatar
       src={avatar}
       alt={`Foto de ${name}`}
-      width="96"
-      height="96"
-      loading="lazy"
-      class="absolute -top-12 left-1/2 h-24 w-24 -translate-x-1/2 rounded-full border-4 border-white object-cover shadow-lg"
+      class="absolute -top-12 left-1/2 -translate-x-1/2"
     />
     <div class="relative z-10 flex h-full flex-col">
       <div class="h-8" aria-hidden="true"></div>

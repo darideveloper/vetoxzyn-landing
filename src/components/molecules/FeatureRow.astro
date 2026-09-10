@@ -1,0 +1,22 @@
+---
+import Icon from "../atoms/Icon.astro"
+
+interface Props {
+  icon: string
+  title: string
+  challenge: string
+  solution: string
+}
+const { icon, title, challenge, solution } = Astro.props
+---
+
+<div class="flex items-start gap-5">
+  <Icon name={icon} tone="orange" size="lg" />
+  <div>
+    <h4 class="font-display-lg-mobile text-xl">{title}</h4>
+    <p class="font-body-md text-sm leading-relaxed text-on-surface-variant md:text-base">
+      <span class="font-semibold text-on-surface">Desafío:</span> {challenge}<br />
+      <span class="font-semibold text-brand-orange">Solución:</span> {solution}
+    </p>
+  </div>
+</div>

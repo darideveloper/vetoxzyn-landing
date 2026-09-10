@@ -1,0 +1,23 @@
+---
+// Spec dt/dd cell for the product spec grids. Value markup goes in the slot;
+// `valueClass` replaces the tone default when a cell needs custom styling;
+// `wide` spans both grid columns (e.g. Presentaciones).
+interface Props {
+  term: string
+  tone?: "light" | "dark"
+  wide?: boolean
+  valueClass?: string
+}
+const { term, tone = "light", wide = false, valueClass } = Astro.props
+
+const dtCls =
+  tone === "dark"
+    ? "mb-1 text-[10px] font-bold tracking-widest text-gray-400 uppercase"
+    : "mb-1 text-[10px] font-bold tracking-widest text-on-surface-variant uppercase"
+const ddCls = valueClass ?? (tone === "dark" ? "font-semibold text-white" : "font-semibold")
+---
+
+<div class:list={[wide && "col-span-2"]}>
+  <dt class={dtCls}>{term}</dt>
+  <dd class={ddCls}><slot /></dd>
+</div>

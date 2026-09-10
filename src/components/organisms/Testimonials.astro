@@ -1,5 +1,6 @@
 ---
-import Eyebrow from "@/components/atoms/Eyebrow.astro"
+import DividerImage from "@/components/atoms/DividerImage.astro"
+import SectionHeader from "@/components/molecules/SectionHeader.astro"
 import TestimonialCard from "@/components/molecules/TestimonialCard.astro"
 import { TESTIMONIALS } from "@/data/testimonials"
 
@@ -16,13 +17,16 @@ const DIVIDERS = [
   <div aria-hidden="true" class="absolute -bottom-40 -left-40 -z-10 h-[500px] w-[500px] rounded-full bg-brand-pink/10 blur-3xl"></div>
   <div class="max-w-max-width mx-auto px-margin-mobile md:px-margin-desktop">
     <div class="mb-xl text-center">
-      <Eyebrow>EVIDENCIA CLÍNICA</Eyebrow>
-      <h2 id="testimonials-heading" class="mt-4 font-display-lg text-[32px] leading-[1.25] font-bold text-on-surface md:text-[48px] md:leading-[1.2]">
-        Lo que dicen los veterinarios
-      </h2>
-      <p class="mx-auto mt-4 max-w-2xl font-body-lg text-body-lg text-on-surface-variant">
-        Experiencias reales documentadas sobre la integración de matrices bioseguras en la práctica clínica diaria.
-      </p>
+      <SectionHeader
+        align="center"
+        eyebrow="EVIDENCIA CLÍNICA"
+        subtitle="Experiencias reales documentadas sobre la integración de matrices bioseguras en la práctica clínica diaria."
+        subtitleClass="mx-auto mt-4 max-w-2xl font-body-lg text-body-lg text-on-surface-variant"
+      >
+        <h2 id="testimonials-heading" slot="title" class="mt-4 font-display-lg text-[32px] leading-[1.25] font-bold text-on-surface md:text-[48px] md:leading-[1.2]">
+          Lo que dicen los veterinarios
+        </h2>
+      </SectionHeader>
     </div>
     <div class="mt-12 grid grid-cols-1 gap-gutter md:grid-cols-[1fr_5vw_1fr_5vw_1fr]">
       {TESTIMONIALS.map((t, i) => (
@@ -30,7 +34,7 @@ const DIVIDERS = [
           <TestimonialCard quote={t.quote} name={t.name} role={t.role} accent={t.accent} avatar={t.avatar} />
           {i < TESTIMONIALS.length - 1 && (
             <div aria-hidden="true" class="h-24 w-full overflow-hidden rounded-xl md:h-[60%] md:self-center">
-              <img src={DIVIDERS[i]} alt="" width="600" height="600" loading="lazy" class="h-full w-full object-cover" />
+              <DividerImage src={DIVIDERS[i]} />
             </div>
           )}
         </>

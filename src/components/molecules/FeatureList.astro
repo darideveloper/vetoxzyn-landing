@@ -1,0 +1,32 @@
+---
+import FeatureRow from "./FeatureRow.astro"
+
+const features = [
+  {
+    icon: "shield",
+    title: "Cero Corrosión",
+    challenge: "El cloro corroe tu instrumental y encarece su reposición.",
+    solution: "Tecnología oxidativa que protege tu inversión y optimiza tus márgenes.",
+  },
+  {
+    icon: "water_drop",
+    title: "Alta Pureza",
+    challenge: "Necesitas limpieza tópica segura sin dañar el tejido.",
+    solution:
+      "Fórmula biomimética de alta pureza y baja irritabilidad que mantiene condiciones óptimas en la piel.",
+  },
+  {
+    icon: "eco",
+    title: "Biodegradable",
+    challenge: "Los protocolos dejan residuos y riesgo regulatorio.",
+    solution:
+      "Auxiliar de higiene sin residuos persistentes, sin inducir resistencia microbiana.",
+  },
+]
+---
+
+<div class="mt-lg flex flex-col gap-8">
+  {features.map((f) => (
+    <FeatureRow icon={f.icon} title={f.title} challenge={f.challenge} solution={f.solution} />
+  ))}
+</div>

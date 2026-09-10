@@ -1,0 +1,18 @@
+---
+// Plain <img> square divider — external URLs only (picsum), never astro:assets.
+interface Props {
+  src: string
+  alt?: string
+  class?: string
+}
+const { src, alt = "", class: cls = "" } = Astro.props
+---
+
+<img
+  src={src}
+  alt={alt}
+  width="600"
+  height="600"
+  loading="lazy"
+  class:list={["h-full w-full object-cover", cls]}
+/>

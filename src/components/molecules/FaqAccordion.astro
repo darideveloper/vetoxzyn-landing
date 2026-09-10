@@ -1,0 +1,52 @@
+---
+import Icon from "../atoms/Icon.astro"
+import FaqItem from "./FaqItem.astro"
+
+interface Props {
+  class?: string
+}
+const { class: cls = "" } = Astro.props
+
+const faqs = [
+  {
+    q: "¿Es un desinfectante clínico de grado médico?",
+    a: "Es una tecnología oxidativa sin residuos para protocolos de limpieza veterinaria, con protección de instrumental (cero corrosión) y desinfección superficial.",
+  },
+  {
+    q: "¿Cura heridas profundas o infectadas?",
+    a: "Ayuda a mantener la zona limpia para apoyar el proceso de estabilización del tejido. Su función principal es la higiene; consulte a su médico veterinario.",
+  },
+  {
+    q: "¿Deja residuos en quirófano?",
+    a: "No genera residuos persistentes; sus componentes base son agua y sales minerales.",
+  },
+]
+---
+
+<div data-faq class:list={["glass-panel-heavy w-full rounded-3xl p-8 shadow-2xl backdrop-blur-md rotate-[1deg] lg:rotate-[3deg]", cls]}>
+  <div class="mb-8 flex items-center gap-4">
+    <Icon name="info" variant="circle" tone="pink" size="lg" filled />
+    <h3 class="font-headline-sm text-headline-sm m-0 leading-none text-on-surface">Frecuencia de Diagnóstico</h3>
+  </div>
+  <div class="space-y-3">
+    {faqs.map((f) => (
+      <FaqItem q={f.q} a={f.a} />
+    ))}
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll("[data-faq]").forEach((root) => {
+    root.querySelectorAll("details").forEach((detail) => {
+      detail.addEventListener("toggle", () => {
+        if (detail.open) {
+          root.querySelectorAll("details").forEach((other) => {
+            if (other !== detail && other.open) {
+              other.open = false;
+            }
+          });
+        }
+      });
+    });
+  });
+</script>
