@@ -73,6 +73,17 @@ MUST read `docs/astro-atomic-components.md` before any create/edit in
 - Atom-to-atom imports must stay acyclic.
 - Never scaffold `ui/` or `Validated*`. When in doubt, stop and ask instead of guessing.
 
+## Interaction Feedback (mandatory)
+
+Source of truth: `openspec/specs/interaction-feedback/spec.md` + `openspec/specs/global-atoms/spec.md`.
+MUST follow on any create/edit affecting hover, cursor, focus, or motion in `src/**`.
+
+- Tokens only: `--duration-hover` / `--ease-hover` in `global.css` `@theme`. Never hardcode durations/easings.
+- Shared classes only: `.lift` (pressables), `.link` (NavLink), `.hover-subtle` (display containers). No per-component hover inventions.
+- Cursor: base layer covers `button` / `[role="button"]` / `summary`; `NavLink` + `Button` anchor branch carry explicit `cursor-pointer`. NEVER `cursor-pointer` on static content; NEVER `outline-none` (kills the shared `:focus-visible` ring).
+- Container rule: `.hover-subtle` lives on containers, never on `Icon` glyphs or inner images. Layout chrome (`SectionHeader`, `FormulaStrip`, product articles, backdrops, nav chrome) stays motionless.
+- Pressables get the trio: `hover` + `active:scale` + `disabled:` states. Decorative motion gets `motion-safe:` / reduced-motion parity.
+
 ## Component Dependency Map (mandatory living doc)
 
 Living reference: `docs/component-dependencies.md` (project override — not repo root).
@@ -107,6 +118,7 @@ Before a task touching a domain, read the corresponding existing doc:
 | Dockerfile / pnpm / nginx deploy | `docs/astro-docker-deployment.md` |
 | `<ClientRouter />` page transitions | `docs/astro-client-side-page-transitions.md` |
 | Portless dev / `.localhost` URLs | `docs/astro-portless.md` |
+| Hover / cursor / motion / focus states | `openspec/specs/interaction-feedback/spec.md` |
 
 ## Documentation
 

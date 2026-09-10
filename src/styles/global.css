@@ -74,11 +74,78 @@
   --text-massive--line-height: 0.8;
   --text-massive--letter-spacing: -0.05em;
   --text-massive--font-weight: 900;
+
+  /* Unified interaction-feedback tokens (single source of motion truth) */
+  --duration-hover: 250ms;
+  --ease-hover: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Base cursor / focus / marker contract (Tailwind v4 sets button to default) */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled),
+  summary {
+    cursor: pointer;
+  }
+  :disabled {
+    cursor: not-allowed;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-brand-orange);
+    outline-offset: 2px;
+  }
+  summary {
+    list-style: none;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary::marker {
+    content: "";
+  }
+}
+
+/* Shared hover language: .lift (pressables), .link (NavLink), .hover-subtle (display) */
+.lift {
+  transition:
+    transform var(--duration-hover) var(--ease-hover),
+    box-shadow var(--duration-hover) var(--ease-hover),
+    background-color var(--duration-hover) var(--ease-hover),
+    border-color var(--duration-hover) var(--ease-hover),
+    color var(--duration-hover) var(--ease-hover);
+}
+.lift:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+.link {
+  transition:
+    color var(--duration-hover) var(--ease-hover),
+    text-decoration-color var(--duration-hover) var(--ease-hover),
+    text-underline-offset var(--duration-hover) var(--ease-hover);
+  text-underline-offset: 3px;
+}
+.link:hover {
+  color: var(--color-brand-orange);
+  text-decoration-line: underline;
+}
+
+.hover-subtle {
+  transition:
+    transform var(--duration-hover) var(--ease-hover),
+    box-shadow var(--duration-hover) var(--ease-hover),
+    filter var(--duration-hover) var(--ease-hover);
+}
+.hover-subtle:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.03);
 }
 
 /* Stitch hero effects (from 01-hero-layout <style>) */
+/* ponytail: .tilt-float MUST stay after .hover-subtle — equal specificity,
+   so source order decides which :hover transform wins on tilted cards. */
 .tilt-float {
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: transform var(--duration-hover) var(--ease-hover);
 }
 .tilt-float:hover {
   transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) scale3d(1.02, 1.02, 1.02) translateY(-4px);
@@ -117,6 +184,12 @@
 @media (prefers-reduced-motion: reduce) {
   .blob-bg { animation: none; }
   .tilt-float { transition: none; }
+  .tilt-float:hover { transform: none; }
+  .lift { transition: none; }
+  .lift:hover { transform: none; }
+  .link { transition: none; }
+  .hover-subtle { transition: none; }
+  .hover-subtle:hover { transform: none; filter: none; }
   .image-pan { animation: none; }
   .organic-blob-1 { animation: none; }
   .organic-blob-2 { animation: none; }

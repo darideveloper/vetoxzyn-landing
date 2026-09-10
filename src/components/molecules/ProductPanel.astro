@@ -63,7 +63,7 @@ const SPECS: Record<"light" | "dark", Spec[]> = {
       sizes="(max-width: 1024px) 100vw, 50vw"
       alt={imgAlt}
       class:list={[
-        "image-pan h-full w-full object-cover mix-blend-luminosity transition-all duration-1000 group-hover:mix-blend-normal",
+        "image-pan h-full w-full object-cover mix-blend-luminosity transition-all duration-[var(--duration-hover)] ease-[var(--ease-hover)] group-hover:mix-blend-normal",
         dark ? "opacity-40" : "opacity-60",
       ]}
     />

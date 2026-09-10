@@ -23,10 +23,11 @@ const sizes = {
 
 const variants = {
   primary:
-    "rounded-full bg-[#fd530a] font-bold text-white shadow-[0_20px_40px_-10px_rgba(219,111,133,0.25)] transition-transform hover:scale-105",
+    "lift rounded-full bg-[#fd530a] font-bold text-white shadow-[0_20px_40px_-10px_rgba(219,111,133,0.25)] active:scale-[.98] disabled:cursor-not-allowed disabled:opacity-60",
   secondary:
-    "rounded-full border-2 border-[#a83200]/40 bg-transparent font-bold text-[#a83200] transition hover:scale-105 hover:border-[#a83200] hover:bg-[#a83200]/10",
-  product: "w-full rounded px-4 py-3 text-sm font-bold uppercase tracking-wider transition-colors",
+    "lift rounded-full border-2 border-[#a83200]/40 bg-transparent font-bold text-[#a83200] hover:border-[#a83200] hover:bg-[#a83200]/10 active:scale-[.98] disabled:cursor-not-allowed disabled:opacity-60",
+  product:
+    "lift w-full rounded px-4 py-3 text-sm font-bold uppercase tracking-wider active:scale-[.98] disabled:cursor-not-allowed disabled:opacity-60",
 } as const
 
 const tones = {
@@ -52,7 +53,7 @@ export function Button({
   )
   if (href !== undefined) {
     return (
-      <a href={href} className={cls} {...props}>
+      <a href={href} className={cn(cls, "cursor-pointer")} {...props}>
         {children}
       </a>
     )

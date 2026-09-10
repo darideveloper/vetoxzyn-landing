@@ -8,7 +8,7 @@ interface Props {
 const { class: cls = "" } = Astro.props
 ---
 
-<div class:list={["w-full overflow-hidden rounded-3xl border-4 border-white/80 shadow-2xl rotate-[-1deg] lg:-rotate-3", cls]}>
+<div class:list={["hover-subtle w-full overflow-hidden rounded-3xl border-4 border-white/80 shadow-2xl rotate-[-1deg] lg:-rotate-3", cls]}>
   <ResponsiveImage
     src={contactImg}
     sizes="(max-width: 1024px) 100vw, 480px"

@@ -27,7 +27,7 @@ export function Input({ field, useField = defaultUseField, label, className, ...
       )}
       <input
         className={cn(
-          "w-full border-0 border-b-2 border-black/10 bg-transparent px-0 py-3 text-lg transition-colors outline-none",
+          "w-full border-0 border-b-2 border-black/10 bg-transparent px-0 py-3 text-lg transition-colors duration-[var(--duration-hover)] ease-[var(--ease-hover)] hover:border-black/30",
           "focus:border-[#fd530a] placeholder:text-[#5c4038]/40",
           error ? "border-red-500" : "",
           className

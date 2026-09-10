@@ -8,10 +8,10 @@ interface Props {
 const { q, a } = Astro.props
 ---
 
-<details class="group cursor-pointer rounded-2xl border border-white/50 bg-white/60 p-5 shadow-sm transition-all hover:bg-white/90">
-  <summary class="font-label-bold text-label-bold flex list-none items-center justify-between text-on-surface outline-none">
+<details class="group rounded-2xl border border-white/50 bg-white/60 p-5 shadow-sm transition-all duration-[var(--duration-hover)] ease-[var(--ease-hover)] hover:bg-white/90">
+  <summary class="font-label-bold text-label-bold flex cursor-pointer list-none items-center justify-between text-on-surface">
     {q}
-    <Icon name="add_circle" variant="bare" tone="orange" class="transition-transform group-open:rotate-180" />
+    <Icon name="add_circle" variant="bare" tone="orange" class="transition-transform duration-[var(--duration-hover)] ease-[var(--ease-hover)] group-open:rotate-180" />
   </summary>
   <div class="font-body-md text-body-md mt-4 leading-relaxed text-on-surface-variant">
     {a}
