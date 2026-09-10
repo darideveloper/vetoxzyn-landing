@@ -5,7 +5,7 @@ import type { Testimonial } from "@/data/testimonials"
 
 type Props = Testimonial
 
-const { quote, name, role, accent } = Astro.props
+const { quote, name, role, accent, avatar } = Astro.props
 
 const accents = {
   orange: { bar: "bg-brand-orange", tone: "orange" },
@@ -14,10 +14,20 @@ const accents = {
 } as const
 ---
 
-<Card class="tilt-float relative h-full overflow-hidden">
-  <div aria-hidden="true" class:list={["absolute top-0 left-0 h-full w-1", accents[accent].bar]}></div>
-  <div class="relative z-10 flex h-full flex-col">
-    <div class="mb-4" aria-hidden="true">
+<div class="relative h-full pt-12">
+  <Card class="tilt-float relative h-full overflow-visible">
+    <div aria-hidden="true" class:list={["absolute top-0 left-0 h-full w-1 rounded-l-xl", accents[accent].bar]}></div>
+    <img
+      src={avatar}
+      alt={`Foto de ${name}`}
+      width="96"
+      height="96"
+      loading="lazy"
+      class="absolute -top-12 left-1/2 h-24 w-24 -translate-x-1/2 rounded-full border-4 border-white object-cover shadow-lg"
+    />
+    <div class="relative z-10 flex h-full flex-col">
+      <div class="h-8" aria-hidden="true"></div>
+      <div class="mb-4" aria-hidden="true">
       <Icon name="format_quote" variant="bare" filled tone={accents[accent].tone} class="text-4xl opacity-50" />
     </div>
     <p class="mb-lg font-body-lg text-body-lg text-on-surface italic">{quote}</p>
@@ -27,3 +37,4 @@ const accents = {
     </div>
   </div>
 </Card>
+</div>

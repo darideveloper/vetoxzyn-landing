@@ -2,6 +2,12 @@
 import Eyebrow from "@/components/atoms/Eyebrow.astro"
 import TestimonialCard from "@/components/molecules/TestimonialCard.astro"
 import { TESTIMONIALS } from "@/data/testimonials"
+
+// Square placeholder dividers (swap URLs only when brand art lands).
+const DIVIDERS = [
+  "https://picsum.photos/id/237/600/600",
+  "https://picsum.photos/id/1025/600/600",
+]
 ---
 
 <section id="section-3" aria-labelledby="testimonials-heading" class="relative overflow-hidden py-xl">
@@ -18,9 +24,16 @@ import { TESTIMONIALS } from "@/data/testimonials"
         Experiencias reales documentadas sobre la integración de matrices bioseguras en la práctica clínica diaria.
       </p>
     </div>
-    <div class="grid grid-cols-1 gap-gutter md:grid-cols-3">
-      {TESTIMONIALS.map((t) => (
-        <TestimonialCard quote={t.quote} name={t.name} role={t.role} accent={t.accent} />
+    <div class="mt-12 grid grid-cols-1 gap-gutter md:grid-cols-[1fr_5vw_1fr_5vw_1fr]">
+      {TESTIMONIALS.map((t, i) => (
+        <>
+          <TestimonialCard quote={t.quote} name={t.name} role={t.role} accent={t.accent} avatar={t.avatar} />
+          {i < TESTIMONIALS.length - 1 && (
+            <div aria-hidden="true" class="h-24 w-full overflow-hidden rounded-xl md:h-[60%] md:self-center">
+              <img src={DIVIDERS[i]} alt="" width="600" height="600" loading="lazy" class="h-full w-full object-cover" />
+            </div>
+          )}
+        </>
       ))}
     </div>
   </div>

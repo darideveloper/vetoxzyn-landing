@@ -75,9 +75,10 @@ index.astro
 ├── organisms/Testimonials.astro (static, id="section-3", no client: directive)
 │   ├── atoms/Eyebrow.astro (E2, "EVIDENCIA CLÍNICA")
 │   ├── molecules/TestimonialCard.astro ×3 ──► data/testimonials
-│   │   ├── atoms/Card.astro (C1 glass shell, relative h-full overflow + tilt-float)
-│   │   └── atoms/Icon.astro (bare filled format_quote, tone per accent)
-│   └── data/testimonials.ts (TESTIMONIALS const ×3, accent orange|pink|green)
+│   │   ├── atoms/Card.astro (C1 glass shell, relative h-full overflow-visible + tilt-float)
+│   │   ├── atoms/Icon.astro (bare filled format_quote, tone per accent)
+│   │   └── stock avatar <img> (absolute -top-12 centered, h-24 w-24 rounded-full, half-overflow)
+│   └── data/testimonials.ts (TESTIMONIALS const ×3, accent orange|pink|green + avatar URL)
 ├── organisms/Products.astro (static, no client: directive, id="section-4")
 │   ├── atoms/Badge.astro ×2 (feature vertical: water_drop + cleaning_services, P3-drop restyle)
 │   ├── atoms/Button.tsx ×2 (product tone light|dark href="#section-5", static render)
@@ -156,7 +157,7 @@ src/components/atoms/
 src/components/organisms/
 ├── Hero.astro    (static A2 hero: 01-hero-layout shell + bullet-list Icon rows; bespoke visual card, NOT Card C1) ──► atoms/{Eyebrow,Icon,Button} + astro:assets
 ├── Challenges.astro (static 02-challanges: content card + tilted overlapping media card; bespoke cards, NOT Card C1) ──► atoms/{Eyebrow,Icon,Badge} + astro:assets
-├── Testimonials.astro (static 03-testimonials: id="section-3" bg decor + E2 header + grid ×3 TestimonialCard) ──► molecules/TestimonialCard + atoms/Eyebrow + data/testimonials
+├── Testimonials.astro (static 03-testimonials: id="section-3" bg decor + E2 header + mt-12 grid card/divider/card/divider/card w/ overflow avatars; dividers 5vw×60% desktop, full×h-24 mobile) ──► molecules/TestimonialCard + atoms/Eyebrow + data/testimonials
 ├── Products.astro (static 04-products split: in-flow h2 header + light/dark panels + formula banner; HUD panels bespoke, NOT Card C1) ──► atoms/{Badge,Button} + astro:assets
 ├── ContactSection.astro (static 05-contact-form: section#section-5 shell with blob background + BIOSEGURIDAD massive type + in-flow header flattened from Stitch lg:absolute; asymmetric stack = ContactForm island base + static FAQ details + image/disclaimer; bespoke glass shells, NOT Card C1) ──► molecules/ContactForm + atoms/Icon + astro:assets
 ├── Header.astro
@@ -166,7 +167,7 @@ src/components/organisms/
 ```
 src/components/molecules/
 ├── ContactForm.tsx (client:load island, see Islands below)
-└── TestimonialCard.astro (static: Card C1 + bare Icon + footer) ──► atoms/{Card,Icon} + data/testimonials (type-only)
+└── TestimonialCard.astro (static: Card C1 + half-overflow avatar img + bare Icon + footer) ──► atoms/{Card,Icon} + data/testimonials (type-only)
 ```
 
 `Layout.astro` loads Material Symbols Outlined (FILL 0..1) for Icon/Badge/Eyebrow.
@@ -224,7 +225,7 @@ None.
 
 - `lib/utils.ts` — `cn()` class joiner (atoms only)
 - `data/site-config.ts` — PHONES, EMAIL, ADDRESS, SOCIAL_LINKS, GOOGLE_MAPS, BUSINESS_HOURS, BUSINESS_DATA (`as const`)
-- `data/testimonials.ts` — TESTIMONIALS (`as const` ×3: quote/name/role/accent) + `Testimonial`/`TestimonialAccent` types (testimonials section only)
+- `data/testimonials.ts` — TESTIMONIALS (`as const` ×3: quote/name/role/accent/avatar) + `Testimonial`/`TestimonialAccent` types (testimonials section only)
 - `src/consts.ts` — SITE_TITLE, SITE_DESCRIPTION (SEO fallback)
 - `styles/global.css` — tailwind v4 + tw-animate-css + `@theme inline` tokens
   (hero set + `04-products` set: inverse-surface, inverse-on-surface,
