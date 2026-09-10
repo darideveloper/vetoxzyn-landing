@@ -26,7 +26,7 @@ export function ContactForm() {
   }
 
   return (
-    <div className="glass-panel-heavy relative w-full rounded-3xl p-10 transition-transform duration-500 md:p-14 rotate-[-1deg] hover:rotate-0 lg:rotate-[-2deg]">
+    <div className="glass-panel-heavy relative w-full rounded-3xl p-10 transition-transform duration-[var(--duration-hover)] ease-[var(--ease-hover)] md:p-14 rotate-[-1deg] motion-safe:hover:rotate-0 lg:rotate-[-2deg]">
       <div aria-hidden="true" className="absolute top-8 right-8 h-12 w-12 rounded-full bg-brand-orange opacity-50 blur-xl mix-blend-multiply"></div>
       <form onSubmit={handleSubmit} noValidate className="relative z-10 space-y-8">
         <FormRow>

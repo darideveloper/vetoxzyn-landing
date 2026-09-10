@@ -17,7 +17,7 @@ const dtCls =
 const ddCls = valueClass ?? (tone === "dark" ? "font-semibold text-white" : "font-semibold")
 ---
 
-<div class:list={[wide && "col-span-2"]}>
+<div class:list={["hover-subtle", wide && "col-span-2"]}>
   <dt class={dtCls}>{term}</dt>
   <dd class={ddCls}><slot /></dd>
 </div>

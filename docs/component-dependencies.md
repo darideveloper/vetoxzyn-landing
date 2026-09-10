@@ -158,19 +158,19 @@ Input F1 underline; Textarea F3 glass; Checkbox F2 pill; Card C1 glass.
 
 ```
 src/components/atoms/
-├── Button.tsx    (React, variant primary|secondary|product, size md|sm, tone light|dark for product, optional href → renders <a> with identical classes) ──► lib/utils
-├── Input.tsx     (F1 underline, store-bound) ──► store/useField ──► store/contact
-├── Textarea.tsx  (F3 glass, store-bound) ──► store/useField ──► store/contact
-├── Checkbox.tsx  (F2 pill, store-bound) ──► store/useField ──► store/contact
-├── Icon.astro    (I1 circle default; variant bare, tone pink|orange|primary|green, size md|lg — GAP-A)
-├── Badge.astro   (P1 feature | P2 tag with tone dark|primary|light + icon — GAP-B)
-├── Eyebrow.astro (E2, static)
-├── Card.astro    (C1 glass shell, static)
-├── Avatar.astro      (plain <img>, h-24 rounded-full bordered — external URLs only, never astro:assets)
-├── DividerImage.astro (plain <img>, square lazy — external URLs only, never astro:assets)
+├── Button.tsx    (React, variant primary|secondary|product, size md|sm, tone light|dark for product, optional href → renders <a> with identical classes + explicit cursor-pointer; all variants .lift + active:scale-[.98] + disabled:opacity/cursor-not-allowed, pointer via base layer) ──► lib/utils
+├── Input.tsx     (F1 underline, store-bound, hover:border-black/30, token-timed, focus ring via base) ──► store/useField ──► store/contact
+├── Textarea.tsx  (F3 glass, store-bound, hover:border-black/30, token-timed, focus ring via base) ──► store/useField ──► store/contact
+├── Checkbox.tsx  (F2 pill, store-bound, cursor-pointer on label + input, token-timed wash) ──► store/useField ──► store/contact
+├── Icon.astro    (I1 circle default; variant bare, tone pink|orange|primary|green, size md|lg — GAP-A; deliberately motionless — parent containers own the motion)
+├── Badge.astro   (P1 feature | P2 tag with tone dark|primary|light + icon — GAP-B; .hover-subtle, pointer-free)
+├── Eyebrow.astro (E2, static; .hover-subtle, pointer-free)
+├── Card.astro    (C1 glass shell, static; .hover-subtle, pointer-free)
+├── Avatar.astro      (plain <img>, h-24 rounded-full bordered — external URLs only, never astro:assets; .hover-subtle, pointer-free)
+├── DividerImage.astro (plain <img>, square lazy — external URLs only, never astro:assets; .hover-subtle, pointer-free)
 ├── ResponsiveImage.astro (astro:assets wrapper, local images only: widths 384/512, sizes passthrough, eager? → eager/high-priority vs lazy/async)
-├── NavLink.astro     (href + class passthrough <a>)
-└── SpecItem.astro    (spec dt/dd cell: term + tone light|dark + wide? col-span-2 + valueClass override, value in slot)
+├── NavLink.astro     (.link + explicit cursor-pointer <a>: color + underline-offset hover, focus-visible parity)
+└── SpecItem.astro    (spec dt/dd cell: term + tone light|dark + wide? col-span-2 + valueClass override, value in slot; .hover-subtle, pointer-free)
 ```
 
 ```
@@ -197,16 +197,16 @@ src/components/molecules/
 ├── HeroActions.astro (2-Button CTA group) ──► atoms/Button ×2
 ├── HeroMediaCard.astro (glass image + credential chip inner markup) ──► atoms/{ResponsiveImage,Icon ×2} + assets/hero
 ├── FeatureList.astro (features const inside) ──► molecules/FeatureRow ×3
-├── FeatureRow.astro (Icon + title + desafío/solución) ──► atoms/Icon
+├── FeatureRow.astro (Icon + title + desafío/solución; .hover-subtle, pointer-free) ──► atoms/Icon
 ├── MediaWithTags.astro (tilted image + gradient + 2 absolute tags) ──► atoms/{ResponsiveImage,Badge ×2} + assets/challenges
 ├── ProductPanel.astro (tone light|dark: backdrop + header + SpecGrid + CTA + vertical pill; SPECS const inside) ──► atoms/{ResponsiveImage,Button,Badge} + molecules/SpecGrid + assets/products
 ├── SpecGrid.astro (tone + items → SpecItem grid) ──► atoms/SpecItem
 ├── FormulaStrip.astro (static formula banner)
 ├── FaqAccordion.astro (glass panel + header + single-open exclusivity script; faqs const inside) ──► molecules/FaqItem ×3 + atoms/Icon
-├── FaqItem.astro (details/summary + bare Icon) ──► atoms/Icon
+├── FaqItem.astro (cursor-pointer on summary only + token-timed wash + focus-visible ring + marker normalization) ──► atoms/Icon
 ├── ContactBackdrop.astro (static blobs + BIOSEGURIDAD massive type)
-├── ContactMedia.astro ──► atoms/ResponsiveImage + assets/contact
-├── DisclaimerNote.astro ──► atoms/Icon
+├── ContactMedia.astro (.hover-subtle, pointer-free) ──► atoms/ResponsiveImage + assets/contact
+├── DisclaimerNote.astro (.hover-subtle, pointer-free) ──► atoms/Icon
 ├── FormRow.tsx (grid wrapper, React children only)
 ├── InterestPicker.tsx ──► atoms/Checkbox ×3
 ├── FormSuccess.tsx ──► atoms/Button
@@ -280,9 +280,13 @@ None.
   (hero set + `04-products` set: inverse-surface, inverse-on-surface,
   secondary-container, on-secondary-container, tertiary + tertiary-fixed family;
   `05-contact-form` set: font-impact, text-massive (12vw/0.8/900/-0.05em);
+  interaction-feedback set (`unified-hover-cursor`): `--duration-hover` 250ms +
+  `--ease-hover` spring-lite, `@layer base` cursor restore (button/role-button/summary),
+  `:disabled` not-allowed, shared `:focus-visible` ring, summary marker normalization,
+  shared `.lift` / `.link` / `.hover-subtle` hover language;
   effects: tilt-float/blob/shadow-ambient/glass-panel + hud-panel/hud-panel-dark/
   writing-vertical/image-pan + glass-panel-heavy/organic-blob-1-2/deep-float-shadow/
-  floating-element/z-stack-1-2-3 with reduced-motion guard)
+  floating-element/z-stack-1-2-3 with reduced-motion guard incl. contact-panel straighten)
 - `store/contact.ts` — contactSchema (Zod: name/email/message required + clinica/telefono
   optional strings + lineaTopico/lineaInstalaciones/lineaDistribucion booleans), field map,
   setField/validateAll/reset, persist
@@ -316,6 +320,7 @@ None.
 - Testimonials section (`add-testimonials-section`, merged from `feature/testimonials`): `organisms/Testimonials.astro` = `03-testimonials` (E2 eyebrow `EVIDENCIA CLÍNICA` + 3-col grid of `molecules/TestimonialCard.astro` over `data/testimonials.ts`, Stitch verbatim ES copy); merge kept main's newer `Hero` (`max-w-[28rem]` card fix), `ContactForm` (`max-w-[32rem]`), `global.css` (products tokens + HUD/image-pan effects) and `hero-section` spec. `id` collision resolved by narrative order: Testimonials keeps `section-3`, Products moved to `section-4`, Hero secondary CTA (`Ver línea Tópico`) retargeted `#section-3` → `#section-4`.
 - Contact section (`add-contact-section`): `organisms/ContactSection.astro` replicates `design/stitch/05-contact-form` content (blob background + `BIOSEGURIDAD` massive type + in-flow header flattened from the Stitch `lg:absolute` overlay per Products precedent) as a simplified static grid in the standard `max-w-max-width` container — left column stacking FAQ + image + disclaimer, right column with the `ContactForm` island at full height; mild skew tilts, no overlap, float disabled (follow-up simplifications of the absolute overlap machine). Deviations from Stitch, all decided in explore: submit is voted `Button primary sm` + `arrow_forward` span (B5-large dropped; span not `Icon` atom — React island boundary); disclaimer sits beside the image in row 2 and stacks visible on mobile (Stitch `hidden lg:flex` dropped — compliance copy). Verified 0px overflow at 390/768/1024/1280/1440 on both `/` and `/contact` (headless, incl. FAQ exclusivity, island hydration, ES validation errors). Contact image is a `src/assets/contact/` placeholder (byte-reuse of the products crop, `TODO(replace)` in README); swap files with no markup change when brand art lands. `ContactForm` shell is now glass grid (`FormRow` `md:grid-cols-2`, pill group, `rows=3`, `flex justify-end` submit) and fully ES (island + store fallbacks + both page headings — the "labels partly EN" note is closed).
 - Organism decomposition (`split-organism-sections`, 2026-09-10): all 7 organisms thinned to section composition; 21 new molecules + 5 new atoms (see catalogues above). Decisions: single `SectionHeader` (title/subtitle as string props or slots — slots preserve `h1#hero-heading`, section `h2` ids, and the contact gradient span; eyebrow optional since Products/Contact headers have none); single `ProductPanel tone="light"|"dark"` (SPECS const + pill text inside the panel; mirrors Button `product tone` precedent); `FaqAccordion` owns the single-open exclusivity script (scoped `[data-faq]`, no inline script in organism); `ResponsiveImage` wraps `astro:assets` for local images only while `Avatar`/`DividerImage` stay plain `<img>` (external Unsplash/picsum URLs); `SpecItem wide?` covers the col-span-2 Presentaciones cell; single-use data consts (`bullets`, `features`, `faqs`) live inside their molecules, `DIVIDERS` URLs stay in Testimonials and pass as `src` props; grid placement classes stay at organism call sites via `class` passthrough (molecules own only their own look); molecule→molecule edges are parent→child composition only (ContactForm→FormRow trio, FaqAccordion→FaqItem, FeatureList→FeatureRow, ProductPanel→SpecGrid, PrimaryNav/FooterMeta→ContactLinks), acyclic; `NavLink` adopted in `contact.astro` intro + `404.astro` sitemap nav. `design-system.astro`/`_demos.tsx` + `about.astro` untouched by design. Pixel-identical output verified via build + content spot-checks.
+- Unified hover/cursor (`unified-hover-cursor`, 2026-09-10): no import/file/page changes (rg verified — trees above unchanged, class-only diff). Motion now token-driven (`--duration-hover`/`--ease-hover`); pointer via base layer + explicit `cursor-pointer` on `NavLink` and `Button` anchor branch; pressables on `.lift`, links on `.link`, display containers (`Badge`, `Eyebrow`, `Card`, `Avatar`, `SpecItem`, `FeatureRow`, `DisclaimerNote`, `ContactMedia`, `DividerImage`) on pointer-free `.hover-subtle`. Container rule: `Icon` glyphs and inner `ResponsiveImage` stay motionless so nested parents never double-animate (FAQ toggle icon no longer lifts inside its washing row); layout chrome (`SectionHeader`, `FormulaStrip`, product articles, backdrops, nav chrome) stays still. `FaqItem` pointer moved `details`→`summary` (former `outline-none` removed so the base focus ring shows); `Input`/`Textarea` dropped `outline-none` (same reason) and gained `hover:border-black/30`; `ContactForm` straighten gated `motion-safe:`; `MediaWithTags` transition dedupe (tilt owns it); product image blend retimed to the token. Tradeoff: `.tilt-float` + `.hover-subtle` both match on tilted cards — tilt wins by source order, locked with a `ponytail:` comment in `global.css`.
 
 ## Related
 

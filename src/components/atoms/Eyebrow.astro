@@ -7,7 +7,7 @@ interface Props {
 const { icon = "science", class: cls = "" } = Astro.props
 ---
 
-<span class:list={["inline-flex items-center gap-2 rounded-full bg-[#fd530a]/10 px-4 py-1.5", cls]}>
+<span class:list={["hover-subtle inline-flex items-center gap-2 rounded-full bg-[#fd530a]/10 px-4 py-1.5", cls]}>
   <span class="material-symbols-outlined filled text-sm text-[#fd530a]">{icon}</span>
   <span class="text-xs font-bold uppercase tracking-widest text-[#fd530a]"><slot /></span>
 </span>
