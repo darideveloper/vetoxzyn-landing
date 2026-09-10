@@ -21,7 +21,7 @@ export function ContactForm() {
 
   if (isSubmitted) {
     return (
-      <div className="glass-panel-heavy w-full rounded-3xl p-10 md:p-14 lg:rotate-[-2deg]">
+      <div className="glass-panel-heavy w-full rounded-3xl p-10 md:p-14 rotate-[-1deg] lg:rotate-[-2deg]">
         <p role="status" className="font-body-lg text-body-lg text-on-surface">
           Gracias — tu mensaje fue registrado. Te contactaremos pronto.
         </p>
@@ -33,7 +33,7 @@ export function ContactForm() {
   }
 
   return (
-    <div className="glass-panel-heavy relative w-full rounded-3xl p-10 transition-transform duration-500 md:p-14 lg:rotate-[-2deg] lg:hover:rotate-0">
+    <div className="glass-panel-heavy relative w-full rounded-3xl p-10 transition-transform duration-500 md:p-14 rotate-[-1deg] hover:rotate-0 lg:rotate-[-2deg]">
       <div aria-hidden="true" className="absolute top-8 right-8 h-12 w-12 rounded-full bg-brand-orange opacity-50 blur-xl mix-blend-multiply"></div>
       <form onSubmit={handleSubmit} noValidate className="relative z-10 space-y-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">

@@ -20,7 +20,7 @@ import contactImg from "@/assets/contact/contact-clinica-512.webp"
     </div>
   </div>
 
-  <div class="relative z-10 mx-auto flex w-full max-w-[1400px] flex-col items-center px-4 py-20 md:px-8">
+  <div class="relative z-10 mx-auto flex w-full max-w-max-width flex-col items-center px-gutter py-20">
     <!-- Header (flattened in-flow from the Stitch lg:absolute overlay) -->
     <div class="mb-12 w-full text-left">
       <h2 id="contact-heading" class="text-display-lg-mobile md:text-display-lg max-w-3xl leading-tight text-on-surface">
@@ -31,15 +31,15 @@ import contactImg from "@/assets/contact/contact-clinica-512.webp"
       </p>
     </div>
 
-    <!-- Asymmetric stack: stacked on mobile, absolute overlap at lg -->
-    <div class="relative flex w-full flex-col gap-8 lg:ml-auto lg:block lg:min-h-[800px] lg:w-2/3">
-      <!-- Contact form (base layer) -->
-      <div class="w-full lg:absolute lg:right-0 lg:bottom-10 lg:max-w-2xl z-stack-1">
+    <!-- Section grid: stacked on mobile, static 12-col grid at lg (no overlap) -->
+    <div class="grid w-full grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
+      <!-- Contact form (right column, full height) -->
+      <div class="w-full lg:col-span-7 lg:col-start-6 lg:row-span-3 lg:row-start-1">
         <ContactForm client:load />
       </div>
 
       <!-- FAQ layer (overlapping) -->
-      <div class="glass-panel-heavy floating-element w-full rounded-3xl p-8 shadow-2xl backdrop-blur-md lg:absolute lg:top-20 lg:-left-12 lg:max-w-[28rem] z-stack-2 lg:rotate-[3deg]">
+      <div class="glass-panel-heavy w-full rounded-3xl p-8 shadow-2xl backdrop-blur-md lg:col-span-5 lg:col-start-1 lg:row-start-1 rotate-[1deg] lg:rotate-[3deg]">
         <div class="mb-8 flex items-center gap-4">
           <Icon name="info" variant="circle" tone="pink" size="lg" filled />
           <h3 class="font-headline-sm text-headline-sm m-0 leading-none text-on-surface">Frecuencia de Diagnóstico</h3>
@@ -75,27 +75,26 @@ import contactImg from "@/assets/contact/contact-clinica-512.webp"
         </div>
       </div>
 
-      <!-- Image & disclaimer layer (stacked on mobile, anchored at lg) -->
-      <div class="floating-element flex w-full flex-col gap-6 lg:absolute lg:-left-20 lg:bottom-0 lg:w-80 z-stack-3" style="animation-delay: 2s;">
-        <div class="relative h-56 overflow-hidden rounded-3xl border-4 border-white/80 shadow-2xl">
-          <Image
-            src={contactImg}
-            widths={[384, 512]}
-            sizes="(max-width: 1024px) 100vw, 320px"
-            loading="lazy"
-            decoding="async"
-            alt="Clínica veterinaria de alta tecnología con superficies de vidrio e instrumental metálico bajo luz blanca"
-            class="h-full w-full object-cover"
-          />
-        </div>
-        <div class="glass-panel-heavy flex items-start gap-4 rounded-2xl border-l-4 border-l-brand-orange p-5 shadow-xl">
+      <!-- Image layer -->
+      <div class="w-full overflow-hidden rounded-3xl border-4 border-white/80 shadow-2xl lg:col-span-5 lg:col-start-1 lg:row-start-2 rotate-[-1deg] lg:-rotate-3">
+        <Image
+          src={contactImg}
+          widths={[384, 512]}
+          sizes="(max-width: 1024px) 100vw, 480px"
+          loading="lazy"
+          decoding="async"
+          alt="Clínica veterinaria de alta tecnología con superficies de vidrio e instrumental metálico bajo luz blanca"
+          class="h-auto w-full"
+        />
+      </div>
+      <!-- Disclaimer layer -->
+      <div class="glass-panel-heavy flex w-full items-start gap-4 rounded-2xl border-l-4 border-l-brand-orange p-5 shadow-xl lg:col-span-5 lg:col-start-1 lg:row-start-3">
           <Icon name="warning" variant="bare" tone="orange" filled class="mt-1" />
           <div>
             <p class="font-caption text-caption leading-tight text-on-surface-variant">
               <strong>Aviso Importante:</strong><br /> vetoxzyn® no es un medicamento, consulte a su médico veterinario.
             </p>
           </div>
-        </div>
       </div>
     </div>
   </div>
