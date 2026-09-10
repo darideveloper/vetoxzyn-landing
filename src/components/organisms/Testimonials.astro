@@ -20,13 +20,12 @@ const DIVIDERS = [
       <SectionHeader
         align="center"
         eyebrow="EVIDENCIA CLÍNICA"
+        id="testimonials-heading"
+        title="Lo que dicen los veterinarios"
+        titleClass="mt-4"
         subtitle="Experiencias reales documentadas sobre la integración de matrices bioseguras en la práctica clínica diaria."
         subtitleClass="mx-auto mt-4 max-w-2xl font-body-lg text-body-lg text-on-surface-variant"
-      >
-        <h2 id="testimonials-heading" slot="title" class="mt-4 font-display-lg text-[32px] leading-[1.25] font-bold text-on-surface md:text-[48px] md:leading-[1.2]">
-          Lo que dicen los veterinarios
-        </h2>
-      </SectionHeader>
+      />
     </div>
     <div class="mt-12 grid grid-cols-1 gap-gutter md:grid-cols-[1fr_5vw_1fr_5vw_1fr]">
       {TESTIMONIALS.map((t, i) => (

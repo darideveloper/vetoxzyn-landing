@@ -1,6 +1,6 @@
 ---
 import { ContactForm } from "@/components/molecules/ContactForm.tsx"
-import SectionHeader from "@/components/molecules/SectionHeader.astro"
+import SectionHeader, { SECTION_TITLE_CORE } from "@/components/molecules/SectionHeader.astro"
 import ContactBackdrop from "@/components/molecules/ContactBackdrop.astro"
 import FaqAccordion from "@/components/molecules/FaqAccordion.astro"
 import ContactMedia from "@/components/molecules/ContactMedia.astro"
@@ -22,7 +22,7 @@ import DisclaimerNote from "@/components/molecules/DisclaimerNote.astro"
         subtitle="Inicie el protocolo de integración biológica. Conecte su infraestructura con la precisión clínica de nuestra matriz oxidativa."
         subtitleClass="font-body-lg text-body-lg mt-6 max-w-[28rem] text-on-surface-variant"
       >
-        <h2 id="contact-heading" slot="title" class="text-display-lg-mobile md:text-display-lg max-w-3xl leading-tight text-on-surface">
+        <h2 id="contact-heading" slot="title" class:list={[SECTION_TITLE_CORE, "max-w-3xl leading-tight"]}>
           ¿Listo para elevar la <span class="bg-gradient-to-r from-brand-orange to-brand-pink bg-clip-text text-transparent">bioseguridad</span> de tu clínica?
         </h2>
       </SectionHeader>

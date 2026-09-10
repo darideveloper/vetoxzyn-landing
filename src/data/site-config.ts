@@ -53,7 +53,7 @@ export const BUSINESS_DATA = {
   // covers builds, prod host is the fallback. Future client islands must
   // receive the origin via props — never import.meta.env.
   url: process.env.PORTLESS_URL ?? process.env.SITE_URL ?? "https://vetoxzyncomercial.mx",
-  logo: "/assets/img/logo.png",
+  logo: "/brand/logo.webp",
   ogImage: "/og-image.jpg",
   contact: {
     phone: PHONES.main.formatted,

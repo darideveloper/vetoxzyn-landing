@@ -1,0 +1,20 @@
+---
+// Brand logo (static public asset — stable URL doubles as the JSON-LD logo).
+// Caller sets display height (`h-*`); width stays auto to lock the 600:244 ratio.
+interface Props {
+  class?: string
+  loading?: "eager" | "lazy"
+  fetchpriority?: "high" | "low" | "auto"
+}
+const { class: cls = "", loading = "lazy", fetchpriority } = Astro.props
+---
+
+<img
+  src="/brand/logo.webp"
+  width={600}
+  height={244}
+  alt="Vetoxzyn"
+  loading={loading}
+  fetchpriority={fetchpriority}
+  class:list={["w-auto", cls]}
+/>

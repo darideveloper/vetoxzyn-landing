@@ -63,28 +63,28 @@ index.astro
 ├── Layout.astro ──► shared shell (see below)
 ├── seo/PageSEO.astro ──► SEO chain (see below)
 ├── organisms/Hero.astro (static shell + grid, no client: directive)
-│   ├── molecules/SectionHeader.astro (eyebrow + h1#hero-heading title slot + subtitle)
+│   ├── molecules/SectionHeader.astro (eyebrow + h1#hero-heading string title + subtitle)
 │   ├── molecules/HeroBullets.astro (bullets const inside) ──► atoms/Icon ×5 (circle pink md filled)
 │   ├── molecules/HeroActions.astro ──► atoms/Button ×2 (primary md href="#section-5" + secondary md href="#section-4")
 │   └── molecules/HeroMediaCard.astro (credential chip as inner markup)
 │       ├── atoms/ResponsiveImage.astro (eager) ──► assets/hero/hero-clinica-512.webp
 │       └── atoms/Icon.astro ×2 (biotech circle filled + verified bare primary)
 ├── organisms/Challenges.astro (static shell + 7/5 grid, section#desafios, no client: directive)
-│   ├── molecules/SectionHeader.astro (E2 eyebrow + h2 slot + subtitle)
+│   ├── molecules/SectionHeader.astro (E2 eyebrow + h2 string title + subtitle)
 │   ├── molecules/FeatureList.astro (features const inside) ──► molecules/FeatureRow.astro ×3
 │   │   └── atoms/Icon.astro (circle orange lg per row: shield, water_drop, eco)
 │   └── molecules/MediaWithTags.astro (tilted overlapping media card)
 │       ├── atoms/ResponsiveImage.astro ──► assets/challenges/challenges-clinica-512.webp
 │       └── atoms/Badge.astro ×2 (tag dark CLINICAL GRADE + tag light icon=verified 99.9% PURE)
 ├── organisms/Testimonials.astro (static, id="section-3", no client: directive)
-│   ├── molecules/SectionHeader.astro (E2 + h2 slot + subtitle, align center)
+│   ├── molecules/SectionHeader.astro (E2 + h2 string title + subtitle, align center)
 │   ├── molecules/TestimonialCard.astro ×3 ──► data/testimonials
 │   │   ├── atoms/Card.astro (C1 glass shell, relative h-full overflow-visible + tilt-float)
 │   │   ├── atoms/Avatar.astro (plain img, external Unsplash URL)
 │   │   └── atoms/Icon.astro (bare filled format_quote, tone per accent)
 │   └── atoms/DividerImage.astro ×2 (plain img, external picsum URLs from DIVIDERS const in organism)
 ├── organisms/Products.astro (static shell + split row + strip, no client: directive, id="section-4")
-│   ├── molecules/SectionHeader.astro (h2 slot + subtitle, align center, no eyebrow)
+│   ├── molecules/SectionHeader.astro (h2 string title + subtitle, align center, no eyebrow)
 │   ├── molecules/ProductPanel.astro ×2 (tone light|dark: backdrop + header + SpecGrid + CTA + vertical pill)
 │   │   ├── atoms/ResponsiveImage.astro ──► assets/products/topico-512.webp | instalaciones-512.webp
 │   │   ├── molecules/SpecGrid.astro (tone + items from panel SPECS const) ──► atoms/SpecItem.astro ×5 (wide? on Presentaciones)
@@ -92,7 +92,7 @@ index.astro
 │   │   └── atoms/Badge.astro (feature vertical: water_drop | cleaning_services)
 │   └── molecules/FormulaStrip.astro (formula banner)
 └── organisms/ContactSection.astro (static shell + backdrop + grid, section#section-5)
-    ├── molecules/SectionHeader.astro (h2 slot w/ gradient span + subtitle)
+    ├── molecules/SectionHeader.astro (h2 gradient slot on SECTION_TITLE_CORE + subtitle)
     ├── molecules/ContactBackdrop.astro (organic blobs + BIOSEGURIDAD massive type)
     ├── molecules/ContactForm.tsx (client:load, form base layer)
     │   ├── molecules/FormRow.tsx ×2 ──► atoms/Input ×2 each (name/clinica, telefono/email)
@@ -170,7 +170,8 @@ src/components/atoms/
 ├── DividerImage.astro (plain <img>, square lazy — external URLs only, never astro:assets; .hover-subtle, pointer-free)
 ├── ResponsiveImage.astro (astro:assets wrapper, local images only: widths 384/512, sizes passthrough, eager? → eager/high-priority vs lazy/async)
 ├── NavLink.astro     (.link + explicit cursor-pointer <a>: color + underline-offset hover, focus-visible parity)
-└── SpecItem.astro    (spec dt/dd cell: term + tone light|dark + wide? col-span-2 + valueClass override, value in slot; .hover-subtle, pointer-free)
+├── SpecItem.astro    (spec dt/dd cell: term + tone light|dark + wide? col-span-2 + valueClass override, value in slot; .hover-subtle, pointer-free)
+└── BrandLogo.astro   (plain <img> of public/brand/logo.webp 600×244, alt Vetoxzyn, caller height class + w-auto ratio lock, loading/fetchpriority props; pointer-free)
 ```
 
 ```
@@ -192,7 +193,7 @@ src/components/molecules/
 │   ├── FormSuccess.tsx ──► atoms/Button (reset)
 │   └── atoms/{Input,Textarea,Button} direct + store/contact
 ├── TestimonialCard.astro (static: Card C1 + Avatar + bare Icon + footer) ──► atoms/{Card,Avatar,Icon} + data/testimonials (type-only)
-├── SectionHeader.astro (eyebrow? + title string/slot + subtitle string/slot + align left|center; level preserved via slot) ──► atoms/Eyebrow
+├── SectionHeader.astro (eyebrow? + title + titleClass extras + level h1|h2 + id + subtitle + align left|center; locked SECTION_TITLE_CORE for both levels, title slot only for inline markup reusing the core) ──► atoms/Eyebrow
 ├── HeroBullets.astro (bullets const inside) ──► atoms/Icon ×5
 ├── HeroActions.astro (2-Button CTA group) ──► atoms/Button ×2
 ├── HeroMediaCard.astro (glass image + credential chip inner markup) ──► atoms/{ResponsiveImage,Icon ×2} + assets/hero
@@ -210,9 +211,9 @@ src/components/molecules/
 ├── FormRow.tsx (grid wrapper, React children only)
 ├── InterestPicker.tsx ──► atoms/Checkbox ×3
 ├── FormSuccess.tsx ──► atoms/Button
-├── PrimaryNav.astro ──► molecules/ContactLinks + atoms/NavLink + data/site-config (via ContactLinks)
+├── PrimaryNav.astro ──► molecules/ContactLinks + atoms/{NavLink,BrandLogo h-10 eager} + data/site-config (via ContactLinks)
 ├── ContactLinks.astro (phone + email pair, multiple roots) ──► atoms/NavLink ×2 + data/site-config
-└── FooterMeta.astro (© + links row) ──► molecules/ContactLinks + data/site-config (BUSINESS_DATA)
+└── FooterMeta.astro (BrandLogo h-8 lazy + © + links row) ──► molecules/ContactLinks + atoms/BrandLogo + data/site-config (BUSINESS_DATA)
 ```
 
 `Layout.astro` loads Material Symbols Outlined (FILL 0..1) for Icon/Badge/Eyebrow.
@@ -233,11 +234,13 @@ Layout.astro
 ├── <slot name="seo"/> ← per-page PageSEO
 ├── organisms/Header.astro (border-b shell)
 │   └── molecules/PrimaryNav.astro
-│       ├── atoms/NavLink.astro (brand + /about + /contact)
+│       ├── atoms/NavLink.astro ×3 (logo-home + /about + /contact)
+│       ├── atoms/BrandLogo.astro (h-10 eager high-priority ──► public/brand/logo.webp)
 │       └── molecules/ContactLinks.astro ──► atoms/NavLink ×2 + data/site-config (PHONES, EMAIL)
 ├── <slot/> = page content
 └── organisms/Footer.astro (border-t shell)
     └── molecules/FooterMeta.astro
+        ├── atoms/BrandLogo.astro (h-8 lazy ──► public/brand/logo.webp)
         ├── data/site-config (BUSINESS_DATA)
         └── molecules/ContactLinks.astro (see above)
 ```
@@ -321,6 +324,7 @@ None.
 - Contact section (`add-contact-section`): `organisms/ContactSection.astro` replicates `design/stitch/05-contact-form` content (blob background + `BIOSEGURIDAD` massive type + in-flow header flattened from the Stitch `lg:absolute` overlay per Products precedent) as a simplified static grid in the standard `max-w-max-width` container — left column stacking FAQ + image + disclaimer, right column with the `ContactForm` island at full height; mild skew tilts, no overlap, float disabled (follow-up simplifications of the absolute overlap machine). Deviations from Stitch, all decided in explore: submit is voted `Button primary sm` + `arrow_forward` span (B5-large dropped; span not `Icon` atom — React island boundary); disclaimer sits beside the image in row 2 and stacks visible on mobile (Stitch `hidden lg:flex` dropped — compliance copy). Verified 0px overflow at 390/768/1024/1280/1440 on both `/` and `/contact` (headless, incl. FAQ exclusivity, island hydration, ES validation errors). Contact image is a `src/assets/contact/` placeholder (byte-reuse of the products crop, `TODO(replace)` in README); swap files with no markup change when brand art lands. `ContactForm` shell is now glass grid (`FormRow` `md:grid-cols-2`, pill group, `rows=3`, `flex justify-end` submit) and fully ES (island + store fallbacks + both page headings — the "labels partly EN" note is closed).
 - Organism decomposition (`split-organism-sections`, 2026-09-10): all 7 organisms thinned to section composition; 21 new molecules + 5 new atoms (see catalogues above). Decisions: single `SectionHeader` (title/subtitle as string props or slots — slots preserve `h1#hero-heading`, section `h2` ids, and the contact gradient span; eyebrow optional since Products/Contact headers have none); single `ProductPanel tone="light"|"dark"` (SPECS const + pill text inside the panel; mirrors Button `product tone` precedent); `FaqAccordion` owns the single-open exclusivity script (scoped `[data-faq]`, no inline script in organism); `ResponsiveImage` wraps `astro:assets` for local images only while `Avatar`/`DividerImage` stay plain `<img>` (external Unsplash/picsum URLs); `SpecItem wide?` covers the col-span-2 Presentaciones cell; single-use data consts (`bullets`, `features`, `faqs`) live inside their molecules, `DIVIDERS` URLs stay in Testimonials and pass as `src` props; grid placement classes stay at organism call sites via `class` passthrough (molecules own only their own look); molecule→molecule edges are parent→child composition only (ContactForm→FormRow trio, FaqAccordion→FaqItem, FeatureList→FeatureRow, ProductPanel→SpecGrid, PrimaryNav/FooterMeta→ContactLinks), acyclic; `NavLink` adopted in `contact.astro` intro + `404.astro` sitemap nav. `design-system.astro`/`_demos.tsx` + `about.astro` untouched by design. Pixel-identical output verified via build + content spot-checks.
 - Unified hover/cursor (`unified-hover-cursor`, 2026-09-10): no import/file/page changes (rg verified — trees above unchanged, class-only diff). Motion now token-driven (`--duration-hover`/`--ease-hover`); pointer via base layer + explicit `cursor-pointer` on `NavLink` and `Button` anchor branch; pressables on `.lift`, links on `.link`, display containers (`Badge`, `Eyebrow`, `Card`, `Avatar`, `SpecItem`, `FeatureRow`, `DisclaimerNote`, `ContactMedia`, `DividerImage`) on pointer-free `.hover-subtle`. Container rule: `Icon` glyphs and inner `ResponsiveImage` stay motionless so nested parents never double-animate (FAQ toggle icon no longer lifts inside its washing row); layout chrome (`SectionHeader`, `FormulaStrip`, product articles, backdrops, nav chrome) stays still. `FaqItem` pointer moved `details`→`summary` (former `outline-none` removed so the base focus ring shows); `Input`/`Textarea` dropped `outline-none` (same reason) and gained `hover:border-black/30`; `ContactForm` straighten gated `motion-safe:`; `MediaWithTags` transition dedupe (tilt owns it); product image blend retimed to the token. Tradeoff: `.tilt-float` + `.hover-subtle` both match on tilted cards — tilt wins by source order, locked with a `ponytail:` comment in `global.css`.
+- Headings + brand logo (`standardize-headings-and-brand-logo`, 2026-09-10): `SectionHeader` owns the canonical title core (`SECTION_TITLE_CORE` const, identical Montserrat 32px → 64px for h1+h2, `titleClass` extras-only, new `id` prop); Hero/Challenges/Testimonials/Products moved to string titles (tags/anchors kept), Contact keeps the gradient `title` slot on the imported const. New `atoms/BrandLogo.astro` (plain `<img>`, pointer-free) serves `public/brand/logo.webp` in `PrimaryNav` (h-10 eager/high-priority inside home `NavLink`) + `FooterMeta` (h-8 lazy), replacing text wordmarks; `BUSINESS_DATA.logo` → `/brand/logo.webp` (JSON-LD resolves; favicon still stock, out of scope). Verified `pnpm build` clean + 0px overflow at 390/768/1280 on `/` and `/contact` (headless) + header 40px eager / footer 32px lazy logo render. Unchanged: card-level h4s, `design-system.astro`/`about.astro` demo headings, theme tokens.
 
 ## Related
 

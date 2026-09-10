@@ -87,7 +87,7 @@ export const BUSINESS_DATA = {
     name: "Business Name",
     legalName: "Business Name by Subbrand",
     url: "https://example.com",
-    logo: "/assets/img/logo.png",
+    logo: "/brand/logo.webp",
     ogImage: "/og-image.jpg",
     contact: {
         phone: PHONES.main.formatted,
