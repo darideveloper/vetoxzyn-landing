@@ -23,14 +23,18 @@ Living reference of how pages compose components (and subcomponents) in this pro
 File-based routing, SSG (`output` default `static`, no SSR adapter). No catch-all, no content collections, no i18n.
 
 ```
-src/pages/
+src/pages/ (prod routes — everything here ships in dist/ + sitemap)
 ├── index.astro       ← landing: hero + challenges + testimonials + products + ContactForm island
 ├── about.astro       ← static content page
 ├── contact.astro     ← contact details + ContactForm island
-├── design-system.astro ← dev showcase: all atoms + variants (see below)
-├── _demos.tsx        ← page-local React island for design-system (demo store, never a route)
 ├── 404.astro         ← not-found + primary-section links
 └── robots.txt.ts     ← API route (dynamic robots.txt), no components
+
+src/dev-pages/ (dev-only — injected via devOnlyPages() on `astro dev`,
+never emitted to dist/, never in sitemap; add top-level *.astro for a new
+dev route, `_*` files are helpers)
+├── design-system.astro ← dev showcase: all atoms + variants (see below)
+└── _demos.tsx        ← page-local React island for design-system (demo store, never a route)
 ```
 
 ## Full dependency diagram
@@ -107,7 +111,7 @@ index.astro
     └── molecules/DisclaimerNote.astro ──► atoms/Icon.astro (bare orange filled warning)
 ```
 
-### design-system.astro tree
+### design-system.astro tree (dev-only: `src/dev-pages/`, injected on `astro dev`, absent from prod builds)
 
 ```
 design-system.astro
@@ -316,6 +320,7 @@ None.
 - Testimonials section (`add-testimonials-section`, merged from `feature/testimonials`): `organisms/Testimonials.astro` = `03-testimonials` (E2 eyebrow `EVIDENCIA CLÍNICA` + 3-col grid of `molecules/TestimonialCard.astro` over `data/testimonials.ts`, Stitch verbatim ES copy); merge kept main's newer `Hero` (`max-w-[28rem]` card fix), `ContactForm` (`max-w-[32rem]`), `global.css` (products tokens + HUD/image-pan effects) and `hero-section` spec. `id` collision resolved by narrative order: Testimonials keeps `section-3`, Products moved to `section-4`, Hero secondary CTA (`Ver línea Tópico`) retargeted `#section-3` → `#section-4`.
 - Contact section (`add-contact-section`): `organisms/ContactSection.astro` replicates `design/stitch/05-contact-form` content (blob background + `BIOSEGURIDAD` massive type + in-flow header flattened from the Stitch `lg:absolute` overlay per Products precedent) as a simplified static grid in the standard `max-w-max-width` container — left column stacking FAQ + image + disclaimer, right column with the `ContactForm` island at full height; mild skew tilts, no overlap, float disabled (follow-up simplifications of the absolute overlap machine). Deviations from Stitch, all decided in explore: submit is voted `Button primary sm` + `arrow_forward` span (B5-large dropped; span not `Icon` atom — React island boundary); disclaimer sits beside the image in row 2 and stacks visible on mobile (Stitch `hidden lg:flex` dropped — compliance copy). Verified 0px overflow at 390/768/1024/1280/1440 on both `/` and `/contact` (headless, incl. FAQ exclusivity, island hydration, ES validation errors). Contact image is a `src/assets/contact/` placeholder (byte-reuse of the products crop, `TODO(replace)` in README); swap files with no markup change when brand art lands. `ContactForm` shell is now glass grid (`FormRow` `md:grid-cols-2`, pill group, `rows=3`, `flex justify-end` submit) and fully ES (island + store fallbacks + both page headings — the "labels partly EN" note is closed).
 - Organism decomposition (`split-organism-sections`, 2026-09-10): all 7 organisms thinned to section composition; 21 new molecules + 5 new atoms (see catalogues above). Decisions: single `SectionHeader` (title/subtitle as string props or slots — slots preserve `h1#hero-heading`, section `h2` ids, and the contact gradient span; eyebrow optional since Products/Contact headers have none); single `ProductPanel tone="light"|"dark"` (SPECS const + pill text inside the panel; mirrors Button `product tone` precedent); `FaqAccordion` owns the single-open exclusivity script (scoped `[data-faq]`, no inline script in organism); `ResponsiveImage` wraps `astro:assets` for local images only while `Avatar`/`DividerImage` stay plain `<img>` (external Unsplash/picsum URLs); `SpecItem wide?` covers the col-span-2 Presentaciones cell; single-use data consts (`bullets`, `features`, `faqs`) live inside their molecules, `DIVIDERS` URLs stay in Testimonials and pass as `src` props; grid placement classes stay at organism call sites via `class` passthrough (molecules own only their own look); molecule→molecule edges are parent→child composition only (ContactForm→FormRow trio, FaqAccordion→FaqItem, FeatureList→FeatureRow, ProductPanel→SpecGrid, PrimaryNav/FooterMeta→ContactLinks), acyclic; `NavLink` adopted in `contact.astro` intro + `404.astro` sitemap nav. `design-system.astro`/`_demos.tsx` + `about.astro` untouched by design. Pixel-identical output verified via build + content spot-checks.
+- Dev-only pages (`dev-only-pages`): `src/dev-pages/design-system.astro` + `_demos.tsx` moved out of `src/pages/` (git rename, no content change — `./_demos` relative import intact); `src/integrations/dev-only-pages.ts` injects top-level `*.astro` as `/<basename>` via `injectRoute` only when `command === 'dev'` (registered in `astro.config.mjs`); prod `dist/` has no `design-system/` output (nginx 404), sitemap lists prod routes only, `robots.txt` unchanged. New dev page = drop a file in `src/dev-pages/` (flat, `_*` = helper). Verified via hook simulation (dev injects `/design-system`, build/preview/sync inject nothing) + `pnpm build` green at 4 pages.
 - Centralized palette (`centralize-color-palette`, 2026-09-10): all component/page/layout colors now resolve to `@theme` tokens (see `docs/design-tokens.md`); no import/file moves — trees above unchanged. Decisions: deleted 5 dead tokens + folded `primary-fixed-dim` into `secondary-fixed` (one blurred hero blob); new `error` (`#b3261e`) + `--shadow-card/media` tokens; `white`→`on-primary`, `black`→`inverse-surface`, hairline `gray-100`→`surface-container-highest`; fixed dead `font-headline-sm text-headline-sm` in `FaqAccordion` (remapped to `body-lg` bold). Known micro-deltas vs pixel-identical: `Button`/`Card` shadows now use `.shadow-ambient` (adds a soft second layer), `hover:bg-black` is now `on-surface` (`#1a1c1f`). Guardrail: `pnpm run check:palette` (advisory) + `AGENTS.md` palette law.
 
 ## Related

@@ -1,4 +1,4 @@
-## ADDED Requirements
+## MODIFIED Requirements
 
 ### Requirement: Design-system showcase page
 The system SHALL provide `src/dev-pages/design-system.astro` (dev-only route, NOT a prod page) rendering every standardized atom with all its variants (Eyebrow, Badge feature + 3 tag tones, Icon circles + bare set, Card ×3 with testimonial copy, and a React island demoing Input/Textarea/Checkbox/Button variants). Page-local `src/dev-pages/_demos.tsx` SHALL bind atoms to an isolated `useState` demo store and SHALL NEVER import `store/contact`. The page SHALL carry explicit SEO title/description via `PageSEO`. The page SHALL resolve in `astro dev` and SHALL NOT emit any file to `dist/` on `pnpm build`.
