@@ -34,6 +34,10 @@ const { lang = "en" } = Astro.props as Props
     <ClientRouter />
   </head>
   <body>
+    <div aria-hidden="true" class="page-bg">
+      <div aria-hidden="true" class="blob-bg left-[-10%] top-[-10%] h-[60vw] w-[60vw] rounded-full bg-secondary-fixed/40"></div>
+      <div aria-hidden="true" class="blob-bg bottom-[-10%] right-[-10%] h-[50vw] w-[50vw] rounded-full bg-primary-fixed-dim/30" style="animation-delay: -5s;"></div>
+    </div>
     <Header />
     <main>
       <slot />

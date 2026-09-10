@@ -76,7 +76,7 @@ index.astro
 │   └── molecules/MediaWithTags.astro (tilted overlapping media card)
 │       ├── atoms/ResponsiveImage.astro ──► assets/challenges/challenges-clinica-512.webp
 │       └── atoms/Badge.astro ×2 (tag dark CLINICAL GRADE + tag light icon=verified 99.9% PURE)
-├── organisms/Testimonials.astro (static, id="section-3", no client: directive)
+├── organisms/Testimonials.astro (static, id="section-3", transparent shell + 2 unclipped blobs, no client: directive)
 │   ├── molecules/SectionHeader.astro (E2 + h2 string title + subtitle, align center)
 │   ├── molecules/TestimonialCard.astro ×3 ──► data/testimonials
 │   │   ├── atoms/Card.astro (C1 glass shell, relative h-full overflow-visible + tilt-float)
@@ -91,7 +91,7 @@ index.astro
 │   │   ├── atoms/Button.tsx (product tone light|dark href="#section-5")
 │   │   └── atoms/Badge.astro (feature vertical: water_drop | cleaning_services)
 │   └── molecules/FormulaStrip.astro (formula banner)
-└── organisms/ContactSection.astro (static shell + backdrop + grid, section#section-5)
+└── organisms/ContactSection.astro (static shell + tint overlay + backdrop + grid, section#section-5)
     ├── molecules/SectionHeader.astro (h2 gradient slot on SECTION_TITLE_CORE + subtitle)
     ├── molecules/ContactBackdrop.astro (organic blobs + BIOSEGURIDAD massive type)
     ├── molecules/ContactForm.tsx (client:load, form base layer)
@@ -229,8 +229,9 @@ on `/`, `#desafios` Challenges). `atoms.astro` showcase page was temporary and d
 
 ```
 Layout.astro
-├── styles/global.css (tailwind v4 theme, single import)
+├── styles/global.css (tailwind v4 theme, single import + `.page-bg` fixed wash)
 ├── astro:transitions ClientRouter (default fallback)
+├── `.page-bg` fixed decorator wash (first `<body>` child, `aria-hidden`, behind Header/slot/Footer)
 ├── <slot name="seo"/> ← per-page PageSEO
 ├── organisms/Header.astro (border-b shell)
 │   └── molecules/PrimaryNav.astro
@@ -289,7 +290,9 @@ None.
   shared `.lift` / `.link` / `.hover-subtle` hover language;
   effects: tilt-float/blob/shadow-ambient/glass-panel + hud-panel/hud-panel-dark/
   writing-vertical/image-pan + glass-panel-heavy/organic-blob-1-2/deep-float-shadow/
-  floating-element/z-stack-1-2-3 with reduced-motion guard incl. contact-panel straighten)
+   floating-element/z-stack-1-2-3 with reduced-motion guard incl. contact-panel straighten)
+   + page-background set (`.page-bg` fixed wash + `html,body` surface-ice fallback +
+   header/main/footer z-1 context)
 - `store/contact.ts` — contactSchema (Zod: name/email/message required + clinica/telefono
   optional strings + lineaTopico/lineaInstalaciones/lineaDistribucion booleans), field map,
   setField/validateAll/reset, persist
@@ -325,6 +328,8 @@ None.
 - Organism decomposition (`split-organism-sections`, 2026-09-10): all 7 organisms thinned to section composition; 21 new molecules + 5 new atoms (see catalogues above). Decisions: single `SectionHeader` (title/subtitle as string props or slots — slots preserve `h1#hero-heading`, section `h2` ids, and the contact gradient span; eyebrow optional since Products/Contact headers have none); single `ProductPanel tone="light"|"dark"` (SPECS const + pill text inside the panel; mirrors Button `product tone` precedent); `FaqAccordion` owns the single-open exclusivity script (scoped `[data-faq]`, no inline script in organism); `ResponsiveImage` wraps `astro:assets` for local images only while `Avatar`/`DividerImage` stay plain `<img>` (external Unsplash/picsum URLs); `SpecItem wide?` covers the col-span-2 Presentaciones cell; single-use data consts (`bullets`, `features`, `faqs`) live inside their molecules, `DIVIDERS` URLs stay in Testimonials and pass as `src` props; grid placement classes stay at organism call sites via `class` passthrough (molecules own only their own look); molecule→molecule edges are parent→child composition only (ContactForm→FormRow trio, FaqAccordion→FaqItem, FeatureList→FeatureRow, ProductPanel→SpecGrid, PrimaryNav/FooterMeta→ContactLinks), acyclic; `NavLink` adopted in `contact.astro` intro + `404.astro` sitemap nav. `design-system.astro`/`_demos.tsx` + `about.astro` untouched by design. Pixel-identical output verified via build + content spot-checks.
 - Unified hover/cursor (`unified-hover-cursor`, 2026-09-10): no import/file/page changes (rg verified — trees above unchanged, class-only diff). Motion now token-driven (`--duration-hover`/`--ease-hover`); pointer via base layer + explicit `cursor-pointer` on `NavLink` and `Button` anchor branch; pressables on `.lift`, links on `.link`, display containers (`Badge`, `Eyebrow`, `Card`, `Avatar`, `SpecItem`, `FeatureRow`, `DisclaimerNote`, `ContactMedia`, `DividerImage`) on pointer-free `.hover-subtle`. Container rule: `Icon` glyphs and inner `ResponsiveImage` stay motionless so nested parents never double-animate (FAQ toggle icon no longer lifts inside its washing row); layout chrome (`SectionHeader`, `FormulaStrip`, product articles, backdrops, nav chrome) stays still. `FaqItem` pointer moved `details`→`summary` (former `outline-none` removed so the base focus ring shows); `Input`/`Textarea` dropped `outline-none` (same reason) and gained `hover:border-black/30`; `ContactForm` straighten gated `motion-safe:`; `MediaWithTags` transition dedupe (tilt owns it); product image blend retimed to the token. Tradeoff: `.tilt-float` + `.hover-subtle` both match on tilted cards — tilt wins by source order, locked with a `ponytail:` comment in `global.css`.
 - Headings + brand logo (`standardize-headings-and-brand-logo`, 2026-09-10): `SectionHeader` owns the canonical title core (`SECTION_TITLE_CORE` const, identical Montserrat 32px → 64px for h1+h2, `titleClass` extras-only, new `id` prop); Hero/Challenges/Testimonials/Products moved to string titles (tags/anchors kept), Contact keeps the gradient `title` slot on the imported const. New `atoms/BrandLogo.astro` (plain `<img>`, pointer-free) serves `public/brand/logo.webp` in `PrimaryNav` (h-20 eager/high-priority inside home `NavLink`) + `FooterMeta` (h-16 lazy), replacing text wordmarks; `BUSINESS_DATA.logo` → `/brand/logo.webp` (JSON-LD resolves; favicon still stock, out of scope). Verified `pnpm build` clean + 0px overflow at 390/768/1280 on `/` and `/contact` (headless) + header 80px eager / footer 64px lazy logo render. Unchanged: card-level h4s, `design-system.astro`/`about.astro` demo headings, theme tokens.
+- Unified fixed page background (`unified-fixed-page-background`, 2026-09-10): no import/file/page changes (rg verified — trees above unchanged, class-only diff). `Layout.astro` renders one `aria-hidden` `.page-bg` fixed wash (first `<body>` child, `z-0`, `secondary-fixed`/`primary-fixed-dim` blobs reusing `.blob-bg`, reduced-motion covered by the existing guard); `html,body` fallback to `surface-ice`; `header/main/footer` sit in a `z-1` context above it. Hero/Challenges/Products-shell/Contact-shell dropped `bg-surface-ice` (interior fills untouched: ProductPanel light/dark, Challenges white card, glass/FAQ/HUD); Testimonials dropped the clipped `.bg-fluid-shape` wash + `clip-path` (blobs kept, `overflow-x-clip` + `overflow-hidden` fallback, `pointer-events-none` added); ContactSection gained a section-local warm tint/blur overlay (`from-brand-pink/[0.07] via-transparent to-brand-orange/[0.09]`, `backdrop-blur-[2px]`) below the untouched `ContactBackdrop`. Hero keeps `overflow-hidden` (blobs cropped by design). Verified `pnpm build` clean + 0px overflow at 390/768/1024/1280/1440 on `/` and `/contact` (headless) + reduced-motion static wash + panel/glass tones intact.
+- Contact form shell glow-up (2026-09-10, no change): no import/file changes (rg verified — trees unchanged, markup/class-only diff in `ContactForm.tsx` + `FormSuccess.tsx`, atoms untouched per the voted zero-atom-edits rule). Form shell wrapped in a gradient hairline (`from-brand-orange/40 via-white/60 to-brand-pink/40`, `p-[1.5px]`) keeping the voted `-1°/-2°` tilt + `motion-safe:` straighten; new header row (gradient `biotech` glyph + eyebrow + H3 `Solicita tu diagnóstico`, order H2→H3 intact); second pink glow blob mirroring the orange one; CTA gains `group` arrow-slide (`motion-safe:group-hover:translate-x-1`) + trust line (`Respuesta en menos de 24 h · Sin compromiso`); shell `motion-safe:focus-within` lift. `FormSuccess` mirrors the wrap/tilt with a green `check_circle` chip + next-step line, keeping `role="status"`. Verified `pnpm build` clean + 0px overflow at 390/768/1280 on `/` and `/contact` (headless) + island fill/submit→success flow + reduced-motion tilt held.
 
 ## Related
 

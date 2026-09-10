@@ -82,6 +82,10 @@
 
 /* Base cursor / focus / marker contract (Tailwind v4 sets button to default) */
 @layer base {
+  html,
+  body {
+    background: var(--color-surface-ice);
+  }
   button:not(:disabled),
   [role="button"]:not(:disabled),
   summary {
@@ -173,6 +177,26 @@
   opacity: 0.5;
   z-index: 0;
   animation: moveBlob 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Unified fixed page background (single Layout-owned wash behind all content).
+   Non-negative z-level by design: negative z-index would risk painting
+   behind the body background on some browsers. Header/main/footer sit in
+   a z-1 context above it; section decorators paint inside that context. */
+.page-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: var(--color-surface-ice);
+  overflow: hidden;
+}
+
+body > header,
+body > main,
+body > footer {
+  position: relative;
+  z-index: 1;
 }
 
 @keyframes moveBlob {

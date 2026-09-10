@@ -10,8 +10,10 @@ import DisclaimerNote from "@/components/molecules/DisclaimerNote.astro"
 <section
   id="section-5"
   aria-labelledby="contact-heading"
-  class="relative overflow-x-clip bg-surface-ice font-body-md text-on-surface"
+  class="relative overflow-hidden overflow-x-clip font-body-md text-on-surface"
 >
+  <!-- Distinctive tint above the global wash (section-local, dies with the section) -->
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-gradient-to-b from-brand-pink/[0.07] via-transparent to-brand-orange/[0.09] backdrop-blur-[2px]"></div>
   <!-- Immersive background (Stitch 05-contact-form, section-scoped) -->
   <ContactBackdrop />
 
