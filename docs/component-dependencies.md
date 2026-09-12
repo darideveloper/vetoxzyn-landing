@@ -1,6 +1,6 @@
 ---
 created: 2026-09-06
-updated: 2026-09-10
+updated: 2026-09-12
 tags:
   - astro
   - components
@@ -27,7 +27,7 @@ src/pages/ (prod routes — everything here ships in dist/ + sitemap)
 ├── index.astro       ← landing: hero + challenges + testimonials + products + ContactForm island
 ├── about.astro       ← static content page
 ├── contact.astro     ← contact details + ContactForm island
-├── 404.astro         ← not-found + primary-section links
+├── 404.astro         ← branded ES not-found (SectionHeader h1 + B2/B3 CTAs + sitemap), flex-1 centered
 └── robots.txt.ts     ← API route (dynamic robots.txt), no components
 
 src/dev-pages/ (dev-only — injected via devOnlyPages() on `astro dev`,
@@ -147,8 +147,10 @@ about.astro
 ```
 404.astro
 ├── Layout.astro ──► shared shell (see below)
-├── seo/PageSEO.astro ──► SEO chain (see below)
-└── atoms/NavLink.astro ×3 (sitemap nav: /, /about, /contact)
+├── seo/PageSEO.astro ──► SEO chain (see below, ES title/desc)
+├── molecules/SectionHeader.astro (E2 eyebrow "Error 404" + h1#not-found-heading + ES subtitle, align center)
+├── atoms/Button.tsx ×2 (primary md href="/" + secondary md href="/contact", static — no client: directive)
+└── atoms/NavLink.astro ×3 (ES sitemap nav: Inicio /, Nosotros /about, Contacto /contact)
 ```
 
 ## Atom catalogue (standardized 2026-09-07, Stitch showcase vote)
@@ -233,7 +235,7 @@ on `/`, `#desafios` Challenges, `#inicio` Hero, plus `#contacto-formulario` /
 ## Shared shell (Layout)
 
 ```
-Layout.astro
+Layout.astro (flex-shell: body `flex min-h-dvh flex-col`, main `flex flex-1 flex-col` — short pages pin the footer, tall content grows normally)
 ├── styles/global.css (tailwind v4 theme, single import + `.page-bg` fixed wash)
 ├── astro:transitions ClientRouter (default fallback)
 ├── `.page-bg` fixed decorator wash (first `<body>` child, `aria-hidden`, behind Header/slot/Footer)
@@ -339,6 +341,7 @@ None.
 - Dev-only pages (`dev-only-pages`): `src/dev-pages/design-system.astro` + `_demos.tsx` moved out of `src/pages/` (git rename, no content change — `./_demos` relative import intact); `src/integrations/dev-only-pages.ts` injects top-level `*.astro` as `/<basename>` via `injectRoute` only when `command === 'dev'` (registered in `astro.config.mjs`); prod `dist/` has no `design-system/` output (nginx 404), sitemap lists prod routes only, `robots.txt` unchanged. New dev page = drop a file in `src/dev-pages/` (flat, `_*` = helper). Verified via hook simulation (dev injects `/design-system`, build/preview/sync inject nothing) + `pnpm build` green at 4 pages.
 - Centralized palette (`centralize-color-palette`, 2026-09-10): all component/page/layout colors now resolve to `@theme` tokens (see `docs/design-tokens.md`); no import/file moves — trees above unchanged. Decisions: deleted 5 dead tokens + folded `primary-fixed-dim` into `secondary-fixed` (one blurred hero blob); new `error` (`#b3261e`) + `--shadow-card/media` tokens; `white`→`on-primary`, `black`→`inverse-surface`, hairline `gray-100`→`surface-container-highest`; fixed dead `font-headline-sm text-headline-sm` in `FaqAccordion` (remapped to `body-lg` bold). Known micro-deltas vs pixel-identical: `Button`/`Card` shadows now use `.shadow-ambient` (adds a soft second layer), `hover:bg-black` is now `on-surface` (`#1a1c1f`). Guardrail: `pnpm run check:palette` (advisory) + `AGENTS.md` palette law.
 - Semantic section ids (`semantic-section-ids`): home anchors renamed to ES slugs — Hero `#inicio` (new), Testimonials `#testimonios`, Products `#productos`, Contact `#contacto` (was `section-3/4/5`), `desafios` unchanged; sub-anchors `#contacto-formulario` (ContactForm wrapper) + `#contacto-faq` (FaqAccordion root); all ids centralized in `data/section-ids.ts` (`as const`) consumed by organisms + `HeroActions`/`ProductPanel` CTAs; every section carries `scroll-mt-20`; form atoms gained optional `idPrefix` (`lib/utils.ts` `toKebab`) with `ContactForm`/`InterestPicker` passing `idPrefix="contacto-"` (store keys unprefixed). Historical `section-3/4/5` mentions above are pre-rename records.
+- Branded fullscreen 404 (`branded-fullscreen-404`, 2026-09-12): `404.astro` rewritten from the EN stub to the hero voice, all strings ES (`SectionHeader` centered `h1#not-found-heading` + E2 eyebrow + subtitle, aria-hidden `404` numeral in `text-massive` + token gradient `bg-gradient-to-br from-brand-pink to-primary` + `bg-clip-text`, B2 primary → `/` + B3 secondary → `/contact` static Buttons, `NavLink` sitemap relabeled Inicio/Nosotros/Contacto, `lang="es"` + ES `PageSEO`); flex-shell decision: `body flex min-h-dvh flex-col` + `main flex flex-1 flex-col` in `Layout` so the 404 section (`flex flex-1 items-center justify-center`) centers in `100dvh − header − footer` with zero chrome arithmetic — no-op for tall pages (verified `/`, `/about`, `/contact` unchanged in `dist/`), sticky-footer side effect on short pages. New mandatory `AGENTS.md ## Language` rule (user-visible copy in Spanish; code/docs/specs in English). Out of scope by design: shared Header/Footer chrome still EN (`PrimaryNav` About/Contact) — separate change if wanted. Verified `check:palette` clean + `astro build` green (4 pages, `404.html` single `h1`, zero EN in 404 section). Post-verify bug fix: the numeral originally used the shared `.gradient-primary` class — its `background` shorthand resets `background-clip` to `border-box` later in the cascade (dev 54606 > 27564, prod 46967 > 27054), rendering a gradient box instead of gradient text; switched to `bg-gradient-to-br from-brand-pink to-primary` (longhand `background-image`, clip survives; same hexes `#db6f85`→`#a83200`), verified on the running `/404` page.
 
 ## Related
 
