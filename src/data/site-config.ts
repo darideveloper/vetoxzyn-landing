@@ -1,13 +1,14 @@
 // Single source of truth for business identity. Import from here — never
 // hardcode business data in components.
-// TODO(replace): domain + email are set; phone, address, socials, maps and
-// hours below are still placeholders — canonical/JSON-LD contact block stays
-// semi-fictional until they land.
+// TODO(replace): domain, email, phone (WhatsApp) and facebook are set;
+// address, maps and hours below are still placeholders — canonical/JSON-LD
+// contact block stays semi-fictional until they land.
 export const PHONES = {
   main: {
-    raw: "+12345678901",
-    formatted: "+1 (234) 567-8901",
-    href: "tel:+12345678901",
+    raw: "+5214615747483",
+    formatted: "+52 1 461 574 7483",
+    href: "tel:+5214615747483",
+    wa: "https://wa.me/5214615747483",
   },
 } as const
 
@@ -29,7 +30,6 @@ export const ADDRESS = {
 
 export const SOCIAL_LINKS = {
   facebook: "https://www.facebook.com/vetoxzyn",
-  instagram: "https://www.instagram.com/vetoxzyn/",
 } as const
 
 export const GOOGLE_MAPS = {

@@ -83,6 +83,9 @@
 
 /* Base cursor / focus / marker contract (Tailwind v4 sets button to default) */
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
   html,
   body {
     background: var(--color-surface-ice);
@@ -207,6 +210,7 @@ body > footer {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
   .blob-bg { animation: none; }
   .tilt-float { transition: none; }
   .tilt-float:hover { transform: none; }

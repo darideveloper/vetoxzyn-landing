@@ -9,5 +9,5 @@ interface Props {
 const { emailClass = "" } = Astro.props
 ---
 
-<NavLink href={PHONES.main.href}>{PHONES.main.formatted}</NavLink>
+<NavLink href={PHONES.main.wa} target="_blank" rel="noopener">{PHONES.main.formatted}</NavLink>
 <NavLink href={EMAIL.href} class={emailClass}>{EMAIL.address}</NavLink>

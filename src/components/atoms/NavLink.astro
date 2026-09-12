@@ -2,8 +2,10 @@
 interface Props {
   href: string
   class?: string
+  target?: "_blank" | "_self"
+  rel?: string
 }
-const { href, class: cls = "" } = Astro.props
+const { href, class: cls = "", target, rel } = Astro.props
 ---
 
-<a href={href} class:list={["link cursor-pointer", cls]}><slot /></a>
+<a href={href} target={target} rel={rel} class:list={["link cursor-pointer", cls]}><slot /></a>

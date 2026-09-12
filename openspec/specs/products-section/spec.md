@@ -25,11 +25,11 @@ Each panel SHALL render its title, subhead, vertical pill, background image trea
 - **THEN** it shows title `Instalaciones`, sub `Superficies, instrumental, áreas de consulta y quirófano, agua.`, specs `500 ppm (0.050%)` / `6.0–7.5 (neutro)` / `> 900 mV` / `Grado 0 (no irritante)` / `1L · 4L · 20L`, and a dark-tone CTA
 
 ### Requirement: Voted atoms reuse
-The panels SHALL use `Button variant="product" tone="light"` (Tópico) and `tone="dark"` (Instalaciones) for the `Ver ficha técnica` CTAs with an `arrow_forward` glyph, each carrying `mt-md` top margin separating it from its HUD spec grid, and `Badge variant="feature" icon="water_drop"|"cleaning_services"` for the two vertical `No requiere enjuague` pills (intentional restyle: glass feature pills replace the design's solid orange/pink pills per the P3-drop vote). The contact section SHALL carry `id="section-5"` so all `#section-5` links land. No new atom SHALL be created.
+The panels SHALL use `Button variant="product" tone="light"` (Tópico) and `tone="dark"` (Instalaciones) for the `Más información` CTAs with an `arrow_forward` glyph, each carrying `mt-md` top margin separating it from its HUD spec grid, and `Badge variant="feature" icon="water_drop"|"cleaning_services"` for the two vertical `No requiere enjuague` pills (intentional restyle: glass feature pills replace the design's solid orange/pink pills per the P3-drop vote). The contact section SHALL keep `id="contacto"` per `section-anchors`, while the product CTAs target the `#contacto-formulario` form wrapper. No new atom SHALL be created.
 
 #### Scenario: Product CTAs
 - **WHEN** the panels render their CTAs
-- **THEN** both are full-width rectangular uppercase buttons (orange on light, burdeos on dark) labeled `Ver ficha técnica` with an arrow glyph, each linking to `#section-5`, each separated from its spec grid by `mt-md`, and the contact section carries `id="section-5"`
+- **THEN** both are full-width rectangular uppercase buttons (orange on light, burdeos on dark) labeled `Más información` with an arrow glyph, each linking to `#contacto-formulario`, each separated from its spec grid by `mt-md`
 
 #### Scenario: Vertical pills
 - **WHEN** the panels render their edge pills

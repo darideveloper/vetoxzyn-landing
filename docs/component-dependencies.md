@@ -1,6 +1,6 @@
 ---
 created: 2026-09-06
-updated: 2026-09-10
+updated: 2026-09-12
 tags:
   - astro
   - components
@@ -69,7 +69,7 @@ index.astro
 ├── organisms/Hero.astro (static shell + grid, section#inicio, no client: directive)
 │   ├── molecules/SectionHeader.astro (eyebrow + h1#hero-heading string title + subtitle)
 │   ├── molecules/HeroBullets.astro (bullets const inside) ──► atoms/Icon ×5 (circle pink md filled)
-│   ├── molecules/HeroActions.astro ──► atoms/Button ×2 (primary md href="#contacto" + secondary md href="#productos") + data/section-ids
+│   ├── molecules/HeroActions.astro ──► atoms/Button ×2 (primary md href="#contacto-formulario" + secondary md href="#productos") + data/section-ids
 │   └── molecules/HeroMediaCard.astro (credential chip as inner markup)
 │       ├── atoms/ResponsiveImage.astro (eager) ──► assets/hero/hero-clinica-512.webp
 │       └── atoms/Icon.astro ×2 (biotech circle filled + verified bare primary)
@@ -92,7 +92,7 @@ index.astro
 │   ├── molecules/ProductPanel.astro ×2 (tone light|dark: backdrop + header + SpecGrid + CTA + vertical pill)
 │   │   ├── atoms/ResponsiveImage.astro ──► assets/products/topico-512.webp | instalaciones-512.webp
 │   │   ├── molecules/SpecGrid.astro (tone + items from panel SPECS const) ──► atoms/SpecItem.astro ×5 (wide? on Presentaciones)
-│   │   ├── atoms/Button.tsx (product tone light|dark href="#contacto")
+│   │   ├── atoms/Button.tsx (product tone light|dark href="#contacto-formulario")
 │   │   └── atoms/Badge.astro (feature vertical: water_drop | cleaning_services)
 │   └── molecules/FormulaStrip.astro (formula banner)
 └── organisms/ContactSection.astro (static shell + tint overlay + backdrop + grid, section#contacto)
@@ -173,7 +173,7 @@ src/components/atoms/
 ├── Avatar.astro      (plain <img>, h-24 rounded-full bordered — external URLs only, never astro:assets; .hover-subtle, pointer-free)
 ├── DividerImage.astro (plain <img>, square lazy — external URLs only, never astro:assets; .hover-subtle, pointer-free)
 ├── ResponsiveImage.astro (astro:assets wrapper, local images only: widths 384/512, sizes passthrough, eager? → eager/high-priority vs lazy/async)
-├── NavLink.astro     (.link + explicit cursor-pointer <a>: color + underline-offset hover, focus-visible parity)
+├── NavLink.astro     (.link + explicit cursor-pointer <a>: color + underline-offset hover, focus-visible parity; optional target/rel passthrough for new-tab external links)
 ├── SpecItem.astro    (spec dt/dd cell: term + tone light|dark + wide? col-span-2 + valueClass override, value in slot; .hover-subtle, pointer-free)
 └── BrandLogo.astro   (plain <img> of public/brand/logo.webp 600×244, alt Vetoxzyn, caller height class + w-auto ratio lock, loading/fetchpriority props; pointer-free)
 ```
@@ -199,12 +199,12 @@ src/components/molecules/
 ├── TestimonialCard.astro (static: Card C1 + Avatar + bare Icon + footer) ──► atoms/{Card,Avatar,Icon} + data/testimonials (type-only)
 ├── SectionHeader.astro (eyebrow? + title + titleClass extras + level h1|h2 + id + subtitle + align left|center; locked SECTION_TITLE_CORE for both levels, title slot only for inline markup reusing the core) ──► atoms/Eyebrow
 ├── HeroBullets.astro (bullets const inside) ──► atoms/Icon ×5
-├── HeroActions.astro (2-Button CTA group: primary → #contacto, secondary → #productos) ──► atoms/Button ×2 + data/section-ids
+├── HeroActions.astro (2-Button CTA group: primary → #contacto-formulario, secondary → #productos) ──► atoms/Button ×2 + data/section-ids
 ├── HeroMediaCard.astro (glass image + credential chip inner markup) ──► atoms/{ResponsiveImage,Icon ×2} + assets/hero
 ├── FeatureList.astro (features const inside) ──► molecules/FeatureRow ×3
 ├── FeatureRow.astro (Icon + title + desafío/solución; .hover-subtle, pointer-free) ──► atoms/Icon
 ├── MediaWithTags.astro (tilted image + gradient + 2 absolute tags) ──► atoms/{ResponsiveImage,Badge ×2} + assets/challenges
-├── ProductPanel.astro (tone light|dark: backdrop + header + SpecGrid + CTA href="#contacto" + vertical pill; SPECS const inside) ──► atoms/{ResponsiveImage,Button,Badge} + molecules/SpecGrid + data/section-ids + assets/products
+├── ProductPanel.astro (tone light|dark: backdrop + header + SpecGrid + CTA href="#contacto-formulario" + vertical pill; SPECS const inside) ──► atoms/{ResponsiveImage,Button,Badge} + molecules/SpecGrid + data/section-ids + assets/products
 ├── SpecGrid.astro (tone + items → SpecItem grid) ──► atoms/SpecItem
 ├── FormulaStrip.astro (static formula banner)
 ├── FaqAccordion.astro (glass panel + header + single-open exclusivity script; faqs const inside; root #contacto-faq) ──► molecules/FaqItem ×3 + atoms/Icon + data/section-ids
@@ -216,8 +216,8 @@ src/components/molecules/
 ├── InterestPicker.tsx (optional idPrefix passthrough) ──► atoms/Checkbox ×3
 ├── FormSuccess.tsx ──► atoms/Button
 ├── PrimaryNav.astro ──► molecules/ContactLinks + atoms/{NavLink,BrandLogo h-20 eager} + data/site-config (via ContactLinks)
-├── ContactLinks.astro (phone + email pair, multiple roots) ──► atoms/NavLink ×2 + data/site-config
-└── FooterMeta.astro (BrandLogo h-16 lazy + © + links row) ──► molecules/ContactLinks + atoms/BrandLogo + data/site-config (BUSINESS_DATA)
+├── ContactLinks.astro (WhatsApp wa.me phone + email pair, multiple roots) ──► atoms/NavLink ×2 + data/site-config
+└── FooterMeta.astro (BrandLogo h-16 lazy + © + links row + Facebook logo link new-tab) ──► molecules/ContactLinks + atoms/BrandLogo + data/site-config (BUSINESS_DATA, SOCIAL_LINKS.facebook)
 ```
 
 `Layout.astro` loads Material Symbols Outlined (FILL 0..1) for Icon/Badge/Eyebrow.
@@ -226,9 +226,9 @@ src/components/molecules/
 via `Products` on `/` (`#productos`); Badge tag + Icon orange + Eyebrow are
 reachable via `Challenges` (`#desafios`) + `Hero` (`#inicio`) on `/`; Checkbox is reachable
 via `ContactForm` on `/` + `/contact`. Button `href` anchors are live targets
-(`#testimonios` Testimonials, `#productos` Products, `#contacto` contact section
-on `/`, `#desafios` Challenges, `#inicio` Hero, plus `#contacto-formulario` /
-`#contacto-faq` sub-anchors). `atoms.astro` showcase page was temporary and deleted the same day.
+(`#testimonios` Testimonials, `#productos` Products / Hero secondary CTA, `#contacto` contact section
+on `/` / `/contact`, `#desafios` Challenges, `#inicio` Hero, plus `#contacto-formulario` form wrapper
+(targeted by the hero primary + both product `Más información` CTAs) / `#contacto-faq` sub-anchor). `atoms.astro` showcase page was temporary and deleted the same day.
 
 ## Shared shell (Layout)
 
@@ -241,13 +241,14 @@ Layout.astro
 ├── organisms/Header.astro (border-b shell)
 │   └── molecules/PrimaryNav.astro
 │       ├── atoms/NavLink.astro ×3 (logo-home + /about + /contact)
+│       │   └── (NavLink also renders ContactLinks wa.me phone new-tab + email)
 │       ├── atoms/BrandLogo.astro (h-20 eager high-priority ──► public/brand/logo.webp)
-│       └── molecules/ContactLinks.astro ──► atoms/NavLink ×2 + data/site-config (PHONES, EMAIL)
+│       └── molecules/ContactLinks.astro ──► atoms/NavLink ×2 + data/site-config (PHONES.wa, EMAIL)
 ├── <slot/> = page content
 └── organisms/Footer.astro (border-t shell)
     └── molecules/FooterMeta.astro
         ├── atoms/BrandLogo.astro (h-16 lazy ──► public/brand/logo.webp)
-        ├── data/site-config (BUSINESS_DATA)
+        ├── data/site-config (BUSINESS_DATA, SOCIAL_LINKS.facebook — footer FB logo link new-tab)
         └── molecules/ContactLinks.astro (see above)
 ```
 
@@ -297,8 +298,9 @@ None.
   effects: tilt-float/blob/shadow-ambient/glass-panel + hud-panel/hud-panel-dark/
   writing-vertical/image-pan + glass-panel-heavy/organic-blob-1-2/deep-float-shadow/
    floating-element/z-stack-1-2-3 with reduced-motion guard incl. contact-panel straighten)
-   + page-background set (`.page-bg` fixed wash + `html,body` surface-ice fallback +
-   header/main/footer z-1 context)
+    + page-background set (`.page-bg` fixed wash + `html,body` surface-ice fallback +
+    header/main/footer z-1 context) + smooth-scroll set (`html scroll-behavior: smooth`,
+    reduced-motion `auto`)
 - `store/contact.ts` — contactSchema (Zod: name/email/message required + clinica/telefono
   optional strings + lineaTopico/lineaInstalaciones/lineaDistribucion booleans), field map,
   setField/validateAll/reset, persist
@@ -321,10 +323,10 @@ None.
   feature` (intentional P3-drop restyle over the design's solid pills); HUD
   panels bespoke (C1 is light-only). Product images are hero-reuse placeholders
   (`src/assets/products/`, see README, lazy widths 384/512); swap files with no
-  markup change when brand art lands. Ficha CTAs point to `#contacto` (contact
-  section tagged in the same change) until real ficha URLs exist.
+  markup change when brand art lands. Product CTAs are `Más información` → `#contacto-formulario`
+  (`fix-links-ctas`); the hero secondary (`Ver línea Tópico`) keeps `#productos` as the deliberate exemption.
 - Initial setup (`initial-landing-setup`): vanilla-only atoms per `astro-atomic-components` (no `ui/`, no `Validated*`); single Zustand `contact` store (not generic `form.ts`) until a second form exists.
-- All business values in `site-config.ts` are placeholders (`TODO(replace)`) — canonical/JSON-LD wrong until real data lands.
+- Business values in `site-config.ts`: phone (WhatsApp `+52 1 461 574 7483`), email and facebook are real (`fix-links-ctas`); address, maps and hours stay placeholders (`TODO(replace)`) — canonical/JSON-LD contact block semi-fictional until they land.
 - No `PUBLIC_*` env vars exist; Dockerfile ships zero `ARG/ENV` pairs by design.
 - Hero/section images: none yet (placeholder SVG not used — Astro won't rasterize SVG via `Image`); any future raster image MUST use `astro:assets Image` (AVIF, widths+sizes, eager hero / lazy rest).
 - **Orphaned / not reachable from any page**: none. Template `Welcome.astro` deleted during setup. `src/assets/astro.svg` unused (harmless template leftover, remove when real brand art lands).
@@ -339,6 +341,7 @@ None.
 - Dev-only pages (`dev-only-pages`): `src/dev-pages/design-system.astro` + `_demos.tsx` moved out of `src/pages/` (git rename, no content change — `./_demos` relative import intact); `src/integrations/dev-only-pages.ts` injects top-level `*.astro` as `/<basename>` via `injectRoute` only when `command === 'dev'` (registered in `astro.config.mjs`); prod `dist/` has no `design-system/` output (nginx 404), sitemap lists prod routes only, `robots.txt` unchanged. New dev page = drop a file in `src/dev-pages/` (flat, `_*` = helper). Verified via hook simulation (dev injects `/design-system`, build/preview/sync inject nothing) + `pnpm build` green at 4 pages.
 - Centralized palette (`centralize-color-palette`, 2026-09-10): all component/page/layout colors now resolve to `@theme` tokens (see `docs/design-tokens.md`); no import/file moves — trees above unchanged. Decisions: deleted 5 dead tokens + folded `primary-fixed-dim` into `secondary-fixed` (one blurred hero blob); new `error` (`#b3261e`) + `--shadow-card/media` tokens; `white`→`on-primary`, `black`→`inverse-surface`, hairline `gray-100`→`surface-container-highest`; fixed dead `font-headline-sm text-headline-sm` in `FaqAccordion` (remapped to `body-lg` bold). Known micro-deltas vs pixel-identical: `Button`/`Card` shadows now use `.shadow-ambient` (adds a soft second layer), `hover:bg-black` is now `on-surface` (`#1a1c1f`). Guardrail: `pnpm run check:palette` (advisory) + `AGENTS.md` palette law.
 - Semantic section ids (`semantic-section-ids`): home anchors renamed to ES slugs — Hero `#inicio` (new), Testimonials `#testimonios`, Products `#productos`, Contact `#contacto` (was `section-3/4/5`), `desafios` unchanged; sub-anchors `#contacto-formulario` (ContactForm wrapper) + `#contacto-faq` (FaqAccordion root); all ids centralized in `data/section-ids.ts` (`as const`) consumed by organisms + `HeroActions`/`ProductPanel` CTAs; every section carries `scroll-mt-20`; form atoms gained optional `idPrefix` (`lib/utils.ts` `toKebab`) with `ContactForm`/`InterestPicker` passing `idPrefix="contacto-"` (store keys unprefixed). Historical `section-3/4/5` mentions above are pre-rename records.
+- Link/CTA fix (`fix-links-ctas`, 2026-09-12): `PHONES.main` is the real WhatsApp identity (`+52 1 461 574 7483`, `tel:+5214615747483`, `wa.me/5214615747483` — visible phone links point at `wa.me` new-tab); `SOCIAL_LINKS` facebook-only (instagram key deleted, SEO `sameAs` follows); `FooterMeta` gains an inline-SVG Facebook logo link (`target=_blank rel=noopener`, `aria-label`, `currentColor` fill — no new CSS/token); `NavLink` accepts optional `target`/`rel`; hero primary + both product CTAs land directly on `#contacto-formulario` (form wrapper gained `scroll-mt-20`; `global.css` gained `scroll-behavior: smooth` + reduced-motion `auto`); `Ver línea Tópico` keeps `#productos` as the explicit exemption; no routes added/removed — trees above redrawn for the import/label/target diffs only.
 
 ## Related
 

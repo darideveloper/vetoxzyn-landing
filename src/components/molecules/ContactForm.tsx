@@ -27,7 +27,7 @@ export function ContactForm() {
   }
 
   return (
-    <div id={SECTION_IDS.contactoFormulario} className="relative w-full rounded-3xl bg-gradient-to-br from-brand-orange/40 via-on-primary/60 to-brand-pink/40 p-[1.5px] shadow-2xl transition-all duration-[var(--duration-hover)] ease-[var(--ease-hover)] rotate-[-1deg] motion-safe:hover:rotate-0 motion-safe:focus-within:-translate-y-0.5 lg:rotate-[-2deg]">
+    <div id={SECTION_IDS.contactoFormulario} className="relative w-full scroll-mt-20 rounded-3xl bg-gradient-to-br from-brand-orange/40 via-on-primary/60 to-brand-pink/40 p-[1.5px] shadow-2xl transition-all duration-[var(--duration-hover)] ease-[var(--ease-hover)] rotate-[-1deg] motion-safe:hover:rotate-0 motion-safe:focus-within:-translate-y-0.5 lg:rotate-[-2deg]">
       <div className="glass-panel-heavy relative w-full overflow-hidden rounded-[calc(1.5rem-1.5px)] p-10 md:p-14">
         <div aria-hidden="true" className="absolute top-8 right-8 h-12 w-12 rounded-full bg-brand-orange opacity-50 blur-xl mix-blend-multiply"></div>
         <div aria-hidden="true" className="absolute bottom-8 left-8 h-12 w-12 rounded-full bg-brand-pink opacity-40 blur-xl mix-blend-multiply"></div>
