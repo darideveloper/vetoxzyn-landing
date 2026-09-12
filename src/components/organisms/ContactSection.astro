@@ -11,7 +11,8 @@ import { SECTION_IDS } from "@/data/section-ids"
 <section
   id={SECTION_IDS.contacto}
   aria-labelledby="contact-heading"
-  class="relative scroll-mt-20 overflow-hidden overflow-x-clip font-body-md text-on-surface"
+  class="js-contact-section relative scroll-mt-20 overflow-hidden overflow-x-clip font-body-md text-on-surface"
+  transition:animate="none"
 >
   <!-- Distinctive tint above the global wash (section-local, dies with the section) -->
   <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-gradient-to-b from-brand-pink/[0.07] via-transparent to-brand-orange/[0.09] backdrop-blur-[2px]"></div>
@@ -20,7 +21,7 @@ import { SECTION_IDS } from "@/data/section-ids"
 
   <div class="relative z-10 mx-auto flex w-full max-w-max-width flex-col items-center px-gutter py-20">
     <!-- Header (flattened in-flow from the Stitch lg:absolute overlay) -->
-    <div class="mb-12 w-full text-left">
+    <div class="js-contact-header js-contact-reveal js-reveal mb-12 w-full text-left">
       <SectionHeader
         subtitle="Inicie el protocolo de integración biológica. Conecte su infraestructura con la precisión clínica de nuestra matriz oxidativa."
         subtitleClass="font-body-lg text-body-lg mt-6 max-w-[28rem] text-on-surface-variant"
@@ -33,18 +34,100 @@ import { SECTION_IDS } from "@/data/section-ids"
 
     <!-- Section grid: stacked on mobile, static 12-col grid at lg (no overlap) -->
     <div class="grid w-full grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
-      <!-- Contact form (right column, full height) -->
-      <div class="w-full lg:col-span-7 lg:col-start-6 lg:row-span-3 lg:row-start-1">
+      <!-- Contact form (right column, full height). The React island
+           itself is never animated — only this shell wrapper reveals. -->
+      <div class="js-contact-form js-contact-reveal js-reveal w-full lg:col-span-7 lg:col-start-6 lg:row-span-3 lg:row-start-1">
         <ContactForm client:load />
       </div>
 
       <!-- FAQ layer (overlapping) -->
-      <FaqAccordion class="lg:col-span-5 lg:col-start-1 lg:row-start-1" />
+      <FaqAccordion class="js-contact-faq js-contact-reveal js-reveal lg:col-span-5 lg:col-start-1 lg:row-start-1" />
 
       <!-- Image layer -->
-      <ContactMedia class="lg:col-span-5 lg:col-start-1 lg:row-start-2" />
+      <ContactMedia class="js-contact-media js-contact-reveal js-reveal lg:col-span-5 lg:col-start-1 lg:row-start-2" />
       <!-- Disclaimer layer -->
-      <DisclaimerNote class="lg:col-span-5 lg:col-start-1 lg:row-start-3" />
+      <DisclaimerNote class="js-contact-note js-contact-reveal js-reveal lg:col-span-5 lg:col-start-1 lg:row-start-3" />
     </div>
   </div>
 </section>
+
+<script>
+  import { gsap, ScrollTrigger } from "@/lib/gsap"
+
+  let mm: ReturnType<typeof gsap.matchMedia> | undefined
+
+  const init = () => {
+    const section = document.querySelector(".js-contact-section")
+    if (!section) return
+
+    mm?.revert()
+    mm = gsap.matchMedia()
+
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      // Unhide so GSAP can measure the natural state BEFORE the .from().
+      // Only the form shell reveals — the React island inside hydrates
+      // independently and its inputs are never tween targets.
+      gsap.set(section.querySelectorAll(".js-contact-reveal"), {
+        autoAlpha: 1,
+        force3D: true,
+      })
+
+      const tl = gsap.timeline({
+        // Tall-section note: if this section ever grows taller than the
+        // viewport so "top 80%" never fires, retune start to "top bottom".
+        scrollTrigger: {
+          trigger: section,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+      })
+
+      tl.from(section.querySelector(".js-contact-header"), {
+        autoAlpha: 0,
+        y: 40,
+        duration: 1.2,
+        ease: "power4.out",
+      })
+        .from(
+          section.querySelector(".js-contact-faq"),
+          { autoAlpha: 0, x: -20, duration: 1.0, ease: "power3.out" },
+          "-=0.8",
+        )
+        .from(
+          section.querySelector(".js-contact-media"),
+          { autoAlpha: 0, y: 30, duration: 1.0, ease: "power3.out" },
+          "-=0.7",
+        )
+        .from(
+          section.querySelector(".js-contact-note"),
+          { autoAlpha: 0, y: 20, duration: 0.8, ease: "power2.out" },
+          "-=0.7",
+        )
+        .from(
+          section.querySelector(".js-contact-form"),
+          { autoAlpha: 0, y: 30, duration: 1.0, ease: "power3.out" },
+          "-=0.6",
+        )
+    })
+
+    mm.add("(prefers-reduced-motion: reduce)", () => {
+      gsap.set(section.querySelectorAll(".js-contact-reveal"), { autoAlpha: 0 })
+
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top 80%",
+        onEnter: () => {
+          gsap.to(section.querySelectorAll(".js-contact-reveal"), {
+            autoAlpha: 1,
+            duration: 0.8,
+            stagger: 0.1,
+          })
+        },
+      })
+    })
+  }
+
+  document.addEventListener("astro:after-swap", () => mm?.revert())
+  document.addEventListener("astro:page-load", init)
+  init()
+</script>

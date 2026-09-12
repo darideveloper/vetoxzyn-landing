@@ -66,28 +66,28 @@ Pages are few, so per-page trees below are the reference. Overview:
 index.astro
 ├── Layout.astro ──► shared shell (see below)
 ├── seo/PageSEO.astro ──► SEO chain (see below)
-├── organisms/Hero.astro (static shell + grid, section#inicio, no client: directive)
+├── organisms/Hero.astro (static shell + grid, section#inicio, scoped GSAP transform-only entrance + blob parallax script ──► lib/gsap, no client: directive)
 │   ├── molecules/SectionHeader.astro (eyebrow + h1#hero-heading string title + subtitle)
 │   ├── molecules/HeroBullets.astro (bullets const inside) ──► atoms/Icon ×5 (circle pink md filled)
 │   ├── molecules/HeroActions.astro ──► atoms/Button ×2 (primary md href="#contacto" + secondary md href="#productos") + data/section-ids
 │   └── molecules/HeroMediaCard.astro (credential chip as inner markup)
 │       ├── atoms/ResponsiveImage.astro (eager) ──► assets/hero/hero-clinica-512.webp
 │       └── atoms/Icon.astro ×2 (biotech circle filled + verified bare primary)
-├── organisms/Challenges.astro (static shell + 7/5 grid, section#desafios, no client: directive)
+├── organisms/Challenges.astro (static shell + 7/5 grid, section#desafios, scoped GSAP reveal script ──► lib/gsap, no client: directive)
 │   ├── molecules/SectionHeader.astro (E2 eyebrow + h2 string title + subtitle)
 │   ├── molecules/FeatureList.astro (features const inside) ──► molecules/FeatureRow.astro ×3
 │   │   └── atoms/Icon.astro (circle orange lg per row: shield, water_drop, eco)
 │   └── molecules/MediaWithTags.astro (tilted overlapping media card)
 │       ├── atoms/ResponsiveImage.astro ──► assets/challenges/challenges-clinica-512.webp
 │       └── atoms/Badge.astro ×2 (tag dark CLINICAL GRADE + tag light icon=verified 99.9% PURE)
-├── organisms/Testimonials.astro (static, id="testimonios", tokenized fluid wash + 2 pointer-free blobs, no client: directive)
+├── organisms/Testimonials.astro (static, id="testimonios", tokenized fluid wash + 2 pointer-free blobs, scoped GSAP reveal + glow parallax script ──► lib/gsap, no client: directive)
 │   ├── molecules/SectionHeader.astro (E2 + h2 string title + subtitle, align center)
 │   ├── molecules/TestimonialCard.astro ×3 ──► data/testimonials
 │   │   ├── atoms/Card.astro (C1 glass shell, relative h-full overflow-visible + tilt-float)
 │   │   ├── atoms/Avatar.astro (plain img, external Unsplash URL)
 │   │   └── atoms/Icon.astro (bare filled format_quote, tone per accent)
 │   └── atoms/DividerImage.astro ×2 (plain img, external picsum URLs from DIVIDERS const in organism)
-├── organisms/Products.astro (static shell + split row + strip, no client: directive, id="productos")
+├── organisms/Products.astro (static shell + split row + strip, scoped GSAP reveal script ──► lib/gsap, no client: directive, id="productos")
 │   ├── molecules/SectionHeader.astro (h2 string title + subtitle, align center, no eyebrow)
 │   ├── molecules/ProductPanel.astro ×2 (tone light|dark: backdrop + header + SpecGrid + CTA + vertical pill)
 │   │   ├── atoms/ResponsiveImage.astro ──► assets/products/topico-512.webp | instalaciones-512.webp
@@ -95,7 +95,7 @@ index.astro
 │   │   ├── atoms/Button.tsx (product tone light|dark href="#contacto")
 │   │   └── atoms/Badge.astro (feature vertical: water_drop | cleaning_services)
 │   └── molecules/FormulaStrip.astro (formula banner)
-└── organisms/ContactSection.astro (static shell + tint overlay + backdrop + grid, section#contacto)
+└── organisms/ContactSection.astro (static shell + tint overlay + backdrop + grid, section#contacto, scoped GSAP reveal script ──► lib/gsap, form shell only — island untouched)
     ├── molecules/SectionHeader.astro (h2 gradient slot on SECTION_TITLE_CORE + subtitle)
     ├── molecules/ContactBackdrop.astro (organic blobs + BIOSEGURIDAD massive type)
     ├── molecules/ContactForm.tsx (client:load, form base layer, wrapper #contacto-formulario)
@@ -179,12 +179,14 @@ src/components/atoms/
 ```
 
 ```
-src/components/organisms/ (all thinned to section composition — shells + grids only)
-├── Hero.astro            (section shell + blobs + 12-col grid) ──► molecules/{SectionHeader,HeroBullets,HeroActions,HeroMediaCard}
-├── Challenges.astro      (section shell + 7/5 grid) ──► molecules/{SectionHeader,FeatureList,MediaWithTags}
-├── Testimonials.astro    (section shell + header + card/divider grid) ──► molecules/{SectionHeader,TestimonialCard} + atoms/DividerImage + data/testimonials
-├── Products.astro        (section shell + split row + strip) ──► molecules/{SectionHeader,ProductPanel ×2,FormulaStrip}
-├── ContactSection.astro  (section shell + backdrop + 12-col grid, no inline script) ──► molecules/{SectionHeader,ContactBackdrop,ContactForm,FaqAccordion,ContactMedia,DisclaimerNote}
+src/components/organisms/ (all thinned to section composition — shells + grids only;
+  home five carry scoped GSAP <script> blocks importing lib/gsap + VT lifecycle
+  guard/revert/page-load/after-swap, roots tagged transition:animate="none")
+├── Hero.astro            (section shell + blobs + 12-col grid) ──► molecules/{SectionHeader,HeroBullets,HeroActions,HeroMediaCard} + lib/gsap
+├── Challenges.astro      (section shell + 7/5 grid) ──► molecules/{SectionHeader,FeatureList,MediaWithTags} + lib/gsap
+├── Testimonials.astro    (section shell + header + card/divider grid) ──► molecules/{SectionHeader,TestimonialCard} + atoms/DividerImage + data/testimonials + lib/gsap
+├── Products.astro        (section shell + split row + strip) ──► molecules/{SectionHeader,ProductPanel ×2,FormulaStrip} + lib/gsap
+├── ContactSection.astro  (section shell + backdrop + 12-col grid, GSAP reveal script only — no other inline script) ──► molecules/{SectionHeader,ContactBackdrop,ContactForm,FaqAccordion,ContactMedia,DisclaimerNote} + lib/gsap
 ├── Header.astro          (border-b shell) ──► molecules/PrimaryNav
 └── Footer.astro          (border-t shell) ──► molecules/FooterMeta
 ```
@@ -234,7 +236,8 @@ on `/`, `#desafios` Challenges, `#inicio` Hero, plus `#contacto-formulario` /
 
 ```
 Layout.astro
-├── styles/global.css (tailwind v4 theme, single import + `.page-bg` fixed wash)
+├── styles/global.css (tailwind v4 theme, single import + `.page-bg` fixed wash + `.js-reveal`/`.no-js` GSAP fallback)
+├── <html class="no-js"> + is:inline swap to `js` (GSAP no-JS fallback switch)
 ├── astro:transitions ClientRouter (default fallback)
 ├── `.page-bg` fixed decorator wash (first `<body>` child, `aria-hidden`, behind Header/slot/Footer)
 ├── <slot name="seo"/> ← per-page PageSEO
@@ -282,6 +285,9 @@ None.
 ## Shared leaf layer
 
 - `lib/utils.ts` — `cn()` class joiner (atoms only) + `toKebab()` field→id fragment (form atoms: `idPrefix` + kebab(`field`), label-associated)
+- `lib/gsap.ts` — SSR-safe GSAP entry (registerPlugin + ScrollTrigger.config + gsap.defaults + `load`/`astro:page-load` refresh); imported by the 5 home organism scripts + the two pattern helpers below (gsap chunk shared/cached)
+- `lib/kinetic-marquee.ts` — infinite-marquee factory (pattern only, no host wired) ──► lib/gsap (+ gsap/ModifiersPlugin)
+- `lib/animate-counters.ts` — `data-value` stat-counter helper (pattern only, no stats wired) ──► lib/gsap
 - `data/site-config.ts` — PHONES, EMAIL, ADDRESS, SOCIAL_LINKS, GOOGLE_MAPS, BUSINESS_HOURS, BUSINESS_DATA (`as const`)
 - `data/section-ids.ts` — SECTION_IDS (`as const`: inicio, desafios, testimonios, productos, contacto, contactoFormulario, contactoFaq); single source of truth for section anchors — organisms + CTA molecules import from here, never hardcode
 - `data/testimonials.ts` — TESTIMONIALS (`as const` ×3: quote/name/role/accent/avatar) + `Testimonial`/`TestimonialAccent` types (testimonials section only)
@@ -339,6 +345,7 @@ None.
 - Dev-only pages (`dev-only-pages`): `src/dev-pages/design-system.astro` + `_demos.tsx` moved out of `src/pages/` (git rename, no content change — `./_demos` relative import intact); `src/integrations/dev-only-pages.ts` injects top-level `*.astro` as `/<basename>` via `injectRoute` only when `command === 'dev'` (registered in `astro.config.mjs`); prod `dist/` has no `design-system/` output (nginx 404), sitemap lists prod routes only, `robots.txt` unchanged. New dev page = drop a file in `src/dev-pages/` (flat, `_*` = helper). Verified via hook simulation (dev injects `/design-system`, build/preview/sync inject nothing) + `pnpm build` green at 4 pages.
 - Centralized palette (`centralize-color-palette`, 2026-09-10): all component/page/layout colors now resolve to `@theme` tokens (see `docs/design-tokens.md`); no import/file moves — trees above unchanged. Decisions: deleted 5 dead tokens + folded `primary-fixed-dim` into `secondary-fixed` (one blurred hero blob); new `error` (`#b3261e`) + `--shadow-card/media` tokens; `white`→`on-primary`, `black`→`inverse-surface`, hairline `gray-100`→`surface-container-highest`; fixed dead `font-headline-sm text-headline-sm` in `FaqAccordion` (remapped to `body-lg` bold). Known micro-deltas vs pixel-identical: `Button`/`Card` shadows now use `.shadow-ambient` (adds a soft second layer), `hover:bg-black` is now `on-surface` (`#1a1c1f`). Guardrail: `pnpm run check:palette` (advisory) + `AGENTS.md` palette law.
 - Semantic section ids (`semantic-section-ids`): home anchors renamed to ES slugs — Hero `#inicio` (new), Testimonials `#testimonios`, Products `#productos`, Contact `#contacto` (was `section-3/4/5`), `desafios` unchanged; sub-anchors `#contacto-formulario` (ContactForm wrapper) + `#contacto-faq` (FaqAccordion root); all ids centralized in `data/section-ids.ts` (`as const`) consumed by organisms + `HeroActions`/`ProductPanel` CTAs; every section carries `scroll-mt-20`; form atoms gained optional `idPrefix` (`lib/utils.ts` `toKebab`) with `ContactForm`/`InterestPicker` passing `idPrefix="contacto-"` (store keys unprefixed). Historical `section-3/4/5` mentions above are pre-rename records.
+- GSAP scroll reveals (`gsap-scroll-reveals`): new `gsap@3.15.0` dep + `lib/gsap.ts` (SSR guard, `limitCallbacks`/`ignoreMobileResize`, `power4.out`/1.2s defaults, `load` + `astro:page-load` refresh); `global.css` gains `@utility js-reveal` + `.no-js .js-reveal` override and `Layout.astro` gains `<html class="no-js">` + swap script (content visible with JS off); all 5 home organisms own one scoped timeline each (`play none none none`, unhide-before-`.from()`, `matchMedia` fade-only reduce branch, VT guard/revert/page-load/after-swap, `transition:animate="none"` roots) — Hero transform-only ≤0.9s + session once-guard + blob-wrapper parallax (`scrub 0.8`), Challenges `top 75%`, Testimonials `top 80%` + glow parallax, Products `top 75%`, Contact `top 80%` (form shell only, island/inputs never tweened); `lib/kinetic-marquee.ts` + `lib/animate-counters.ts` ship as unwired patterns (hosts deferred), Swiper dropped (CSS overflow instead). No color/hover-language changes (`check:palette` clean): `js-*` hooks are behavior-only classes, layout chrome untouched. Verified `pnpm build` green.
 
 ## Related
 
