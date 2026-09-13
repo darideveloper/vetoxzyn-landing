@@ -4,12 +4,10 @@ import SectionHeader from "@/components/molecules/SectionHeader.astro"
 import TestimonialCard from "@/components/molecules/TestimonialCard.astro"
 import { TESTIMONIALS } from "@/data/testimonials"
 import { SECTION_IDS } from "@/data/section-ids"
+import divider1 from "@/assets/dividers/divider-1.webp"
+import divider2 from "@/assets/dividers/divider-2.webp"
 
-// Square placeholder dividers (swap URLs only when brand art lands).
-const DIVIDERS = [
-  "https://picsum.photos/id/237/600/600",
-  "https://picsum.photos/id/1025/600/600",
-]
+const DIVIDERS: ImageMetadata[] = [divider1, divider2]
 ---
 
 <section id={SECTION_IDS.testimonios} aria-labelledby="testimonials-heading" class="js-testimonials-section relative scroll-mt-20 overflow-hidden overflow-x-clip py-xl" transition:animate="none">

@@ -1,21 +1,21 @@
 ---
 import { Image } from "astro:assets"
 
-// Local images only — external URLs stay in Avatar/DividerImage (plain <img>).
 interface Props {
   src: ImageMetadata
   alt: string
   sizes: string
+  widths?: number[]
   eager?: boolean
   class?: string | string[]
 }
-const { src, alt, sizes, eager = false, class: cls = "" } = Astro.props
+const { src, alt, sizes, widths, eager = false, class: cls = "" } = Astro.props
 ---
 
 {eager ? (
   <Image
     src={src}
-    widths={[384, 512]}
+    widths={widths ?? [480, 800, 1024, 1280]}
     sizes={sizes}
     loading="eager"
     fetchpriority="high"
@@ -25,7 +25,7 @@ const { src, alt, sizes, eager = false, class: cls = "" } = Astro.props
 ) : (
   <Image
     src={src}
-    widths={[384, 512]}
+    widths={widths ?? [480, 800, 1024, 1200]}
     sizes={sizes}
     loading="lazy"
     decoding="async"

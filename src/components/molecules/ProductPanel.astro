@@ -3,8 +3,8 @@ import Badge from "../atoms/Badge.astro"
 import { Button } from "@/components/atoms/Button"
 import ResponsiveImage from "../atoms/ResponsiveImage.astro"
 import SpecGrid from "./SpecGrid.astro"
-import topicoImg from "@/assets/products/topico-512.webp"
-import instalacionesImg from "@/assets/products/instalaciones-512.webp"
+import topicoImg from "@/assets/products/topico.webp"
+import instalacionesImg from "@/assets/products/instalaciones.webp"
 import { SECTION_IDS } from "@/data/section-ids"
 
 interface Props {
@@ -61,6 +61,7 @@ const SPECS: Record<"light" | "dark", Spec[]> = {
   <div class="absolute inset-0 z-0">
     <ResponsiveImage
       src={img}
+      widths={[768, 1280, 1536, 2048]}
       sizes="(max-width: 1024px) 100vw, 50vw"
       alt={imgAlt}
       class:list={[

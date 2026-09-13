@@ -1,18 +1,22 @@
 ---
-// Plain <img> square divider — external URLs only (picsum), never astro:assets.
+import { Image } from "astro:assets"
+
 interface Props {
-  src: string
+  src: ImageMetadata
   alt?: string
+  widths?: number[]
+  sizes?: string
   class?: string
 }
-const { src, alt = "", class: cls = "" } = Astro.props
+const { src, alt = "", widths = [400, 800], sizes = "80px", class: cls = "" } = Astro.props
 ---
 
-<img
+<Image
   src={src}
+  widths={widths}
+  sizes={sizes}
   alt={alt}
-  width="600"
-  height="600"
   loading="lazy"
+  decoding="async"
   class:list={["hover-subtle h-full w-full object-cover", cls]}
 />

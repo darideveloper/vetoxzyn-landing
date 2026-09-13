@@ -71,26 +71,26 @@ index.astro
 │   ├── molecules/HeroBullets.astro (bullets const inside) ──► atoms/Icon ×5 (circle pink md filled)
 │   ├── molecules/HeroActions.astro ──► atoms/Button ×2 (primary md href="#contacto-formulario" + secondary md href="#productos") + data/section-ids
 │   └── molecules/HeroMediaCard.astro (credential chip as inner markup)
-│       ├── atoms/ResponsiveImage.astro (eager) ──► assets/hero/hero-clinica-512.webp
+│       ├── atoms/ResponsiveImage.astro (eager, widths [480,800,1024,1280]) ──► assets/hero/hero-clinica.webp (2560×3200 4:5 AI master)
 │       └── atoms/Icon.astro ×2 (biotech circle filled + verified bare primary)
 ├── organisms/Challenges.astro (static shell + 7/5 grid, section#desafios, scoped GSAP reveal script ──► lib/gsap, no client: directive)
 │   ├── molecules/SectionHeader.astro (E2 eyebrow + h2 string title + subtitle)
 │   ├── molecules/FeatureList.astro (features const inside) ──► molecules/FeatureRow.astro ×3
 │   │   └── atoms/Icon.astro (circle orange lg per row: shield, water_drop, eco)
 │   └── molecules/MediaWithTags.astro (tilted overlapping media card)
-│       ├── atoms/ResponsiveImage.astro ──► assets/challenges/challenges-clinica-512.webp
+│       ├── atoms/ResponsiveImage.astro (widths [480,800,1024,1200]) ──► assets/challenges/challenges-clinica.webp (2400×3000 4:5 AI master)
 │       └── atoms/Badge.astro ×2 (tag dark CLINICAL GRADE + tag light icon=verified 99.9% PURE)
 ├── organisms/Testimonials.astro (static, id="testimonios", tokenized fluid wash + 2 pointer-free blobs, scoped GSAP reveal + glow parallax script ──► lib/gsap, no client: directive)
 │   ├── molecules/SectionHeader.astro (E2 + h2 string title + subtitle, align center)
 │   ├── molecules/TestimonialCard.astro ×3 ──► data/testimonials
 │   │   ├── atoms/Card.astro (C1 glass shell, relative h-full overflow-visible + tilt-float)
-│   │   ├── atoms/Avatar.astro (plain img, external Unsplash URL)
+│   │   ├── atoms/Avatar.astro (plain img, external Unsplash URL — avatars excluded from local-stock change)
 │   │   └── atoms/Icon.astro (bare filled format_quote, tone per accent)
-│   └── atoms/DividerImage.astro ×2 (plain img, external picsum URLs from DIVIDERS const in organism)
+│   └── atoms/DividerImage.astro ×2 (astro:assets Image, widths [400,800]) ──► assets/dividers/divider-*.webp (1600×1600 AI masters)
 ├── organisms/Products.astro (static shell + split row + strip, scoped GSAP reveal script ──► lib/gsap, no client: directive, id="productos")
 │   ├── molecules/SectionHeader.astro (h2 string title + subtitle, align center, no eyebrow)
 │   ├── molecules/ProductPanel.astro ×2 (tone light|dark: backdrop + header + SpecGrid + CTA + vertical pill)
-│   │   ├── atoms/ResponsiveImage.astro ──► assets/products/topico-512.webp | instalaciones-512.webp
+│   │   ├── atoms/ResponsiveImage.astro (widths [768,1280,1536,2048]) ──► assets/products/topico.webp | instalaciones.webp (4096×2304 16:9 AI masters)
 │   │   ├── molecules/SpecGrid.astro (tone + items from panel SPECS const) ──► atoms/SpecItem.astro ×5 (wide? on Presentaciones)
 │   │   ├── atoms/Button.tsx (product tone light|dark href="#contacto-formulario")
 │   │   └── atoms/Badge.astro (feature vertical: water_drop | cleaning_services)
@@ -107,7 +107,7 @@ index.astro
     ├── molecules/FaqAccordion.astro (glass panel + header + single-open exclusivity script, root #contacto-faq)
     │   ├── molecules/FaqItem.astro ×3 (details/summary + bare orange add_circle Icon)
     │   └── atoms/Icon.astro (circle pink lg filled info, header)
-    ├── molecules/ContactMedia.astro ──► atoms/ResponsiveImage.astro ──► assets/contact/contact-clinica-512.webp
+    ├── molecules/ContactMedia.astro ──► atoms/ResponsiveImage.astro (widths [640,1024,1600]) ──► assets/contact/contact-clinica.webp (3200×1800 16:9 AI master)
     └── molecules/DisclaimerNote.astro ──► atoms/Icon.astro (bare orange filled warning)
 ```
 
@@ -172,9 +172,9 @@ src/components/atoms/
 ├── Badge.astro   (P1 feature | P2 tag with tone dark|primary|light + icon — GAP-B; .hover-subtle, pointer-free)
 ├── Eyebrow.astro (E2, static; .hover-subtle, pointer-free)
 ├── Card.astro    (C1 glass shell, static; .hover-subtle, pointer-free)
-├── Avatar.astro      (plain <img>, h-24 rounded-full bordered — external URLs only, never astro:assets; .hover-subtle, pointer-free)
-├── DividerImage.astro (plain <img>, square lazy — external URLs only, never astro:assets; .hover-subtle, pointer-free)
-├── ResponsiveImage.astro (astro:assets wrapper, local images only: widths 384/512, sizes passthrough, eager? → eager/high-priority vs lazy/async)
+├── Avatar.astro      (plain <img>, h-24 rounded-full bordered — external Unsplash URLs only, never astro:assets; avatars excluded from local-stock change; .hover-subtle, pointer-free)
+├── DividerImage.astro (astro:assets Image, local images only: widths [400,800], sizes passthrough, lazy/async; .hover-subtle, pointer-free)
+├── ResponsiveImage.astro (astro:assets wrapper, local images only: widths prop with per-slot defaults, sizes passthrough, eager? → eager/high-priority vs lazy/async)
 ├── NavLink.astro     (.link + explicit cursor-pointer <a>: color + underline-offset hover, focus-visible parity; optional target/rel passthrough for new-tab external links)
 ├── SpecItem.astro    (spec dt/dd cell: term + tone light|dark + wide? col-span-2 + valueClass override, value in slot; .hover-subtle, pointer-free)
 └── BrandLogo.astro   (plain <img> of public/brand/logo.webp 600×244, alt Vetoxzyn, caller height class + w-auto ratio lock, loading/fetchpriority props; pointer-free)
@@ -322,9 +322,7 @@ None.
   shell (blobs, 12-col 7+5, bottom avatar overlay) + `01-hero-bullet-list` Icon
   rows ×5 (bullets replace the badges row — same 5 items, no duplication).
   React `Button` inside static Astro MUST use `className`, never `class`.
-- Hero image is a 512px Stitch placeholder (`src/assets/hero/`, see README):
-  widths reduced to native 512/384 (no upscaling); re-export at 1024+ when
-  brand art lands. No external hotlinks in code.
+- Hero, Challenges, Contact and Products images are AI masters (`replace-stock-images`): single high-res source per slot (no `-384/-512` variants), responsive widths per slot (Hero/Challenges/Contact/Products as above, Dividers via DividerImage); no external hotlinks except the 3 kept Unsplash avatars.
 - Products (`add-products-section`): `organisms/Products.astro` = `04-products`
   split (in-flow h2 header flattened from the absolute overlay + light Tópico /
   dark Instalaciones panels + formula banner). Vertical pills are glass `Badge

@@ -1,6 +1,6 @@
 ---
 import ResponsiveImage from "../atoms/ResponsiveImage.astro"
-import contactImg from "@/assets/contact/contact-clinica-512.webp"
+import contactImg from "@/assets/contact/contact-clinica.webp"
 
 interface Props {
   class?: string
@@ -8,11 +8,12 @@ interface Props {
 const { class: cls = "" } = Astro.props
 ---
 
-<div class:list={["hover-subtle w-full overflow-hidden rounded-3xl border-4 border-on-primary/80 shadow-2xl rotate-[-1deg] lg:-rotate-3", cls]}>
+<div class:list={["hover-subtle aspect-[16/9] w-full overflow-hidden rounded-3xl border-4 border-on-primary/80 shadow-2xl rotate-[-1deg] lg:-rotate-3", cls]}>
   <ResponsiveImage
     src={contactImg}
-    sizes="(max-width: 1024px) 100vw, 480px"
+    widths={[640, 1024, 1600]}
+    sizes="(max-width: 1024px) 100vw, 450px"
     alt="Clínica veterinaria de alta tecnología con superficies de vidrio e instrumental metálico bajo luz blanca"
-    class="h-auto w-full"
+    class="h-full w-full object-cover"
   />
 </div>

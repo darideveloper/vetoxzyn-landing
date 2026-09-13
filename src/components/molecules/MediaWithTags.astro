@@ -1,14 +1,15 @@
 ---
 import Badge from "../atoms/Badge.astro"
 import ResponsiveImage from "../atoms/ResponsiveImage.astro"
-import challengesImg from "@/assets/challenges/challenges-clinica-512.webp"
+import challengesImg from "@/assets/challenges/challenges-clinica.webp"
 ---
 
 <div class="tilt-float relative rounded-[32px] border border-surface-container-highest bg-on-primary p-4 shadow-media">
   <div class="relative aspect-[4/5] w-full overflow-hidden rounded-[24px] bg-surface-container-highest">
     <ResponsiveImage
       src={challengesImg}
-      sizes="(max-width: 1024px) 100vw, 512px"
+      widths={[480, 800, 1024, 1200]}
+      sizes="(max-width: 1024px) 100vw, 450px"
       alt="Personal veterinario atendiendo a un perro sobre una camilla clínica"
       class="h-full w-full object-cover"
     />

@@ -41,11 +41,11 @@ The FAQ panel SHALL show title `Frecuencia de Diagnóstico` and exactly 3 native
 - **THEN** all headings, form labels, FAQ questions, and disclaimer render as static HTML and each `<details>` still opens natively (multi-open fallback)
 
 ### Requirement: Image and disclaimer layer
-The layer SHALL render a local WebP from `src/assets/contact/` via `astro:assets Image` (`loading="lazy"`, widths capped at native, `decoding="async"`, `border-4 border-white/80 rounded-3xl`) at its natural aspect ratio (`h-auto w-full`, no fixed or fill heights that crop or stretch on any viewport) — no external `googleusercontent` hotlink SHALL remain — with the `glass-panel-heavy rounded-2xl border-l-4 border-l-brand-orange` disclaimer box beside/below it carrying the bare `warning` icon and caption `Aviso Importante: vetoxzyn® no es un medicamento, consulte a su médico veterinario.` The layer SHALL stack visible on mobile (deliberate deviation from Stitch `hidden lg:flex`).
+The layer SHALL render the local master `src/assets/contact/contact-clinica.webp` (3200×1800 16:9) via `astro:assets Image` (`loading="lazy"`, `widths [640, 1024, 1600]`, `decoding="async"`, `border-4 border-on-primary/80 rounded-3xl`) inside a fixed-ratio container (`aspect-[16/9] w-full overflow-hidden`, image `h-full w-full object-cover`) — no external `googleusercontent` hotlink SHALL remain — with the `glass-panel-heavy rounded-2xl border-l-4 border-l-brand-orange` disclaimer box beside/below it carrying the bare `warning` icon and caption `Aviso Importante: vetoxzyn® no es un medicamento, consulte a su médico veterinario.` The layer SHALL stack visible on mobile (deliberate deviation from Stitch `hidden lg:flex`).
 
 #### Scenario: Local optimized render
 - **WHEN** the page builds and loads `/` or `/contact`
-- **THEN** the contact image is served from local build output (responsive WebP) and the disclaimer caption is visible at 390px width without horizontal scroll
+- **THEN** the contact image is served from the `contact-clinica.webp` build output (responsive WebP with `widths [640, 1024, 1600]`) filling its `16/9` container with cover crop, and the disclaimer caption is visible at 390px width without horizontal scroll
 
 ### Requirement: Responsive overlap without overflow
 Mobile SHALL stack header → form → FAQ → image → disclaimer single-column with the base skew tilts; desktop (`lg:`) SHALL lay the same DOM order out as a static 12-column grid (left column `FAQ + image + disclaimer` on cols 1–5, form on cols 6–12 spanning all three rows, `gap-10`) with stronger skew tilts, no absolute positioning, and no inter-card overlap, inside an `overflow-x-clip` container with zero horizontal overflow at 390/768/1024/1280/1440px.
