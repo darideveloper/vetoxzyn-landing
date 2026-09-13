@@ -57,6 +57,10 @@ Gotchas:
 - If a referenced doc does not exist, skip it. Do not invent it.
 - `docs/astro.md` is the hub overview.
 
+## Language (mandatory, Spanish-first)
+
+All user-visible website copy SHALL be written in Spanish: page content, headings, buttons, links, aria-labels, and SEO titles/descriptions. Code identifiers, docs, and specs stay in English.
+
 ## Atomic Component Hierarchy (mandatory, vanilla-only)
 
 This project is locked to **Vanilla only** (approach 1 in `docs/astro-atomic-components.md`).
