@@ -9,7 +9,11 @@ The system SHALL render a static `organisms/ContactSection.astro` shell on `/` a
 
 #### Scenario: Contact page reuse
 - **WHEN** a visitor loads `/contact`
-- **THEN** the same `ContactSection` organism renders below the existing direct phone/email intro block with identical composition and a single `ContactForm` island instance
+- **THEN** a branded H1 (`Contáctanos`, canonical `SectionHeader` `level="h1"` string-title style) renders inside the section above the organism header via the optional `page-title` slot (shared section tint/backdrop background), followed by the same `ContactSection` composition with a single `ContactForm` island instance (no phone/email paragraph; channels remain reachable via shell `ContactLinks` in header and footer)
+
+#### Scenario: Landing slot absence
+- **WHEN** a visitor loads `/`
+- **THEN** the `page-title` slot is empty and the organism renders exactly as before (no extra wrapper, no heading)
 
 #### Scenario: Distinctive backdrop over global wash
 - **WHEN** a visitor scrolls from Products into `#section-5`
