@@ -26,7 +26,7 @@ File-based routing, SSG (`output` default `static`, no SSR adapter). No catch-al
 src/pages/ (prod routes — everything here ships in dist/ + sitemap)
 ├── index.astro       ← landing: hero + challenges + testimonials + products + ContactForm island
 ├── about.astro       ← static content page
-├── contact.astro     ← contact details + ContactForm island
+├── contact.astro     ← branded H1 (SectionHeader h1) + ContactSection organism
 ├── 404.astro         ← branded ES not-found (SectionHeader h1 + B2/B3 CTAs + sitemap), flex-1 centered
 └── robots.txt.ts     ← API route (dynamic robots.txt), no components
 
@@ -129,9 +129,8 @@ design-system.astro
 contact.astro
 ├── Layout.astro ──► shared shell (see below)
 ├── seo/PageSEO.astro ──► SEO chain (see below)
-├── atoms/NavLink.astro ×2 (intro block direct links: phone + email)
-├── data/site-config (EMAIL, PHONES — direct links intro block)
-└── organisms/ContactSection.astro ──► same subtree as index.astro
+└── organisms/ContactSection.astro ──► same subtree as index.astro (+ `page-title` slot outlet)
+    └── molecules/SectionHeader.astro slotted in by the page (level="h1" string title "Contáctanos" — first page-level use)
 ```
 
 ### about.astro tree
@@ -350,6 +349,7 @@ None.
 - Link/CTA fix (`fix-links-ctas`, 2026-09-12): `PHONES.main` is the real WhatsApp identity (`+52 1 461 574 7483`, `tel:+5214615747483`, `wa.me/5214615747483` — visible phone links point at `wa.me` new-tab); `SOCIAL_LINKS` facebook-only (instagram key deleted, SEO `sameAs` follows); `FooterMeta` gains an inline-SVG Facebook logo link (`target=_blank rel=noopener`, `aria-label`, `currentColor` fill — no new CSS/token); `NavLink` accepts optional `target`/`rel`; hero primary + both product CTAs land directly on `#contacto-formulario` (form wrapper gained `scroll-mt-20`; `global.css` gained `scroll-behavior: smooth` + reduced-motion `auto`); `Ver línea Tópico` keeps `#productos` as the explicit exemption; no routes added/removed — trees above redrawn for the import/label/target diffs only.
 - Branded fullscreen 404 (`branded-fullscreen-404`, 2026-09-12): `404.astro` rewritten from the EN stub to the hero voice, all strings ES (`SectionHeader` centered `h1#not-found-heading` + E2 eyebrow + subtitle, aria-hidden `404` numeral in `text-massive` + token gradient `bg-gradient-to-br from-brand-pink to-primary` + `bg-clip-text`, B2 primary → `/` + B3 secondary → `/contact` static Buttons, `NavLink` sitemap relabeled Inicio/Nosotros/Contacto, `lang="es"` + ES `PageSEO`); flex-shell decision: `body flex min-h-dvh flex-col` + `main flex flex-1 flex-col` in `Layout` so the 404 section (`flex flex-1 items-center justify-center`) centers in `100dvh − header − footer` with zero chrome arithmetic — no-op for tall pages (verified `/`, `/about`, `/contact` unchanged in `dist/`), sticky-footer side effect on short pages. New mandatory `AGENTS.md ## Language` rule (user-visible copy in Spanish; code/docs/specs in English). Out of scope by design: shared Header/Footer chrome still EN (`PrimaryNav` About/Contact) — separate change if wanted. Verified `check:palette` clean + `astro build` green (4 pages, `404.html` single `h1`, zero EN in 404 section). Post-verify bug fix: the numeral originally used the shared `.gradient-primary` class — its `background` shorthand resets `background-clip` to `border-box` later in the cascade (dev 54606 > 27564, prod 46967 > 27054), rendering a gradient box instead of gradient text; switched to `bg-gradient-to-br from-brand-pink to-primary` (longhand `background-image`, clip survives; same hexes `#db6f85`→`#a83200`), verified on the running `/404` page.
 - GSAP scroll reveals (`gsap-scroll-reveals`): new `gsap@3.15.0` dep + `lib/gsap.ts` (SSR guard, `limitCallbacks`/`ignoreMobileResize`, `power4.out`/1.2s defaults, `load` + `astro:page-load` refresh); `global.css` gains `@utility js-reveal` + `.no-js .js-reveal` override and `Layout.astro` gains `<html class="no-js">` + swap script (content visible with JS off); all 5 home organisms own one scoped timeline each (`play none none none`, unhide-before-`.from()`, `matchMedia` fade-only reduce branch, VT guard/revert/page-load/after-swap, `transition:animate="none"` roots) — Hero transform-only ≤0.9s + session once-guard + blob-wrapper parallax (`scrub 0.8`), Challenges `top 75%`, Testimonials `top 80%` + glow parallax, Products `top 75%`, Contact `top 80%` (form shell only, island/inputs never tweened); `lib/kinetic-marquee.ts` + `lib/animate-counters.ts` ship as unwired patterns (hosts deferred), Swiper dropped (CSS overflow instead). No color/hover-language changes (`check:palette` clean): `js-*` hooks are behavior-only classes, layout chrome untouched. Verified `pnpm build` green.
+- Branded contact H1 (`remove-contact-intro-block`): `contact.astro` intro block (unstyled `<h1>Contacto</h1>` + phone/email `NavLink` paragraph) replaced by `<SectionHeader level="h1" title="Contáctanos" slot="page-title" />` (plain string title, no slot — canonical `SECTION_TITLE_CORE`, zero bespoke classes) projected into a new optional `page-title` slot outlet in `ContactSection` (above the in-flow header, `Astro.slots.has` guard — empty on `/`, landing output unchanged), so the H1 shares the section tint/backdrop background; the separate page-level `<section>` shell is gone (page = `Layout` + `PageSEO` + one organism). Imports drop `NavLink` + `PHONES`/`EMAIL`, keep `SectionHeader` (first page-level molecule use — permitted, pages compose). Phone/email stay reachable via shell `ContactLinks` (no `contact-channels` delta).
 
 ## Related
 

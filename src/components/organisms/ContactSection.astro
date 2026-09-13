@@ -20,6 +20,12 @@ import { SECTION_IDS } from "@/data/section-ids"
   <ContactBackdrop />
 
   <div class="relative z-10 mx-auto flex w-full max-w-max-width flex-col items-center px-gutter py-20">
+    <!-- Optional page-level title projected by the host page (/contact H1) -->
+    {Astro.slots.has("page-title") && (
+      <div class="mb-8 w-full">
+        <slot name="page-title" />
+      </div>
+    )}
     <!-- Header (flattened in-flow from the Stitch lg:absolute overlay) -->
     <div class="js-contact-header js-contact-reveal js-reveal mb-12 w-full text-left">
       <SectionHeader
