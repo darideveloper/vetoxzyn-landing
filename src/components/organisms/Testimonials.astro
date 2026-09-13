@@ -12,12 +12,12 @@ const DIVIDERS = [
 ]
 ---
 
-<section id={SECTION_IDS.testimonios} aria-labelledby="testimonials-heading" class="relative scroll-mt-20 overflow-hidden overflow-x-clip py-xl">
+<section id={SECTION_IDS.testimonios} aria-labelledby="testimonials-heading" class="js-testimonials-section relative scroll-mt-20 overflow-hidden overflow-x-clip py-xl" transition:animate="none">
   <div aria-hidden="true" class="bg-fluid-shape absolute inset-0 -z-10 bg-surface-container-highest/50 backdrop-blur-md"></div>
-  <div aria-hidden="true" class="pointer-events-none absolute -top-40 -right-40 -z-10 h-96 w-96 rounded-full bg-brand-orange/10 blur-3xl"></div>
-  <div aria-hidden="true" class="pointer-events-none absolute -bottom-40 -left-40 -z-10 h-[500px] w-[500px] rounded-full bg-brand-pink/10 blur-3xl"></div>
+  <div aria-hidden="true" class="js-testimonials-glow pointer-events-none absolute -top-40 -right-40 -z-10 h-96 w-96 rounded-full bg-brand-orange/10 blur-3xl"></div>
+  <div aria-hidden="true" class="js-testimonials-glow pointer-events-none absolute -bottom-40 -left-40 -z-10 h-[500px] w-[500px] rounded-full bg-brand-pink/10 blur-3xl"></div>
   <div class="max-w-max-width mx-auto px-margin-mobile md:px-margin-desktop">
-    <div class="mb-xl text-center">
+    <div class="js-testimonials-header js-testimonials-reveal js-reveal mb-xl text-center">
       <SectionHeader
         align="center"
         eyebrow="EVIDENCIA CLÍNICA"
@@ -33,7 +33,7 @@ const DIVIDERS = [
         <>
           <TestimonialCard quote={t.quote} name={t.name} role={t.role} accent={t.accent} avatar={t.avatar} />
           {i < TESTIMONIALS.length - 1 && (
-            <div aria-hidden="true" class="h-24 w-full overflow-hidden rounded-xl md:h-[60%] md:self-center">
+            <div aria-hidden="true" class="js-testimonials-divider js-testimonials-reveal js-reveal h-24 w-full overflow-hidden rounded-xl md:h-[60%] md:self-center">
               <DividerImage src={DIVIDERS[i]} />
             </div>
           )}
@@ -48,3 +48,84 @@ const DIVIDERS = [
     clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 95%);
   }
 </style>
+
+<script>
+  import { gsap, ScrollTrigger } from "@/lib/gsap"
+
+  let mm: ReturnType<typeof gsap.matchMedia> | undefined
+
+  const init = () => {
+    const section = document.querySelector(".js-testimonials-section")
+    if (!section) return
+
+    mm?.revert()
+    mm = gsap.matchMedia()
+
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      // Unhide so GSAP can measure the natural state BEFORE the .from()
+      gsap.set(section.querySelectorAll(".js-testimonials-reveal"), {
+        autoAlpha: 1,
+        force3D: true,
+      })
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+      })
+
+      tl.from(section.querySelector(".js-testimonials-header"), {
+        autoAlpha: 0,
+        y: 40,
+        duration: 1.2,
+        ease: "power4.out",
+      }).from(
+        section.querySelectorAll(".js-testimonials-card, .js-testimonials-divider"),
+        {
+          autoAlpha: 0,
+          y: 30,
+          duration: 1.0,
+          stagger: 0.15,
+          ease: "power3.out",
+        },
+        "-=0.8",
+      )
+
+      // Decorative parallax on the ambient glows (static layers, no CSS
+      // animation of their own, so GSAP owns the transform cleanly)
+      gsap.to(section.querySelectorAll(".js-testimonials-glow"), {
+        y: (i) => (i === 0 ? 80 : -80),
+        x: (i) => (i === 0 ? 40 : -40),
+        ease: "none",
+        scrollTrigger: {
+          trigger: section,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 0.8,
+        },
+      })
+    })
+
+    mm.add("(prefers-reduced-motion: reduce)", () => {
+      gsap.set(section.querySelectorAll(".js-testimonials-reveal"), { autoAlpha: 0 })
+
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top 80%",
+        onEnter: () => {
+          gsap.to(section.querySelectorAll(".js-testimonials-reveal"), {
+            autoAlpha: 1,
+            duration: 0.8,
+            stagger: 0.1,
+          })
+        },
+      })
+    })
+  }
+
+  document.addEventListener("astro:after-swap", () => mm?.revert())
+  document.addEventListener("astro:page-load", init)
+  init()
+</script>

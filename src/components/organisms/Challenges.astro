@@ -8,11 +8,13 @@ import { SECTION_IDS } from "@/data/section-ids"
 <section
   id={SECTION_IDS.desafios}
   aria-labelledby="challenges-heading"
-  class="relative scroll-mt-20 overflow-hidden pt-xl pb-xl font-body-md text-on-surface"
+  class="js-challenges-section relative scroll-mt-20 overflow-hidden pt-xl pb-xl font-body-md text-on-surface"
+  transition:animate="none"
 >
   <div class="relative z-10 mx-auto grid w-full max-w-max-width grid-cols-1 items-center gap-lg px-gutter lg:grid-cols-12 lg:gap-0">
     <div class="relative z-10 rounded-[24px] border border-surface-container-highest bg-on-primary p-8 shadow-card md:p-12 lg:col-span-7">
       <SectionHeader
+        class="js-challenges-header js-challenges-reveal js-reveal"
         eyebrow="Dr. Resultados"
         id="challenges-heading"
         title="Transciende los Obstáculos Clínicos"
@@ -22,8 +24,87 @@ import { SECTION_IDS } from "@/data/section-ids"
       />
       <FeatureList />
     </div>
-    <div class="relative z-20 mt-lg lg:col-span-5 lg:mt-0 lg:-ml-16">
+    <div class="js-challenges-media js-challenges-reveal js-reveal relative z-20 mt-lg lg:col-span-5 lg:mt-0 lg:-ml-16">
       <MediaWithTags />
     </div>
   </div>
 </section>
+
+<script>
+  import { gsap, ScrollTrigger } from "@/lib/gsap"
+
+  let mm: ReturnType<typeof gsap.matchMedia> | undefined
+
+  const init = () => {
+    const section = document.querySelector(".js-challenges-section")
+    if (!section) return
+
+    mm?.revert()
+    mm = gsap.matchMedia()
+
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      // Unhide so GSAP can measure the natural state BEFORE the .from()
+      gsap.set(section.querySelectorAll(".js-challenges-reveal"), {
+        autoAlpha: 1,
+        force3D: true,
+      })
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top 75%",
+          toggleActions: "play none none none",
+        },
+      })
+
+      tl.from(section.querySelector(".js-challenges-header"), {
+        autoAlpha: 0,
+        y: 40,
+        duration: 1.2,
+        ease: "power4.out",
+      })
+        .from(
+          section.querySelectorAll(".js-challenges-feature"),
+          {
+            autoAlpha: 0,
+            y: 30,
+            duration: 1.0,
+            stagger: 0.15,
+            ease: "power3.out",
+          },
+          "-=0.8",
+        )
+        .from(
+          section.querySelector(".js-challenges-media"),
+          {
+            autoAlpha: 0,
+            y: 30,
+            scale: 0.98,
+            duration: 1.0,
+            ease: "power3.out",
+          },
+          "-=0.8",
+        )
+    })
+
+    mm.add("(prefers-reduced-motion: reduce)", () => {
+      gsap.set(section.querySelectorAll(".js-challenges-reveal"), { autoAlpha: 0 })
+
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top 75%",
+        onEnter: () => {
+          gsap.to(section.querySelectorAll(".js-challenges-reveal"), {
+            autoAlpha: 1,
+            duration: 0.8,
+            stagger: 0.1,
+          })
+        },
+      })
+    })
+  }
+
+  document.addEventListener("astro:after-swap", () => mm?.revert())
+  document.addEventListener("astro:page-load", init)
+  init()
+</script>

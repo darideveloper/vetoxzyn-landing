@@ -149,6 +149,20 @@
   filter: brightness(1.03);
 }
 
+/* GSAP scroll-reveal base (hybrid C): `.js-reveal` hides revealable elements
+   only when JS runs (`.no-js` override keeps content visible for no-JS
+   users and crawlers). Scripts unhide via gsap.set(autoAlpha:1) before
+   building .from() tweens. Never hide with `opacity-0` alone. */
+@utility js-reveal {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.no-js .js-reveal {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
 /* Stitch hero effects (from 01-hero-layout <style>) */
 /* ponytail: .tilt-float MUST stay after .hover-subtle — equal specificity,
    so source order decides which :hover transform wins on tilted cards. */

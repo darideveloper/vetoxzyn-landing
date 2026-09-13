@@ -8,9 +8,10 @@ import { SECTION_IDS } from "@/data/section-ids"
 <section
   id={SECTION_IDS.productos}
   aria-labelledby="products-heading"
-  class="scroll-mt-20 font-body-md text-on-surface"
+  class="js-products-section scroll-mt-20 font-body-md text-on-surface"
+  transition:animate="none"
 >
-  <div class="mx-auto max-w-max-width px-gutter pt-xl pb-lg text-center">
+  <div class="js-products-header js-products-reveal js-reveal mx-auto max-w-max-width px-gutter pt-xl pb-lg text-center">
     <SectionHeader
       align="center"
       id="products-heading"
@@ -27,3 +28,81 @@ import { SECTION_IDS } from "@/data/section-ids"
 
   <FormulaStrip />
 </section>
+
+<script>
+  import { gsap, ScrollTrigger } from "@/lib/gsap"
+
+  let mm: ReturnType<typeof gsap.matchMedia> | undefined
+
+  const init = () => {
+    const section = document.querySelector(".js-products-section")
+    if (!section) return
+
+    mm?.revert()
+    mm = gsap.matchMedia()
+
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      // Unhide so GSAP can measure the natural state BEFORE the .from()
+      gsap.set(section.querySelectorAll(".js-products-reveal"), {
+        autoAlpha: 1,
+        force3D: true,
+      })
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top 75%",
+          toggleActions: "play none none none",
+        },
+      })
+
+      tl.from(section.querySelector(".js-products-header"), {
+        autoAlpha: 0,
+        y: 40,
+        duration: 1.2,
+        ease: "power4.out",
+      })
+        .from(
+          section.querySelectorAll(".js-products-panel"),
+          {
+            autoAlpha: 0,
+            y: 60,
+            duration: 1.2,
+            stagger: 0.2,
+            ease: "expo.out",
+          },
+          "-=0.8",
+        )
+        .from(
+          section.querySelector(".js-products-strip"),
+          {
+            autoAlpha: 0,
+            y: 20,
+            duration: 1.0,
+            ease: "power3.out",
+          },
+          "-=0.6",
+        )
+    })
+
+    mm.add("(prefers-reduced-motion: reduce)", () => {
+      gsap.set(section.querySelectorAll(".js-products-reveal"), { autoAlpha: 0 })
+
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top 75%",
+        onEnter: () => {
+          gsap.to(section.querySelectorAll(".js-products-reveal"), {
+            autoAlpha: 1,
+            duration: 0.8,
+            stagger: 0.1,
+          })
+        },
+      })
+    })
+  }
+
+  document.addEventListener("astro:after-swap", () => mm?.revert())
+  document.addEventListener("astro:page-load", init)
+  init()
+</script>
