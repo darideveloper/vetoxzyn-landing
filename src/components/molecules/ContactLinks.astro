@@ -1,13 +1,12 @@
 ---
 import { EMAIL, PHONES } from "@/data/site-config"
-import NavLink from "../atoms/NavLink.astro"
 
-// Shared phone + email link pair (no wrapper — multiple roots).
+// Shared phone + email display pair (no wrapper — multiple roots).
 interface Props {
   emailClass?: string
 }
 const { emailClass = "" } = Astro.props
 ---
 
-<NavLink href={PHONES.main.wa} target="_blank" rel="noopener">{PHONES.main.formatted}</NavLink>
-<NavLink href={EMAIL.href} class={emailClass}>{EMAIL.address}</NavLink>
+<span>{PHONES.main.formatted}</span>
+<span class={emailClass}>{EMAIL.address}</span>

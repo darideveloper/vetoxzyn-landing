@@ -1,6 +1,6 @@
 ---
 import { ContactForm } from "@/components/molecules/ContactForm.tsx"
-import SectionHeader, { SECTION_TITLE_CORE } from "@/components/molecules/SectionHeader.astro"
+import SectionHeader from "@/components/molecules/SectionHeader.astro"
 import ContactBackdrop from "@/components/molecules/ContactBackdrop.astro"
 import FaqAccordion from "@/components/molecules/FaqAccordion.astro"
 import ContactMedia from "@/components/molecules/ContactMedia.astro"
@@ -29,13 +29,13 @@ import { SECTION_IDS } from "@/data/section-ids"
     <!-- Header (flattened in-flow from the Stitch lg:absolute overlay) -->
     <div class="js-contact-header js-contact-reveal js-reveal mb-12 w-full text-left">
       <SectionHeader
-        subtitle="Inicie el protocolo de integración biológica. Conecte su infraestructura con la precisión clínica de nuestra matriz oxidativa."
+        eyebrow="ORIENTACIÓN PARA TU CLÍNICA"
+        id="contact-heading"
+        title="Revisemos cómo quieres integrar Vetoxzyn® en tu clínica."
+        titleClass="max-w-3xl leading-tight"
+        subtitle="Describe brevemente dónde quieres utilizar Vetoxzyn® y podremos orientarte según tu contexto de trabajo."
         subtitleClass="font-body-lg text-body-lg mt-6 max-w-[28rem] text-on-surface-variant"
-      >
-        <h2 id="contact-heading" slot="title" class:list={[SECTION_TITLE_CORE, "max-w-3xl leading-tight"]}>
-          ¿Listo para elevar la <span class="bg-gradient-to-r from-brand-orange to-brand-pink bg-clip-text text-transparent">bioseguridad</span> de tu clínica?
-        </h2>
-      </SectionHeader>
+      />
     </div>
 
     <!-- Section grid: stacked on mobile, static 12-col grid at lg (no overlap) -->

@@ -1,6 +1,7 @@
 import * as React from "react"
 import { Button } from "@/components/atoms/Button"
 import { Input } from "@/components/atoms/Input"
+import { RadioGroup } from "@/components/atoms/RadioGroup"
 import { Textarea } from "@/components/atoms/Textarea"
 import { FormRow } from "@/components/molecules/FormRow"
 import { InterestPicker } from "@/components/molecules/InterestPicker"
@@ -34,8 +35,8 @@ export function ContactForm() {
         <div className="relative z-10 mb-10 flex items-center gap-4">
           <span aria-hidden="true" className="material-symbols-outlined bg-gradient-to-br from-brand-orange to-brand-pink bg-clip-text text-4xl text-transparent">biotech</span>
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-on-surface/50">Protocolo de integración</p>
-            <h3 className="font-display-lg text-2xl font-bold text-on-surface">Solicita tu diagnóstico</h3>
+            <p className="text-xs font-bold uppercase tracking-widest text-on-surface/50">Cuéntanos sobre tu necesidad</p>
+            <h3 className="font-display-lg text-2xl font-bold text-on-surface">Recibe orientación para tu clínica</h3>
           </div>
         </div>
         <form onSubmit={handleSubmit} noValidate className="relative z-10 space-y-8">
@@ -45,16 +46,37 @@ export function ContactForm() {
           </FormRow>
           <FormRow>
             <Input field="telefono" idPrefix="contacto-" label="Teléfono / WhatsApp" type="tel" placeholder="+52 55 1234 5678" autoComplete="tel" />
-            <Input field="email" idPrefix="contacto-" label="Correo" type="email" placeholder="contacto@clinica.com" autoComplete="email" />
+            <Input field="ciudadEstado" idPrefix="contacto-" label="Ciudad / estado" placeholder="Celaya, Guanajuato" autoComplete="address-level1" />
           </FormRow>
+          <Input field="email" idPrefix="contacto-" label="Correo (opcional)" type="email" placeholder="contacto@clinica.com" autoComplete="email" />
           <InterestPicker idPrefix="contacto-" />
-          <Textarea field="message" idPrefix="contacto-" label="Mensaje" placeholder="Especifique sus requerimientos de volumen o dudas adicionales..." rows={3} />
+          <RadioGroup
+            field="medioContacto"
+            idPrefix="contacto-"
+            label="Medio preferido de comunicación"
+            options={[
+              { value: "correo", label: "Correo" },
+              { value: "llamada", label: "Llamada" },
+              { value: "whatsapp", label: "Mensaje de WhatsApp" },
+            ]}
+          />
+          <RadioGroup
+            field="motivoInteres"
+            idPrefix="contacto-"
+            label="Te interesa el producto porque"
+            options={[
+              { value: "problema", label: "Puede solucionar un problema actual" },
+              { value: "informacion", label: "Quiero informarme más" },
+              { value: "incorporacion", label: "Puedo incorporarlo próximamente" },
+            ]}
+          />
+          <Textarea field="message" idPrefix="contacto-" label="Mensaje personalizado" placeholder="Especifique sus requerimientos de volumen o dudas adicionales..." rows={3} />
           <div className="flex flex-col items-stretch gap-4 pt-6 md:items-end">
             <Button type="submit" size="sm" className="deep-float-shadow group w-full justify-center md:w-auto">
-              Enviar solicitud
+              Enviar mi solicitud
               <span className="material-symbols-outlined text-3xl transition-transform duration-[var(--duration-hover)] ease-[var(--ease-hover)] motion-safe:group-hover:translate-x-1" aria-hidden="true">arrow_forward</span>
             </Button>
-            <p className="text-center text-xs text-on-surface/50 md:text-right">Respuesta en menos de 24 h · Sin compromiso</p>
+            <p className="text-center text-xs text-on-surface/50 md:text-right">Revisaremos tu solicitud y te contactaremos por el medio indicado.</p>
           </div>
         </form>
       </div>

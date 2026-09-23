@@ -3,19 +3,19 @@
 export const TESTIMONIALS = [
   {
     quote:
-      "«Como es una solución a base de HOCl, no corroe nada del instrumental y lo usamos de forma frecuente sin residuos.»",
-    name: "Dr. Alejandro Méndez",
-    role: "Clínica Veterinaria San José · Ciudad de México",
+      "“Llevamos tiempo usándolo en múltiples casos de herida y post operatorios tanto simples como complicados y hemos tenido una evolución favorable de nuestros pacientes es una excelente opción.”",
+    name: "MVZ Daniela Ávila",
+    role: "",
     accent: "orange",
-    avatar: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&crop=faces&w=192&h=192&q=80",
+    avatar: "/testimonials/daniela-avila.webp",
   },
   {
     quote:
-      "«La limpieza tópica post-quirúrgica mantiene condiciones higiénicas óptimas y con muy baja irritación en tejido.»",
-    name: "Dra. Sofía Ramírez",
-    role: "Hospital Veterinario Central · Guadalajara",
+      "“En nuestra práctica con animales no convencionales, Vetoxzyn ha demostrado ser un excelente coadyuvante en el manejo de heridas y lesiones cutáneas. Destaca por su buena tolerancia, baja citotoxicidad y apoyo efectivo en la cicatrización, especialmente en reptiles y aves. Una herramienta confiable dentro del manejo clínico diario.”",
+    name: "MVZ Alan Doshey Gamborino Prieto",
+    role: "",
     accent: "pink",
-    avatar: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&crop=faces&w=192&h=192&q=80",
+    avatar: "/testimonials/alan-gamborino.webp",
   },
   {
     quote:
@@ -23,7 +23,7 @@ export const TESTIMONIALS = [
     name: "MVZ Carlos Valdés",
     role: "Clínica BioPet · Monterrey",
     accent: "green",
-    avatar: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&crop=faces&w=192&h=192&q=80",
+    avatar: "/brand/logo.webp",
   },
 ] as const
 

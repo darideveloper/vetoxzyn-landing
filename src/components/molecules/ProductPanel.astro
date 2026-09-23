@@ -14,11 +14,11 @@ const { tone = "light" } = Astro.props
 const dark = tone === "dark"
 
 const pill = "No requiere enjuague"
-const title = dark ? "Instalaciones" : "Tópico"
+const title = dark ? "Higiene de espacios y procesos" : "Higiene vinculada al paciente"
 const headingId = dark ? "products-instalaciones-title" : "products-topico-title"
 const tagline = dark
-  ? "Superficies, instrumental, áreas de consulta y quirófano, agua."
-  : "Higiene tópica de piel, mucosas y áreas post-quirúrgicas."
+  ? "Configuración orientada a espacios, superficies y procesos de higiene dentro del entorno veterinario."
+  : "Configuración destinada a contextos de higiene vinculados al paciente, conforme a los usos autorizados."
 const img = dark ? instalacionesImg : topicoImg
 const imgAlt = dark
   ? "Entorno clínico de la línea Instalaciones"
@@ -119,7 +119,7 @@ const SPECS: Record<"light" | "dark", Spec[]> = {
       ></div>
       <SpecGrid tone={tone} items={SPECS[tone]} />
       <Button variant="product" tone={tone} href={`#${SECTION_IDS.contactoFormulario}`} className="mt-md">
-        Más información
+        Revisar esta configuración
         <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span>
       </Button>
     </div>
