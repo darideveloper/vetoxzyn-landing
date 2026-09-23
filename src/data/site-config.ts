@@ -7,14 +7,11 @@ export const PHONES = {
   main: {
     raw: "+5214615747483",
     formatted: "+52 1 461 574 7483",
-    href: "tel:+5214615747483",
-    wa: "https://wa.me/5214615747483",
   },
 } as const
 
 export const EMAIL = {
   address: "info@vetoxzyncomercial.mx",
-  href: "mailto:info@vetoxzyncomercial.mx",
 } as const
 
 export const ADDRESS = {
@@ -28,12 +25,7 @@ export const ADDRESS = {
   countryCode: "XX",
 } as const
 
-export const SOCIAL_LINKS = {
-  facebook: "https://www.facebook.com/vetoxzyn",
-} as const
-
 export const GOOGLE_MAPS = {
-  embedUrl: "https://www.google.com/maps/embed?pb=...",
   placeId: "...",
   coordinates: { lat: 0.0, lng: 0.0 },
 } as const
@@ -67,5 +59,4 @@ export const BUSINESS_DATA = {
     },
     geo: GOOGLE_MAPS.coordinates,
   },
-  social: SOCIAL_LINKS,
 } as const
