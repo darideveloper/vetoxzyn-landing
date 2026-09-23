@@ -27,9 +27,12 @@ git fetch origin
 git worktree add ../vetoxzyn-<branch> <branch>                  # existing branch
 git worktree add ../vetoxzyn-feature -b feature/xyz main        # new branch
 git worktree list
-# ... after merge, stop dev first (Ctrl+C), then:
+# ... after merge, stop dev first (Ctrl+C), then full clean:
 git worktree remove ../vetoxzyn-<branch>
 git worktree prune
+git branch -d <branch>          # squash-merged branch; -D only with reviewed work
+git fetch -p                    # drop stale remote-tracking refs
+git worktree list               # verify clean — only main remains
 ```
 
 Bootstrap each new sibling (gitignored paths are per-checkout — `node_modules/`, `.env`, `.astro/`, `dist/` don't transfer):
@@ -47,6 +50,7 @@ Gotchas:
 - A fresh `.env` copy keeps main's `SITE_URL` — harmless, the `PORTLESS_URL → SITE_URL → prod` chain resolves each checkout's own URL first.
 - Openspec: nothing crosses automatically. Copy `openspec/changes/archive/` by hand (`cp -rn`) only when needed; active proposals stay isolated. New siblings also need `.opencode/skills/openspec-*` + `commands/opsx-*.md` synced by hand (markdown only); archive back to main before merge (only `archive/` is tracked).
 - New siblings start from committed `HEAD` only — commit or stash uncommitted changes first.
+- Teammate branches: `git fetch origin` and ensure a local branch exists (`git branch <name> origin/<name>`) BEFORE `git worktree add ../vetoxzyn-<name> <name>`.
 - Branch names with `/` get sanitized in the subdomain — check `portless list` after first run.
 - One dev server per checkout; review before deleting; squash on merge.
 

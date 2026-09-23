@@ -53,6 +53,7 @@ export default defineConfig({
   site: process.env.PORTLESS_URL ?? process.env.SITE_URL ?? "https://vetoxzyncomercial.mx",
   server: {
     port: process.env.PORT ? parseInt(process.env.PORT) : 4321,
+    strictPort: true,
   },
   vite: {
     server: {
@@ -63,7 +64,7 @@ export default defineConfig({
 })
 ```
 
-Resolution chain: `PORTLESS_URL → SITE_URL → prod-domain fallback` (`https://vetoxzyncomercial.mx` — dev never reaches it since Portless always injects `PORTLESS_URL`; a build without env must emit prod, never localhost, into sitemap/canonicals). The app consumer (`site-config` / SEO canonicals) uses the same order — see [All Config in One Place](./astro-site-config.md).
+Resolution chain: `PORTLESS_URL → SITE_URL → prod-domain fallback` (`https://vetoxzyncomercial.mx` — dev never reaches it since Portless always injects `PORTLESS_URL`; a build without env must emit prod, never localhost, into sitemap/canonicals). The app consumer (`site-config` / SEO canonicals) uses the same order — see [All Config in One Place](./astro-site-config.md). Full canonical block, including the Node 22 `loadEnvFile` shim, lives in `astro.config.mjs` at the repo root.
 
 3. `.env.example` must carry the dev URL (never commit real values — use placeholders):
 
@@ -111,9 +112,12 @@ git fetch origin
 git worktree add ../<project>-<branch> <branch>        # existing branch
 git worktree add ../<project>-feature -b feature/xyz main  # new branch
 git worktree list
-# ... after merge:
+# ... after merge, stop dev first (Ctrl+C), then full clean:
 git worktree remove ../<project>-<branch>
 git worktree prune
+git branch -d <branch>          # squash-merged branch; -D only with reviewed work
+git fetch -p                    # drop stale remote-tracking refs
+git worktree list               # verify clean — only main remains
 ```
 
 Bootstrap each new worktree — gitignored paths are per-checkout and don't transfer:
