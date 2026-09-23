@@ -1,7 +1,6 @@
 ---
 import SectionHeader from "@/components/molecules/SectionHeader.astro"
 import ProductPanel from "@/components/molecules/ProductPanel.astro"
-import FormulaStrip from "@/components/molecules/FormulaStrip.astro"
 import { SECTION_IDS } from "@/data/section-ids"
 ---
 
@@ -15,8 +14,8 @@ import { SECTION_IDS } from "@/data/section-ids"
     <SectionHeader
       align="center"
       id="products-heading"
-      title="Líneas para tu clínica y quirófano"
-      subtitle="Soluciones de bioseguridad oxidativa avanzada para entornos veterinarios exigentes."
+      title="Dos contextos de uso, una orientación más clara"
+      subtitle="Identifica primero dónde necesitas integrarlo y después revisa la configuración aplicable a ese uso."
       subtitleClass="mx-auto mt-sm max-w-[28rem] font-body-md text-body-md text-on-surface-variant"
     />
   </div>
@@ -25,8 +24,6 @@ import { SECTION_IDS } from "@/data/section-ids"
     <ProductPanel tone="light" />
     <ProductPanel tone="dark" />
   </div>
-
-  <FormulaStrip />
 </section>
 
 <script>
@@ -72,16 +69,6 @@ import { SECTION_IDS } from "@/data/section-ids"
             ease: "expo.out",
           },
           "-=0.8",
-        )
-        .from(
-          section.querySelector(".js-products-strip"),
-          {
-            autoAlpha: 0,
-            y: 20,
-            duration: 1.0,
-            ease: "power3.out",
-          },
-          "-=0.6",
         )
     })
 
