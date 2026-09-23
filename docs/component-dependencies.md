@@ -351,7 +351,47 @@ None.
 - GSAP scroll reveals (`gsap-scroll-reveals`): new `gsap@3.15.0` dep + `lib/gsap.ts` (SSR guard, `limitCallbacks`/`ignoreMobileResize`, `power4.out`/1.2s defaults, `load` + `astro:page-load` refresh); `global.css` gains `@utility js-reveal` + `.no-js .js-reveal` override and `Layout.astro` gains `<html class="no-js">` + swap script (content visible with JS off); all 5 home organisms own one scoped timeline each (`play none none none`, unhide-before-`.from()`, `matchMedia` fade-only reduce branch, VT guard/revert/page-load/after-swap, `transition:animate="none"` roots) — Hero transform-only ≤0.9s + session once-guard + blob-wrapper parallax (`scrub 0.8`), Challenges `top 75%`, Testimonials `top 80%` + glow parallax, Products `top 75%`, Contact `top 80%` (form shell only, island/inputs never tweened); `lib/kinetic-marquee.ts` + `lib/animate-counters.ts` ship as unwired patterns (hosts deferred), Swiper dropped (CSS overflow instead). No color/hover-language changes (`check:palette` clean): `js-*` hooks are behavior-only classes, layout chrome untouched. Verified `pnpm build` green.
 - Branded contact H1 (`remove-contact-intro-block`): `contact.astro` intro block (unstyled `<h1>Contacto</h1>` + phone/email `NavLink` paragraph) replaced by `<SectionHeader level="h1" title="Contáctanos" slot="page-title" />` (plain string title, no slot — canonical `SECTION_TITLE_CORE`, zero bespoke classes) projected into a new optional `page-title` slot outlet in `ContactSection` (above the in-flow header, `Astro.slots.has` guard — empty on `/`, landing output unchanged), so the H1 shares the section tint/backdrop background; the separate page-level `<section>` shell is gone (page = `Layout` + `PageSEO` + one organism). Imports drop `NavLink` + `PHONES`/`EMAIL`, keep `SectionHeader` (first page-level molecule use — permitted, pages compose). Phone/email stay reachable via shell `ContactLinks` (no `contact-channels` delta).
 
-- Outbound-contact removal (2026-09-23): `ContactLinks` now renders phone and email as static text (it no longer imports `NavLink`); `FooterMeta` retains a non-interactive Facebook SVG icon; `site-config` no longer stores WhatsApp, `tel:`, `mailto:`, Facebook, Google Maps embed, or JSON-LD `sameAs` URLs. Testimonial avatars now reuse the local `/brand/logo.webp` public asset instead of Unsplash. Google Fonts stylesheet resources remain because they provide the site typography and Material icon glyphs; they are not navigation targets.
+- Outbound-contact removal (2026-09-23): `ContactLinks` now renders phone and email as static text (it no longer imports `NavLink`); `FooterMeta` retains a non-interactive Facebook SVG icon; `site-config` no longer stores WhatsApp, `tel:`, `mailto:`, Facebook, Google Maps embed, or JSON-LD `sameAs` URLs. Google Fonts stylesheet resources remain because they provide the site typography and Material icon glyphs; they are not navigation targets.
+- Testimonial refresh (2026-09-23): the first two entries in `data/testimonials.ts` are MVZ Daniela Ávila and MVZ Alan Doshey Gamborino Prieto, with their supplied local public photos at `public/testimonials/{daniela-avila,alan-gamborino}.webp`; the third testimonial remains unchanged.
+
+### Current Products subtree (2026-09-23)
+
+```text
+index.astro
+└── organisms/Products.astro ──► molecules/{SectionHeader, ProductPanel ×2} + lib/gsap
+    ├── SectionHeader.astro (two-use-context heading and orientation copy)
+    └── ProductPanel.astro ×2 ──► atoms/{ResponsiveImage, Button, Badge} + molecules/SpecGrid + data/section-ids + assets/products
+        └── SpecGrid.astro ──► atoms/SpecItem ×5
+```
+
+`molecules/FormulaStrip.astro` is intentionally unreachable: its formula, mechanism, and residue claims were removed pending final technical-document validation. Retain it only as a cleanup/reinstatement candidate.
+
+### Current Contact subtree (2026-09-23)
+
+```text
+index.astro and contact.astro
+└── organisms/ContactSection.astro ──► molecules/{SectionHeader, ContactForm, FaqAccordion, ContactMedia, DisclaimerNote} + lib/gsap
+    ├── SectionHeader.astro (orientation heading and contextual support copy)
+    ├── ContactForm.tsx (client:load) ──► store/contact + data/section-ids
+    │   ├── FormRow.tsx ×2 ──► atoms/Input.tsx ×4 (name, clinic, phone, city/state)
+    │   ├── atoms/Input.tsx (optional email) + atoms/Textarea.tsx (custom message)
+    │   ├── InterestPicker.tsx ──► atoms/Checkbox.tsx ×3 (patient hygiene, spaces/processes, distributor)
+    │   ├── atoms/RadioGroup.tsx ×2 (preferred contact method and interest reason)
+    │   └── FormSuccess.tsx ──► atoms/Button.tsx
+    └── FaqAccordion.astro ──► molecules/FaqItem.astro ×4 + atoms/Icon.astro + data/section-ids
+```
+
+`store/contact.ts` persists the new optional `email`, `ciudadEstado`, `medioContacto`, and `motivoInteres` fields alongside the existing contact and interest fields. `RadioGroup.tsx` is a vanilla self-bound atom using `store/useField` and token-timed selectable controls.
+
+### Current Footer subtree (2026-09-23)
+
+```text
+Layout.astro
+└── organisms/Footer.astro ──► molecules/FooterMeta.astro
+    └── static footer copy: vetoxzyn® · Contacto · Aviso de Privacidad · Canal comercial
+```
+
+`FooterMeta.astro` has no component or data imports and exposes no links. `DisclaimerNote.astro` remains reachable through `ContactSection` and now states the non-substitution-of-professional-judgment product notice.
 
 ## Related
 
