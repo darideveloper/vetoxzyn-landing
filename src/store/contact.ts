@@ -4,10 +4,13 @@ import { z } from "zod"
 
 export const contactSchema = z.object({
   name: z.string().min(1, "El nombre es obligatorio"),
-  email: z.string().email("Correo electrónico inválido"),
+  email: z.union([z.literal(""), z.string().email("Correo electrónico inválido")]),
   message: z.string().min(10, "El mensaje debe tener al menos 10 caracteres"),
   clinica: z.string(),
   telefono: z.string(),
+  ciudadEstado: z.string(),
+  medioContacto: z.union([z.literal(""), z.enum(["correo", "llamada", "whatsapp"])]),
+  motivoInteres: z.union([z.literal(""), z.enum(["problema", "informacion", "incorporacion"])]),
   lineaTopico: z.boolean(),
   lineaInstalaciones: z.boolean(),
   lineaDistribucion: z.boolean(),
@@ -30,12 +33,15 @@ export function buildFieldSchemaMap(schemas: z.ZodObject<any>[]): Map<string, z.
 
 export const fieldSchemaMap = buildFieldSchemaMap([contactSchema])
 
-export const initialState = {
+export const initialState: ContactValues = {
   name: "",
   email: "",
   message: "",
   clinica: "",
   telefono: "",
+  ciudadEstado: "",
+  medioContacto: "",
+  motivoInteres: "",
   lineaTopico: false,
   lineaInstalaciones: false,
   lineaDistribucion: false,

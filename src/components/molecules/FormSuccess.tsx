@@ -9,7 +9,7 @@ export function FormSuccess({ onReset }: { onReset: () => void }) {
           Gracias — tu mensaje fue registrado. Te contactaremos pronto.
         </p>
         <p className="mt-2 text-sm text-on-surface/60">
-          Revisa tu correo — te escribiremos desde la clínica matriz.
+          Te contactaremos por el medio que indicaste.
         </p>
         <p className="mt-6">
           <Button onClick={onReset} size="sm">Enviar otro mensaje</Button>
