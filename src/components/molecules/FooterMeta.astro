@@ -1,3 +1,17 @@
-<div class="mx-auto flex max-w-5xl px-4 py-6 text-sm text-on-surface-variant">
-  <p>vetoxzyn® · Contacto · Aviso de Privacidad · Canal comercial</p>
+---
+import BrandLogo from "../atoms/BrandLogo.astro"
+---
+
+<div class="mx-auto flex max-w-5xl flex-col gap-2 px-4 py-6 text-sm sm:flex-row sm:items-center sm:justify-between">
+  <div class="flex items-center gap-3">
+    <BrandLogo class="h-16" loading="lazy" />
+    <p>vetoxzyn®</p>
+  </div>
+  <p class="flex flex-wrap items-center gap-3 text-on-surface-variant">
+    <span>Contacto</span>
+    <span aria-hidden="true">·</span>
+    <span>Aviso de Privacidad</span>
+    <span aria-hidden="true">·</span>
+    <span>Canal comercial</span>
+  </p>
 </div>

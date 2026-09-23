@@ -388,10 +388,10 @@ index.astro and contact.astro
 ```text
 Layout.astro
 └── organisms/Footer.astro ──► molecules/FooterMeta.astro
-    └── static footer copy: vetoxzyn® · Contacto · Aviso de Privacidad · Canal comercial
+    └── atoms/BrandLogo.astro (h-16, carga diferida) + contenido estático del footer
 ```
 
-`FooterMeta.astro` has no component or data imports and exposes no links. `DisclaimerNote.astro` remains reachable through `ContactSection` and now states the non-substitution-of-professional-judgment product notice.
+`FooterMeta.astro` conserva su distribución adaptable, logotipo y espaciado originales. El contenido de contacto, privacidad y canal comercial es estático y no expone enlaces. `DisclaimerNote.astro` remains reachable through `ContactSection` and now states the non-substitution-of-professional-judgment product notice.
 
 ## Related
 
