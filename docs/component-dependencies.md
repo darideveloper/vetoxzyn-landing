@@ -395,6 +395,16 @@ Layout.astro
 
 `FooterMeta.astro` conserva su distribución adaptable, logotipo y espaciado originales. El contenido de contacto, privacidad y canal comercial es estático y no expone enlaces. `DisclaimerNote.astro` remains reachable through `ContactSection` and now states the non-substitution-of-professional-judgment product notice.
 
+### Current Header subtree (2026-09-24)
+
+```text
+Layout.astro
+└── organisms/Header.astro ──► molecules/PrimaryNav.astro
+    └── atoms/{NavLink ×3, BrandLogo.astro}
+```
+
+`PrimaryNav.astro` ya no muestra el teléfono ni el correo. `ContactLinks.astro` se conserva para posibles usos futuros, pero no está conectado a ninguna página.
+
 ## Related
 
 - [[component-dependencies-guide]]

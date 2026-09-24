@@ -1,7 +1,6 @@
 ---
 import NavLink from "../atoms/NavLink.astro"
 import BrandLogo from "../atoms/BrandLogo.astro"
-import ContactLinks from "./ContactLinks.astro"
 ---
 
 <nav class="mx-auto flex max-w-5xl items-center justify-between px-4 py-3" aria-label="Primary">
@@ -9,6 +8,5 @@ import ContactLinks from "./ContactLinks.astro"
   <div class="flex items-center gap-4 text-sm">
     <NavLink href="/about">About</NavLink>
     <NavLink href="/contact">Contact</NavLink>
-    <ContactLinks emailClass="hidden sm:inline" />
   </div>
 </nav>
