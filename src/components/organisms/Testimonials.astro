@@ -26,12 +26,12 @@ const DIVIDERS: ImageMetadata[] = [divider1, divider2]
         subtitleClass="mx-auto mt-4 max-w-2xl font-body-lg text-body-lg text-on-surface-variant"
       />
     </div>
-    <div class="mt-12 grid grid-cols-1 gap-gutter md:grid-cols-[1fr_5vw_1fr_5vw_1fr]">
+    <div class="mt-12 grid grid-cols-1 gap-gutter min-[980px]:grid-cols-[1fr_5vw_1fr_5vw_1fr]">
       {TESTIMONIALS.map((t, i) => (
         <>
           <TestimonialCard quote={t.quote} name={t.name} role={t.role} accent={t.accent} avatar={t.avatar} />
           {i < TESTIMONIALS.length - 1 && (
-            <div aria-hidden="true" class="js-testimonials-divider js-testimonials-reveal js-reveal h-24 w-full overflow-hidden rounded-xl md:h-[60%] md:self-center">
+            <div aria-hidden="true" class="js-testimonials-divider js-testimonials-reveal js-reveal h-24 w-full overflow-hidden rounded-xl min-[980px]:h-[60%] min-[980px]:self-center">
               <DividerImage src={DIVIDERS[i]} />
             </div>
           )}
