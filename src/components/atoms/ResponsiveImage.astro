@@ -1,5 +1,5 @@
 ---
-import { Image } from "astro:assets"
+import { Picture } from "astro:assets"
 
 interface Props {
   src: ImageMetadata
@@ -13,18 +13,23 @@ const { src, alt, sizes, widths, eager = false, class: cls = "" } = Astro.props
 ---
 
 {eager ? (
-  <Image
+  <Picture
     src={src}
+    formats={["avif", "webp"]}
+    fallbackFormat="webp"
     widths={widths ?? [480, 800, 1024, 1280]}
     sizes={sizes}
     loading="eager"
     fetchpriority="high"
+    decoding="async"
     alt={alt}
     class:list={[cls]}
   />
 ) : (
-  <Image
+  <Picture
     src={src}
+    formats={["avif", "webp"]}
+    fallbackFormat="webp"
     widths={widths ?? [480, 800, 1024, 1200]}
     sizes={sizes}
     loading="lazy"

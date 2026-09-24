@@ -1,5 +1,11 @@
 // Testimonial content for the 03-testimonials section (Stitch verbatim ES copy).
 // Single source of truth — organisms map over this, never duplicate literals.
+// Avatars are pipelined src assets (ImageMetadata, rendered via astro:assets
+// in Avatar); Carlos's avatar reuses the brand logo asset directly.
+import alanAvatar from "@/assets/testimonials/alan-gamborino.webp"
+import danielaAvatar from "@/assets/testimonials/daniela-avila.webp"
+import logoAsset from "@/assets/brand/logo.webp"
+
 export const TESTIMONIALS = [
   {
     quote:
@@ -7,7 +13,7 @@ export const TESTIMONIALS = [
     name: "MVZ Daniela Ávila",
     role: "",
     accent: "orange",
-    avatar: "/testimonials/daniela-avila.webp",
+    avatar: danielaAvatar,
   },
   {
     quote:
@@ -15,7 +21,7 @@ export const TESTIMONIALS = [
     name: "MVZ Alan Doshey Gamborino Prieto",
     role: "",
     accent: "pink",
-    avatar: "/testimonials/alan-gamborino.webp",
+    avatar: alanAvatar,
   },
   {
     quote:
@@ -23,7 +29,7 @@ export const TESTIMONIALS = [
     name: "MVZ Carlos Valdés",
     role: "Clínica BioPet · Monterrey",
     accent: "green",
-    avatar: "/brand/logo.webp",
+    avatar: logoAsset,
   },
 ] as const
 

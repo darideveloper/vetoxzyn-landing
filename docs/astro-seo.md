@@ -334,7 +334,7 @@ const isProd = import.meta.env.PROD;
 
 ### 6.2 Multimedia Optimization
 
-Use `astro:assets` `Image` component for automatic optimization (WebP/AVIF conversion, resizing).
+Use `astro:assets` `Picture` component for automatic optimization (AVIF + WebP conversion, resizing). Encoder targets live once in `astro.config.mjs` (`image.service.config` — webp quality 80, avif quality 70); wrappers pass no `quality`, so those apply everywhere. See `docs/astro-image-optimization.md` for the full pipeline.
 
 **Best Practices:**
 - **Eager Loading:** Use `loading="eager"` and `fetchpriority="high"` for hero banners.
@@ -343,22 +343,21 @@ Use `astro:assets` `Image` component for automatic optimization (WebP/AVIF conve
 **Responsive images example (from Home.astro):**
 ```astro
 ---
-import { Image } from 'astro:assets'
+import { Picture } from 'astro:assets'
 ---
-<Image
+<Picture
   src={image}
+  formats={['avif', 'webp']}
   alt={alt}
   widths={[400, 800, image.width]}
   sizes="(max-width: 768px) 400px, 800px"
-  quality={60}
-  format="avif"
   loading="lazy"
   decoding="async"
   class="h-full w-full rounded-xl object-cover"
 />
 ```
 
-The `widths` + `sizes` pattern generates multiple resolutions for responsive displays.
+The `formats` + `widths` + `sizes` pattern generates AVIF-first candidates at multiple resolutions for responsive displays.
 
 ## 7. Core Web Vitals Optimization
 

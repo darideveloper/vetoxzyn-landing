@@ -1,4 +1,5 @@
 ---
+import { getImage } from "astro:assets"
 import { BUSINESS_DATA } from "@/data/site-config"
 import { SITE_DESCRIPTION, SITE_TITLE } from "@/consts"
 
@@ -37,6 +38,10 @@ const pageTitle =
 
 const canonicalUrl = `${BUSINESS_DATA.url}${Astro.url.pathname}`
 const socialImageUrl = ogImage ?? `${BUSINESS_DATA.url}${BUSINESS_DATA.ogImage}`
+// JSON-LD logo resolves from the same pipelined src asset as BrandLogo
+// (single source — no public/ copy). getImage emits the hashed build URL.
+const logoImage = await getImage({ src: BUSINESS_DATA.logo, format: "webp", width: 600 })
+const logoUrl = `${BUSINESS_DATA.url}${logoImage.src}`
 
 const ogTypeMap: Record<string, string> = {
   LocalBusiness: "website",
@@ -58,7 +63,7 @@ const baseSchema: Record<string, unknown> = {
 // branches when those page types exist; delete nothing until then.
 if (jsonType === "LocalBusiness") {
   Object.assign(baseSchema, {
-    logo: `${BUSINESS_DATA.url}${BUSINESS_DATA.logo}`,
+    logo: logoUrl,
     telephone: BUSINESS_DATA.contact.phone,
     email: BUSINESS_DATA.contact.email,
     address: BUSINESS_DATA.contact.address,
@@ -79,6 +84,10 @@ const jsonLd = { ...baseSchema, ...extraJson }
 <meta property="og:description" content={resolvedDescription} />
 <meta property="og:url" content={canonicalUrl} />
 <meta property="og:image" content={socialImageUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:secure_url" content={socialImageUrl} />
+<meta property="og:image:alt" content="Vetoxzyn" />
 <meta property="og:locale" content="en_US" />
 <meta property="og:site_name" content={BUSINESS_DATA.name} />
 <meta name="twitter:card" content="summary_large_image" />

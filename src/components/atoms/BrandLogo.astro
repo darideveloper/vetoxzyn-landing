@@ -1,6 +1,10 @@
 ---
-// Brand logo (static public asset — stable URL doubles as the JSON-LD logo).
+import { Picture } from "astro:assets"
+import logo from "@/assets/brand/logo.webp"
+
+// Brand logo (pipelined src asset — hashed AVIF-first output).
 // Caller sets display height (`h-*`); width stays auto to lock the 600:244 ratio.
+// JSON-LD logo resolves via getImage() on the same source in BaseSEO.
 interface Props {
   class?: string
   loading?: "eager" | "lazy"
@@ -9,12 +13,17 @@ interface Props {
 const { class: cls = "", loading = "lazy", fetchpriority } = Astro.props
 ---
 
-<img
-  src="/brand/logo.webp"
+<Picture
+  src={logo}
+  formats={["avif", "webp"]}
+  fallbackFormat="webp"
+  widths={[600]}
+  sizes="600px"
   width={600}
   height={244}
   alt="Vetoxzyn"
   loading={loading}
   fetchpriority={fetchpriority}
+  decoding="async"
   class:list={["w-auto", cls]}
 />

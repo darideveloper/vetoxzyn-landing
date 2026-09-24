@@ -1,5 +1,6 @@
 // Single source of truth for business identity. Import from here — never
 // hardcode business data in components.
+import logoAsset from "@/assets/brand/logo.webp"
 // TODO(replace): domain, email, phone (WhatsApp) and facebook are set;
 // address, maps and hours below are still placeholders — canonical/JSON-LD
 // contact block stays semi-fictional until they land.
@@ -45,7 +46,7 @@ export const BUSINESS_DATA = {
   // covers builds, prod host is the fallback. Future client islands must
   // receive the origin via props — never import.meta.env.
   url: process.env.PORTLESS_URL ?? process.env.SITE_URL ?? "https://vetoxzyncomercial.mx",
-  logo: "/brand/logo.webp",
+  logo: logoAsset,
   ogImage: "/og-image.jpg",
   contact: {
     phone: PHONES.main.formatted,

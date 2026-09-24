@@ -35,6 +35,8 @@ Holds all business identity data consumed by Layout, SEO, Header, Footer, and JS
 
 ```ts
 // src/data/site-config.ts
+import logoAsset from "@/assets/brand/logo.webp";
+
 export const PHONES = {
     main: {
         raw: '+12345678901',
@@ -87,8 +89,8 @@ export const BUSINESS_DATA = {
     name: "Business Name",
     legalName: "Business Name by Subbrand",
     url: "https://example.com",
-    logo: "/brand/logo.webp",
-    ogImage: "/og-image.jpg",
+    logo: logoAsset, // imported ImageMetadata (src/assets) — BaseSEO resolves it via getImage()
+    ogImage: "/og-image.jpg", // stable public URL for crawlers (public/ is never optimized)
     contact: {
         phone: PHONES.main.formatted,
         email: EMAIL.address,

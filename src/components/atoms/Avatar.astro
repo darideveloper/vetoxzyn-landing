@@ -1,18 +1,41 @@
 ---
-// Plain <img> avatar — local public assets only, never astro:assets.
+import { Image } from "astro:assets"
+
+// Avatar — pipelined src assets (ImageMetadata) rendered via astro:assets
+// Image; plain string URLs stay supported as fallback. The wrapper owns the
+// outer positioning classes plus .hover-subtle (container rule); the <img>
+// keeps only intrinsic classes.
 interface Props {
-  src: string
+  src: ImageMetadata | string
   alt: string
   class?: string
 }
 const { src, alt, class: cls = "" } = Astro.props
+const isMeta = typeof src !== "string"
 ---
 
-<img
-  src={src}
-  alt={alt}
-  width="96"
-  height="96"
-  loading="lazy"
-  class:list={["hover-subtle h-24 w-24 rounded-full border-4 border-on-primary object-cover shadow-lg", cls]}
-/>
+<div class:list={["hover-subtle", cls]}>
+  {isMeta ? (
+    <Image
+      src={src}
+      widths={[96, 192]}
+      sizes="96px"
+      alt={alt}
+      width={96}
+      height={96}
+      loading="lazy"
+      decoding="async"
+      class="h-24 w-24 rounded-full border-4 border-on-primary object-cover shadow-lg"
+    />
+  ) : (
+    <img
+      src={src}
+      alt={alt}
+      width="96"
+      height="96"
+      loading="lazy"
+      decoding="async"
+      class="h-24 w-24 rounded-full border-4 border-on-primary object-cover shadow-lg"
+    />
+  )}
+</div>

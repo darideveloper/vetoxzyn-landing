@@ -29,6 +29,26 @@ export default defineConfig({
   build: {
     inlineStylesheets: 'always',
   },
+  // Image pipeline (docs/astro-image-optimization.md): Sharp-based SSG
+  // transforms for every astro:assets import. limitInputPixels:false lets
+  // any-size sources through; effort/quality pinned per approved targets
+  // (webp 80 / avif 70). No new dependency — sharp is already installed.
+  image: {
+    service: {
+      entrypoint: 'astro/assets/services/sharp',
+      config: {
+        limitInputPixels: false,
+        webp: {
+          effort: 6,
+          quality: 80,
+        },
+        avif: {
+          effort: 6,
+          quality: 70,
+        },
+      },
+    },
+  },
   server: {
     port: process.env.PORT ? parseInt(process.env.PORT) : 4321,
     strictPort: true,
