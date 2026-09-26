@@ -32,7 +32,7 @@ import { SECTION_IDS } from "@/data/section-ids"
         eyebrow="ORIENTACIÓN PARA TU CLÍNICA"
         id="contact-heading"
         title="Revisemos cómo quieres integrar Vetoxzyn® en tu clínica."
-        titleClass="max-w-3xl leading-tight"
+        titleClass="leading-tight"
         subtitle="Describe brevemente dónde quieres utilizar Vetoxzyn® y podremos orientarte según tu contexto de trabajo."
         subtitleClass="font-body-lg text-body-lg mt-6 max-w-[28rem] text-on-surface-variant"
       />
@@ -42,17 +42,16 @@ import { SECTION_IDS } from "@/data/section-ids"
     <div class="grid w-full grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
       <!-- Contact form (right column, full height). The React island
            itself is never animated — only this shell wrapper reveals. -->
-      <div class="js-contact-form js-contact-reveal js-reveal w-full lg:col-span-7 lg:col-start-6 lg:row-span-3 lg:row-start-1">
+      <div class="js-contact-form js-contact-reveal js-reveal w-full lg:col-span-7 lg:col-start-6 lg:row-start-1">
         <ContactForm client:load />
       </div>
 
-      <!-- FAQ layer (overlapping) -->
-      <FaqAccordion class="js-contact-faq js-contact-reveal js-reveal lg:col-span-5 lg:col-start-1 lg:row-start-1" />
-
-      <!-- Image layer -->
-      <ContactMedia class="js-contact-media js-contact-reveal js-reveal lg:col-span-5 lg:col-start-1 lg:row-start-2" />
-      <!-- Disclaimer layer -->
-      <DisclaimerNote class="js-contact-note js-contact-reveal js-reveal lg:col-span-5 lg:col-start-1 lg:row-start-3" />
+      <!-- Side cards remain naturally sized and center as a group beside the form. -->
+      <div class="flex w-full flex-col gap-8 lg:col-span-5 lg:col-start-1 lg:row-start-1 lg:justify-center">
+        <FaqAccordion class="js-contact-faq js-contact-reveal js-reveal" />
+        <ContactMedia class="js-contact-media js-contact-reveal js-reveal" />
+        <DisclaimerNote class="js-contact-note js-contact-reveal js-reveal" />
+      </div>
     </div>
   </div>
 </section>

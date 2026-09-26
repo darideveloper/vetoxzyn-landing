@@ -8,19 +8,63 @@ import { InterestPicker } from "@/components/molecules/InterestPicker"
 import { FormSuccess } from "@/components/molecules/FormSuccess"
 import { useContactStore } from "@/store/contact"
 import { SECTION_IDS } from "@/data/section-ids"
+import { submitContactForm } from "@/lib/api/contact"
+import { API_ERROR_MESSAGE } from "@/lib/api/constants"
 
-// ponytail: stub submit — success is local-only until the contact API lands,
-// then call src/lib/api/contact.ts here instead of setSubmitted(true).
 export function ContactForm() {
   const isSubmitted = useContactStore((state) => state.isSubmitted)
+  const isLoading = useContactStore((state) => state.isLoading)
+  const submitError = useContactStore((state) => state.submitError)
+  const setLoading = useContactStore((state) => state.setLoading)
   const setSubmitted = useContactStore((state) => state.setSubmitted)
+  const setSubmitError = useContactStore((state) => state.setSubmitError)
   const reset = useContactStore((state) => state.reset)
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const store = useContactStore.getState()
     if (!store.validateAll()) return
-    setSubmitted(true)
+
+    setSubmitError(null)
+    setLoading(true)
+
+    try {
+      const {
+        name,
+        email,
+        message,
+        clinica,
+        telefono,
+        ciudadEstado,
+        medioContacto,
+        motivoInteres,
+        lineaTopico,
+        lineaInstalaciones,
+        lineaDistribucion,
+      } = store
+
+      await submitContactForm(
+        {
+          name,
+          email,
+          message,
+          clinica,
+          telefono,
+          ciudadEstado,
+          medioContacto,
+          motivoInteres,
+          lineaTopico,
+          lineaInstalaciones,
+          lineaDistribucion,
+        },
+        window.location.hostname,
+      )
+      setSubmitted(true)
+    } catch {
+      setSubmitError(API_ERROR_MESSAGE)
+    } finally {
+      setLoading(false)
+    }
   }
 
   if (isSubmitted) {
@@ -39,7 +83,7 @@ export function ContactForm() {
             <h3 className="font-display-lg text-2xl font-bold text-on-surface">Recibe orientación para tu clínica</h3>
           </div>
         </div>
-        <form onSubmit={handleSubmit} noValidate className="relative z-10 space-y-8">
+        <form onSubmit={handleSubmit} noValidate aria-busy={isLoading} className="relative z-10 space-y-8">
           <FormRow>
             <Input field="name" idPrefix="contacto-" label="Nombre" placeholder="Dr. Juan Pérez" autoComplete="name" />
             <Input field="clinica" idPrefix="contacto-" label="Clínica / Hospital" placeholder="Hospital Veterinario Central" autoComplete="organization" />
@@ -72,11 +116,12 @@ export function ContactForm() {
           />
           <Textarea field="message" idPrefix="contacto-" label="Mensaje personalizado" placeholder="Especifique sus requerimientos de volumen o dudas adicionales..." rows={3} />
           <div className="flex flex-col items-stretch gap-4 pt-6 md:items-end">
-            <Button type="submit" size="sm" className="deep-float-shadow group w-full justify-center md:w-auto">
-              Enviar mi solicitud
+            <Button type="submit" size="sm" disabled={isLoading} className="deep-float-shadow group w-full justify-center md:w-auto">
+              {isLoading ? "Enviando solicitud…" : "Enviar mi solicitud"}
               <span className="material-symbols-outlined text-3xl transition-transform duration-[var(--duration-hover)] ease-[var(--ease-hover)] motion-safe:group-hover:translate-x-1" aria-hidden="true">arrow_forward</span>
             </Button>
             <p className="text-center text-xs text-on-surface/50 md:text-right">Revisaremos tu solicitud y te contactaremos por el medio indicado.</p>
+            {submitError && <p role="alert" className="text-center text-sm font-medium text-error md:text-right">{submitError}</p>}
           </div>
         </form>
       </div>
