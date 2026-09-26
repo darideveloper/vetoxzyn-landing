@@ -374,16 +374,17 @@ index.astro
 index.astro and contact.astro
 └── organisms/ContactSection.astro ──► molecules/{SectionHeader, ContactForm, FaqAccordion, ContactMedia, DisclaimerNote} + lib/gsap
     ├── SectionHeader.astro (orientation heading and contextual support copy)
-    ├── ContactForm.tsx (client:load) ──► store/contact + data/section-ids
+    ├── ContactForm.tsx (client:load) ──► store/contact + data/section-ids + lib/api/{contact, constants}
     │   ├── FormRow.tsx ×2 ──► atoms/Input.tsx ×4 (name, clinic, phone, city/state)
     │   ├── atoms/Input.tsx (optional email) + atoms/Textarea.tsx (custom message)
     │   ├── InterestPicker.tsx ──► atoms/Checkbox.tsx ×3 (patient hygiene, spaces/processes, distributor)
     │   ├── atoms/RadioGroup.tsx ×2 (preferred contact method and interest reason)
-    │   └── FormSuccess.tsx ──► atoms/Button.tsx
+    │   ├── FormSuccess.tsx ──► atoms/Button.tsx
+    │   └── lib/api/contact.ts ──► lib/api/{client, types} + store/contact (type only)
     └── FaqAccordion.astro ──► molecules/FaqItem.astro ×4 + atoms/Icon.astro + data/section-ids
 ```
 
-`store/contact.ts` persists the new optional `email`, `ciudadEstado`, `medioContacto`, and `motivoInteres` fields alongside the existing contact and interest fields. `RadioGroup.tsx` is a vanilla self-bound atom using `store/useField` and token-timed selectable controls.
+`store/contact.ts` persists the new optional `email`, `ciudadEstado`, `medioContacto`, and `motivoInteres` fields alongside the existing contact and interest fields. It also owns transient submission state (`isLoading`, `isSubmitted`, `submitError`), which is excluded from persistence. `ContactForm.tsx` validates all Zustand fields before calling the typed `safeFetch` endpoint module; that module submits JSON with the runtime hostname as `domain`. `RadioGroup.tsx` is a vanilla self-bound atom using `store/useField` and token-timed selectable controls.
 
 ### Current Footer subtree (2026-09-23)
 

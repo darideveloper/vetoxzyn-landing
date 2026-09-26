@@ -3,3 +3,8 @@
 export interface ApiHealthResponse {
   ok: boolean
 }
+
+export interface ContactFormResponse {
+  success?: boolean
+  message?: string
+}

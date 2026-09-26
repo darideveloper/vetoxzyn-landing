@@ -1,2 +1,2 @@
 export const API_ERROR_MESSAGE =
-  "Something went wrong. Please try again."
+  "No pudimos enviar tu solicitud. Inténtalo nuevamente."

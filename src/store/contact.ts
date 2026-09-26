@@ -51,10 +51,13 @@ interface ContactStore extends ContactValues {
   errors: Record<string, string>
   isLoading: boolean
   isSubmitted: boolean
+  submitError: string | null
   setField: (field: string, value: unknown) => void
   validateAll: () => boolean
   reset: () => void
+  setLoading: (v: boolean) => void
   setSubmitted: (v: boolean) => void
+  setSubmitError: (message: string | null) => void
 }
 
 export function getNestedValue(obj: Record<string, any>, path: string): unknown {
@@ -81,6 +84,7 @@ export const useContactStore = create<ContactStore>()(
       errors: {},
       isLoading: false,
       isSubmitted: false,
+      submitError: null,
 
       setField: (field: string, value: unknown) => {
         const fieldSchema = fieldSchemaMap.get(field.split(".").pop() ?? field)
@@ -115,13 +119,15 @@ export const useContactStore = create<ContactStore>()(
         return Object.keys(allErrors).length === 0
       },
 
-      reset: () => set({ ...initialState, errors: {}, isLoading: false, isSubmitted: false }),
+      reset: () => set({ ...initialState, errors: {}, isLoading: false, isSubmitted: false, submitError: null }),
+      setLoading: (v: boolean) => set({ isLoading: v }),
       setSubmitted: (v: boolean) => set({ isSubmitted: v }),
+      setSubmitError: (message: string | null) => set({ submitError: message }),
     }),
     {
       name: "vetoxzyn-contact-storage",
       partialize: (state) => {
-        const { errors, isLoading, isSubmitted, ...rest } = state
+        const { errors, isLoading, isSubmitted, submitError, ...rest } = state
         return rest
       },
     }
