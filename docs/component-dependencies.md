@@ -26,6 +26,7 @@ File-based routing, SSG (`output` default `static`, no SSR adapter). No catch-al
 src/pages/ (prod routes — everything here ships in dist/ + sitemap)
 ├── index.astro       ← landing: hero + challenges + testimonials + products + ContactForm island
 ├── about.astro       ← static content page
+├── aviso-de-privacidad.astro ← build-time Markdown privacy notice
 ├── contact.astro     ← branded H1 (SectionHeader h1) + ContactSection organism
 ├── 404.astro         ← branded ES not-found (SectionHeader h1 + B2/B3 CTAs + sitemap), flex-1 centered
 └── robots.txt.ts     ← API route (dynamic robots.txt), no components
@@ -141,6 +142,15 @@ about.astro
 └── seo/PageSEO.astro ──► SEO chain (see below)
 ```
 
+### aviso-de-privacidad.astro tree
+
+```
+aviso-de-privacidad.astro
+├── Layout.astro ──► shared shell (lang="es")
+├── seo/PageSEO.astro ──► SEO chain (currentPage="privacy")
+└── atoms/Markdown.astro ──► lib/markdown + data/privacy-notice.md
+```
+
 ### 404.astro tree
 
 ```
@@ -175,6 +185,7 @@ src/components/atoms/
 ├── DividerImage.astro (Picture AVIF+WebP, local images only: widths [200,400], sizes `(max-width: 768px) 100vw, 5vw`, lazy/async; hover via pictureAttributes so .hover-subtle stays off the inner <img>; pointer-free)
 ├── ResponsiveImage.astro (Picture AVIF+WebP wrapper, local images only: widths prop with per-slot defaults, sizes passthrough, eager? → eager/high-priority/decoding-async vs lazy/async)
 ├── NavLink.astro     (.link + explicit cursor-pointer <a>: color + underline-offset hover, focus-visible parity; optional target/rel passthrough for new-tab external links)
+├── Markdown.astro    (build-time marked renderer with heading anchors and external-link behavior)
 ├── SpecItem.astro    (spec dt/dd cell: term + tone light|dark + wide? col-span-2 + valueClass override, value in slot; .hover-subtle, pointer-free)
 └── BrandLogo.astro   (Picture AVIF+WebP single 600w of src/assets/brand/logo.webp 600×244, alt Vetoxzyn, caller height class + w-auto ratio lock, loading/fetchpriority/decoding-async props; pointer-free)
 ```
@@ -395,7 +406,7 @@ Layout.astro
     └── atoms/BrandLogo.astro (h-16, carga diferida) + contenido estático del footer
 ```
 
-`FooterMeta.astro` conserva su distribución adaptable, logotipo y espaciado originales. El contenido de contacto, privacidad y canal comercial es estático y no expone enlaces. `DisclaimerNote.astro` remains reachable through `ContactSection` and now states the non-substitution-of-professional-judgment product notice.
+`FooterMeta.astro` conserva su distribución adaptable, logotipo y espaciado originales. El contenido de contacto y canal comercial es estático; el texto de privacidad enlaza a `/aviso-de-privacidad`. `DisclaimerNote.astro` remains reachable through `ContactSection` and now states the non-substitution-of-professional-judgment product notice.
 
 ### Current Header subtree (2026-09-24)
 

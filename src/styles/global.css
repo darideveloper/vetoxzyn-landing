@@ -149,6 +149,39 @@
   filter: brightness(1.03);
 }
 
+/* Editorial Markdown content rendered at build time. */
+.markdown-content {
+  color: var(--color-on-surface);
+  font-family: var(--font-body-lg);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4,
+.markdown-content h5,
+.markdown-content h6 {
+  color: var(--color-on-surface);
+  font-family: var(--font-display-lg);
+  font-weight: 700;
+  line-height: 1.2;
+  scroll-margin-top: 6rem;
+}
+.markdown-content h1 { font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 2rem; }
+.markdown-content h2 { font-size: clamp(1.35rem, 3vw, 2rem); margin: 2.5rem 0 0.75rem; }
+.markdown-content h3 { font-size: 1.25rem; margin: 2rem 0 0.5rem; }
+.markdown-content p { margin: 0.85rem 0; }
+.markdown-content ul,
+.markdown-content ol { margin: 0.75rem 0 1.25rem; padding-left: 1.5rem; }
+.markdown-content ul { list-style: disc; }
+.markdown-content ol { list-style: decimal; }
+.markdown-content li { padding-left: 0.25rem; }
+.markdown-content a { color: var(--color-primary); text-decoration: underline; text-underline-offset: 3px; }
+.markdown-content a:hover { color: var(--color-brand-orange); }
+.markdown-heading-link { color: inherit !important; text-decoration: none !important; }
+.markdown-content strong { font-weight: 700; }
+
 /* GSAP scroll-reveal base (hybrid C): `.js-reveal` hides revealable elements
    only when JS runs (`.no-js` override keeps content visible for no-JS
    users and crawlers). Scripts unhide via gsap.set(autoAlpha:1) before

@@ -1,0 +1,18 @@
+---
+import Layout from "@/layouts/Layout.astro"
+import PageSEO from "@/components/seo/PageSEO.astro"
+import Markdown from "@/components/atoms/Markdown.astro"
+import privacyNotice from "@/data/privacy-notice.md?raw"
+---
+
+<Layout lang="es">
+  <PageSEO
+    currentPage="privacy"
+    title="Aviso de privacidad integral"
+    description="Conoce cómo GRUPO HOCLIVA SAS recaba, utiliza y protege tus datos personales."
+    slot="seo"
+  />
+  <section class="mx-auto w-full max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
+    <Markdown content={privacyNotice} />
+  </section>
+</Layout>
