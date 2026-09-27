@@ -6,5 +6,6 @@ export interface ApiHealthResponse {
 
 export interface ContactFormResponse {
   success?: boolean
+  ok?: boolean
   message?: string
 }

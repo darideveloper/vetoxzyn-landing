@@ -26,6 +26,7 @@ File-based routing, SSG (`output` default `static`, no SSR adapter). No catch-al
 src/pages/ (prod routes — everything here ships in dist/ + sitemap)
 ├── index.astro       ← landing: hero + challenges + testimonials + products + ContactForm island
 ├── about.astro       ← static content page
+├── aviso-de-privacidad.astro ← build-time Markdown privacy notice
 ├── contact.astro     ← branded H1 (SectionHeader h1) + ContactSection organism
 ├── 404.astro         ← branded ES not-found (SectionHeader h1 + B2/B3 CTAs + sitemap), flex-1 centered
 └── robots.txt.ts     ← API route (dynamic robots.txt), no components
@@ -82,7 +83,7 @@ index.astro
 │       └── atoms/Badge.astro ×2 (tag dark CLINICAL GRADE + tag light icon=verified 99.9% PURE)
 ├── organisms/Testimonials.astro (static, id="testimonios", tokenized fluid wash + 2 pointer-free blobs, scoped GSAP reveal + glow parallax script ──► lib/gsap, no client: directive)
 │   ├── molecules/SectionHeader.astro (E2 + h2 string title + subtitle, align center)
-│   ├── molecules/TestimonialCard.astro ×3 ──► data/testimonials
+│   ├── molecules/TestimonialCard.astro ×2|3 ──► lib/testimonials (type only)
 │   │   ├── atoms/Card.astro (C1 glass shell, relative h-full overflow-visible + tilt-float)
 │   │   ├── atoms/Avatar.astro (wrapper + astro:assets Image [96,192] for ImageMetadata, plain-<img> fallback for strings — avatars pipelined from src/assets)
 │   │   └── atoms/Icon.astro (bare filled format_quote, tone per accent)
@@ -141,6 +142,15 @@ about.astro
 └── seo/PageSEO.astro ──► SEO chain (see below)
 ```
 
+### aviso-de-privacidad.astro tree
+
+```
+aviso-de-privacidad.astro
+├── Layout.astro ──► shared shell (lang="es")
+├── seo/PageSEO.astro ──► SEO chain (currentPage="privacy")
+└── atoms/Markdown.astro ──► lib/markdown + data/privacy-notice.md
+```
+
 ### 404.astro tree
 
 ```
@@ -175,6 +185,7 @@ src/components/atoms/
 ├── DividerImage.astro (Picture AVIF+WebP, local images only: widths [200,400], sizes `(max-width: 768px) 100vw, 5vw`, lazy/async; hover via pictureAttributes so .hover-subtle stays off the inner <img>; pointer-free)
 ├── ResponsiveImage.astro (Picture AVIF+WebP wrapper, local images only: widths prop with per-slot defaults, sizes passthrough, eager? → eager/high-priority/decoding-async vs lazy/async)
 ├── NavLink.astro     (.link + explicit cursor-pointer <a>: color + underline-offset hover, focus-visible parity; optional target/rel passthrough for new-tab external links)
+├── Markdown.astro    (build-time marked renderer with heading anchors and external-link behavior)
 ├── SpecItem.astro    (spec dt/dd cell: term + tone light|dark + wide? col-span-2 + valueClass override, value in slot; .hover-subtle, pointer-free)
 └── BrandLogo.astro   (Picture AVIF+WebP single 600w of src/assets/brand/logo.webp 600×244, alt Vetoxzyn, caller height class + w-auto ratio lock, loading/fetchpriority/decoding-async props; pointer-free)
 ```
@@ -185,7 +196,7 @@ src/components/organisms/ (all thinned to section composition — shells + grids
   guard/revert/page-load/after-swap, roots tagged transition:animate="none")
 ├── Hero.astro            (section shell + blobs + 12-col grid) ──► molecules/{SectionHeader,HeroBullets,HeroActions,HeroMediaCard} + lib/gsap
 ├── Challenges.astro      (section shell + 7/5 grid) ──► molecules/{SectionHeader,FeatureList,MediaWithTags} + lib/gsap
-├── Testimonials.astro    (section shell + header + card/divider grid) ──► molecules/{SectionHeader,TestimonialCard} + atoms/DividerImage + data/testimonials + lib/gsap
+├── Testimonials.astro    (section shell + prop-driven 2|3 card/divider grid) ──► molecules/{SectionHeader,TestimonialCard} + atoms/DividerImage + lib/{testimonials,gsap}
 ├── Products.astro        (section shell + split row + strip) ──► molecules/{SectionHeader,ProductPanel ×2,FormulaStrip} + lib/gsap
 ├── ContactSection.astro  (section shell + backdrop + 12-col grid, GSAP reveal script only — no other inline script) ──► molecules/{SectionHeader,ContactBackdrop,ContactForm,FaqAccordion,ContactMedia,DisclaimerNote} + lib/gsap
 ├── Header.astro          (border-b shell) ──► molecules/PrimaryNav
@@ -199,7 +210,7 @@ src/components/molecules/
 │   ├── InterestPicker.tsx (idPrefix passthrough) ──► atoms/Checkbox ×3
 │   ├── FormSuccess.tsx ──► atoms/Button (reset)
 │   └── atoms/{Input,Textarea,Button} direct + store/contact
-├── TestimonialCard.astro (static: Card C1 + Avatar + bare Icon + footer) ──► atoms/{Card,Avatar,Icon} + data/testimonials (type-only)
+├── TestimonialCard.astro (static: Card C1 + Avatar + bare Icon + footer) ──► atoms/{Card,Avatar,Icon} + lib/testimonials (type-only)
 ├── SectionHeader.astro (eyebrow? + title + titleClass extras + level h1|h2 + id + subtitle + align left|center; locked SECTION_TITLE_CORE for both levels, title slot only for inline markup reusing the core) ──► atoms/Eyebrow
 ├── HeroBullets.astro (bullets const inside) ──► atoms/Icon ×5
 ├── HeroActions.astro (2-Button CTA group: primary → #contacto-formulario, secondary → #productos) ──► atoms/Button ×2 + data/section-ids
@@ -293,7 +304,8 @@ None.
 - `lib/animate-counters.ts` — `data-value` stat-counter helper (pattern only, no stats wired) ──► lib/gsap
 - `data/site-config.ts` — PHONES, EMAIL, ADDRESS, SOCIAL_LINKS, GOOGLE_MAPS, BUSINESS_HOURS, BUSINESS_DATA (`as const`; logo = imported `src/assets/brand/logo.webp` ImageMetadata)
 - `data/section-ids.ts` — SECTION_IDS (`as const`: inicio, desafios, testimonios, productos, contacto, contactoFormulario, contactoFaq); single source of truth for section anchors — organisms + CTA molecules import from here, never hardcode
-- `data/testimonials.ts` — TESTIMONIALS (`as const` ×3: quote/name/role/accent/avatar as imported `ImageMetadata` from `src/assets/testimonials/` + brand logo asset) + `Testimonial`/`TestimonialAccent` types (testimonials section only)
+- `lib/testimonials.ts` — shared `Testimonial`/`TestimonialAccent` props contract for 2- or 3-record sections
+- `data/testimonials.ts` — TESTIMONIALS (`as const` ×2: quote/name/role/accent/avatar as imported `ImageMetadata` from `src/assets/testimonials/`), satisfying `lib/testimonials` types
 - `src/consts.ts` — SITE_TITLE, SITE_DESCRIPTION (SEO fallback)
 - `styles/global.css` — tailwind v4 + tw-animate-css + `@theme inline` tokens
   (17 colors, see `docs/design-tokens.md`: hero set + `04-products` set minus
@@ -374,7 +386,7 @@ index.astro
 index.astro and contact.astro
 └── organisms/ContactSection.astro ──► molecules/{SectionHeader, ContactForm, FaqAccordion, ContactMedia, DisclaimerNote} + lib/gsap
     ├── SectionHeader.astro (orientation heading and contextual support copy)
-    ├── ContactForm.tsx (client:load) ──► store/contact + data/section-ids + lib/api/{contact, constants}
+    ├── ContactForm.tsx (client:load) ──► store/contact + data/section-ids + lib/api/{contact, client, constants}
     │   ├── FormRow.tsx ×2 ──► atoms/Input.tsx ×4 (name, clinic, phone, city/state)
     │   ├── atoms/Input.tsx (optional email) + atoms/Textarea.tsx (custom message)
     │   ├── InterestPicker.tsx ──► atoms/Checkbox.tsx ×3 (patient hygiene, spaces/processes, distributor)
@@ -384,7 +396,7 @@ index.astro and contact.astro
     └── FaqAccordion.astro ──► molecules/FaqItem.astro ×4 + atoms/Icon.astro + data/section-ids
 ```
 
-`store/contact.ts` persists the new optional `email`, `ciudadEstado`, `medioContacto`, and `motivoInteres` fields alongside the existing contact and interest fields. It also owns transient submission state (`isLoading`, `isSubmitted`, `submitError`), which is excluded from persistence. `ContactForm.tsx` validates all Zustand fields before calling the typed `safeFetch` endpoint module; that module submits JSON with the runtime hostname as `domain`. `RadioGroup.tsx` is a vanilla self-bound atom using `store/useField` and token-timed selectable controls.
+`store/contact.ts` persists every contact field while excluding transient submission state. Full-form Zod validation requires the contact details, email, both radio selections, a 10-character message, and at least one interest option before `ContactForm.tsx` snapshots Zustand data and submits JSON. The typed endpoint rejects explicit unsuccessful JSON responses and distinguishes timeout, request, and generic errors.
 
 ### Current Footer subtree (2026-09-23)
 
@@ -394,7 +406,7 @@ Layout.astro
     └── atoms/BrandLogo.astro (h-16, carga diferida) + contenido estático del footer
 ```
 
-`FooterMeta.astro` conserva su distribución adaptable, logotipo y espaciado originales. El contenido de contacto, privacidad y canal comercial es estático y no expone enlaces. `DisclaimerNote.astro` remains reachable through `ContactSection` and now states the non-substitution-of-professional-judgment product notice.
+`FooterMeta.astro` conserva su distribución adaptable, logotipo y espaciado originales. El contenido de contacto y canal comercial es estático; el texto de privacidad enlaza a `/aviso-de-privacidad`. `DisclaimerNote.astro` remains reachable through `ContactSection` and now states the non-substitution-of-professional-judgment product notice.
 
 ### Current Header subtree (2026-09-24)
 

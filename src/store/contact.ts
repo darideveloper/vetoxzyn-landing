@@ -2,19 +2,24 @@ import { create } from "zustand"
 import { createJSONStorage, persist } from "zustand/middleware"
 import { z } from "zod"
 
-export const contactSchema = z.object({
-  name: z.string().min(1, "El nombre es obligatorio"),
-  email: z.union([z.literal(""), z.string().email("Correo electrónico inválido")]),
-  message: z.string().min(10, "El mensaje debe tener al menos 10 caracteres"),
-  clinica: z.string(),
-  telefono: z.string(),
-  ciudadEstado: z.string(),
-  medioContacto: z.union([z.literal(""), z.enum(["correo", "llamada", "whatsapp"])]),
-  motivoInteres: z.union([z.literal(""), z.enum(["problema", "informacion", "incorporacion"])]),
+const contactFieldsSchema = z.object({
+  name: z.string().trim().min(1, "El nombre es obligatorio"),
+  email: z.string().trim().min(1, "El correo electrónico es obligatorio").email("Correo electrónico inválido"),
+  message: z.string().trim().min(10, "El mensaje debe tener al menos 10 caracteres"),
+  clinica: z.string().trim().min(1, "La clínica u hospital es obligatorio"),
+  telefono: z.string().trim().min(7, "Ingresa un teléfono o WhatsApp válido"),
+  ciudadEstado: z.string().trim().min(1, "La ciudad o estado es obligatorio"),
+  medioContacto: z.enum(["correo", "llamada", "whatsapp"], { message: "Selecciona un medio de contacto" }),
+  motivoInteres: z.enum(["problema", "informacion", "incorporacion"], { message: "Selecciona el motivo de tu interés" }),
   lineaTopico: z.boolean(),
   lineaInstalaciones: z.boolean(),
   lineaDistribucion: z.boolean(),
 })
+
+export const contactSchema = contactFieldsSchema.refine(
+  (values) => values.lineaTopico || values.lineaInstalaciones || values.lineaDistribucion,
+  { message: "Selecciona al menos una configuración de interés", path: ["lineaTopico"] },
+)
 
 export type ContactValues = z.infer<typeof contactSchema>
 
@@ -31,7 +36,7 @@ export function buildFieldSchemaMap(schemas: z.ZodObject<any>[]): Map<string, z.
   return map
 }
 
-export const fieldSchemaMap = buildFieldSchemaMap([contactSchema])
+export const fieldSchemaMap = buildFieldSchemaMap([contactFieldsSchema])
 
 export const initialState: ContactValues = {
   name: "",
@@ -129,6 +134,9 @@ export const useContactStore = create<ContactStore>()(
           const base = field.includes(".")
             ? setNestedValue(state as unknown as Record<string, any>, field, value)
             : { ...state, [field]: value }
+          if (["lineaTopico", "lineaInstalaciones", "lineaDistribucion"].some((interestField) => Boolean(base[interestField]))) {
+            delete newErrors.lineaTopico
+          }
           return { ...base, errors: newErrors }
         })
       },
@@ -136,11 +144,11 @@ export const useContactStore = create<ContactStore>()(
       validateAll: () => {
         const state = get()
         const allErrors: Record<string, string> = {}
-        for (const [fieldName, schema] of fieldSchemaMap) {
-          const value = (state as unknown as Record<string, unknown>)[fieldName]
-          const result = schema.safeParse(value)
-          if (!result.success) {
-            allErrors[fieldName] = result.error.issues[0]?.message ?? "Valor inválido"
+        const values = Object.fromEntries(Object.keys(initialState).map((field) => [field, state[field as keyof ContactValues]]))
+        const result = contactSchema.safeParse(values)
+        if (!result.success) {
+          for (const issue of result.error.issues) {
+            allErrors[String(issue.path[0] ?? "form")] ??= issue.message
           }
         }
         set({ errors: allErrors })
