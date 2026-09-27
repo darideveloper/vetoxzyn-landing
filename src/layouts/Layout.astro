@@ -15,8 +15,15 @@ const { lang = "en" } = Astro.props as Props
 <html lang={lang} class="no-js">
   <head>
     <script is:inline>
-      document.documentElement.classList.remove("no-js")
-      document.documentElement.classList.add("js")
+      // Gate on module support: classic scripts run everywhere (including
+      // browsers that never execute type="module"), but only module scripts
+      // unhide .js-reveal content. Without this gate those browsers get
+      // class="js" with nothing to reveal them -> blank page. Keeping this
+      // classic + synchronous avoids a flash of visible content pre-paint.
+      if ("noModule" in document.createElement("script")) {
+        document.documentElement.classList.remove("no-js")
+        document.documentElement.classList.add("js")
+      }
     </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />

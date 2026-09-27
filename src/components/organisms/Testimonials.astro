@@ -107,13 +107,24 @@ const DIVIDERS: ImageMetadata[] = [divider1, divider2]
     })
 
     mm.add("(prefers-reduced-motion: reduce)", () => {
-      gsap.set(section.querySelectorAll(".js-testimonials-reveal"), { autoAlpha: 0 })
+      const targets = section.querySelectorAll(".js-testimonials-reveal")
+
+      // Already in view (short page, tall viewport, restored scroll):
+      // onEnter would never fire, so reveal immediately instead of
+      // sticking hidden.
+      if (ScrollTrigger.isInViewport(section as Element)) {
+        gsap.set(targets, { autoAlpha: 1 })
+        return
+      }
+
+      gsap.set(targets, { autoAlpha: 0 })
 
       ScrollTrigger.create({
         trigger: section,
         start: "top 80%",
+        once: true,
         onEnter: () => {
-          gsap.to(section.querySelectorAll(".js-testimonials-reveal"), {
+          gsap.to(targets, {
             autoAlpha: 1,
             duration: 0.8,
             stagger: 0.1,

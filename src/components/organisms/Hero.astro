@@ -54,9 +54,17 @@ import { SECTION_IDS } from "@/data/section-ids"
       // Unhide first so .from() measures the natural end state (hybrid C)
       gsap.set(hero.querySelectorAll(".js-hero-reveal"), { autoAlpha: 1 })
 
-      // Repeat visits in the same session jump to the final state
-      if (sessionStorage.getItem("hero-entered")) return
-      sessionStorage.setItem("hero-entered", "1")
+      // Repeat visits in the same session jump to the final state.
+      // Fail-open: storage throws in private mode / blocked cookies —
+      // replay the entrance instead of aborting the timeline.
+      let entered = false
+      try {
+        entered = sessionStorage.getItem("hero-entered") !== null
+        sessionStorage.setItem("hero-entered", "1")
+      } catch {
+        entered = false
+      }
+      if (entered) return
 
       // Minimal transform-only entrance: never touches opacity, so the
       // H1 and LCP media stay LCP-safe

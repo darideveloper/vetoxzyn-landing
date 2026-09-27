@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import { persist } from "zustand/middleware"
+import { createJSONStorage, persist } from "zustand/middleware"
 import { z } from "zod"
 
 export const contactSchema = z.object({
@@ -77,6 +77,34 @@ function setNestedValue(obj: Record<string, any>, path: string, value: unknown):
   return root
 }
 
+// Fail-open storage: localStorage throws in private mode, strict ETP,
+// Brave Shields, and restricted WebViews. Degrade to unpersisted form
+// state instead of crashing the contact island.
+const memory = new Map<string, string>()
+const safeStorage = {
+  getItem: (name: string): string | null => {
+    try {
+      return localStorage.getItem(name)
+    } catch {
+      return memory.get(name) ?? null
+    }
+  },
+  setItem: (name: string, value: string): void => {
+    try {
+      localStorage.setItem(name, value)
+    } catch {
+      memory.set(name, value)
+    }
+  },
+  removeItem: (name: string): void => {
+    try {
+      localStorage.removeItem(name)
+    } catch {
+      memory.delete(name)
+    }
+  },
+}
+
 export const useContactStore = create<ContactStore>()(
   persist(
     (set, get) => ({
@@ -126,6 +154,7 @@ export const useContactStore = create<ContactStore>()(
     }),
     {
       name: "vetoxzyn-contact-storage",
+      storage: createJSONStorage(() => safeStorage),
       partialize: (state) => {
         const { errors, isLoading, isSubmitted, submitError, ...rest } = state
         return rest
