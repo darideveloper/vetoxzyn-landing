@@ -1,4 +1,4 @@
-import { safeFetch } from "./client"
+import { FetchError, safeFetch } from "./client"
 import type { ContactFormResponse } from "./types"
 import type { ContactValues } from "@/store/contact"
 
@@ -24,5 +24,10 @@ export function submitContactForm(values: ContactValues, domain: string) {
       domain,
       ...values,
     }),
+  }).then((response) => {
+    if (response.success === false || response.ok === false) {
+      throw new FetchError("http", response.message ?? "El servicio rechazó la solicitud", 422)
+    }
+    return response
   })
 }

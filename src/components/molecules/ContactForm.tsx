@@ -9,7 +9,8 @@ import { FormSuccess } from "@/components/molecules/FormSuccess"
 import { useContactStore } from "@/store/contact"
 import { SECTION_IDS } from "@/data/section-ids"
 import { submitContactForm } from "@/lib/api/contact"
-import { API_ERROR_MESSAGE } from "@/lib/api/constants"
+import { FetchError } from "@/lib/api/client"
+import { API_ERROR_MESSAGE, API_REQUEST_MESSAGE, API_TIMEOUT_MESSAGE } from "@/lib/api/constants"
 
 export function ContactForm() {
   const isSubmitted = useContactStore((state) => state.isSubmitted)
@@ -23,6 +24,7 @@ export function ContactForm() {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const store = useContactStore.getState()
+    if (store.isLoading) return
     if (!store.validateAll()) return
 
     setSubmitError(null)
@@ -60,8 +62,10 @@ export function ContactForm() {
         window.location.hostname,
       )
       setSubmitted(true)
-    } catch {
-      setSubmitError(API_ERROR_MESSAGE)
+    } catch (error) {
+      if (error instanceof FetchError && error.type === "timeout") setSubmitError(API_TIMEOUT_MESSAGE)
+      else if (error instanceof FetchError && error.type === "http" && error.status !== undefined && error.status < 500) setSubmitError(API_REQUEST_MESSAGE)
+      else setSubmitError(API_ERROR_MESSAGE)
     } finally {
       setLoading(false)
     }
@@ -85,19 +89,20 @@ export function ContactForm() {
         </div>
         <form onSubmit={handleSubmit} noValidate aria-busy={isLoading} className="relative z-10 space-y-8">
           <FormRow>
-            <Input field="name" idPrefix="contacto-" label="Nombre" placeholder="Dr. Juan Pérez" autoComplete="name" />
-            <Input field="clinica" idPrefix="contacto-" label="Clínica / Hospital" placeholder="Hospital Veterinario Central" autoComplete="organization" />
+            <Input field="name" idPrefix="contacto-" label="Nombre" placeholder="Dr. Juan Pérez" autoComplete="name" required />
+            <Input field="clinica" idPrefix="contacto-" label="Clínica / Hospital" placeholder="Hospital Veterinario Central" autoComplete="organization" required />
           </FormRow>
           <FormRow>
-            <Input field="telefono" idPrefix="contacto-" label="Teléfono / WhatsApp" type="tel" placeholder="+52 55 1234 5678" autoComplete="tel" />
-            <Input field="ciudadEstado" idPrefix="contacto-" label="Ciudad / estado" placeholder="Celaya, Guanajuato" autoComplete="address-level1" />
+            <Input field="telefono" idPrefix="contacto-" label="Teléfono / WhatsApp" type="tel" placeholder="+52 55 1234 5678" autoComplete="tel" required />
+            <Input field="ciudadEstado" idPrefix="contacto-" label="Ciudad / estado" placeholder="Celaya, Guanajuato" autoComplete="address-level1" required />
           </FormRow>
-          <Input field="email" idPrefix="contacto-" label="Correo (opcional)" type="email" placeholder="contacto@clinica.com" autoComplete="email" />
+          <Input field="email" idPrefix="contacto-" label="Correo electrónico" type="email" placeholder="contacto@clinica.com" autoComplete="email" required />
           <InterestPicker idPrefix="contacto-" />
           <RadioGroup
             field="medioContacto"
             idPrefix="contacto-"
             label="Medio preferido de comunicación"
+            required
             options={[
               { value: "correo", label: "Correo" },
               { value: "llamada", label: "Llamada" },
@@ -108,13 +113,14 @@ export function ContactForm() {
             field="motivoInteres"
             idPrefix="contacto-"
             label="Te interesa el producto porque"
+            required
             options={[
               { value: "problema", label: "Puede solucionar un problema actual" },
               { value: "informacion", label: "Quiero informarme más" },
               { value: "incorporacion", label: "Puedo incorporarlo próximamente" },
             ]}
           />
-          <Textarea field="message" idPrefix="contacto-" label="Mensaje personalizado" placeholder="Especifique sus requerimientos de volumen o dudas adicionales..." rows={3} />
+          <Textarea field="message" idPrefix="contacto-" label="Mensaje personalizado" placeholder="Especifique sus requerimientos de volumen o dudas adicionales..." rows={3} required />
           <div className="flex flex-col items-stretch gap-4 pt-6 md:items-end">
             <Button type="submit" size="sm" disabled={isLoading} className="deep-float-shadow group w-full justify-center md:w-auto">
               {isLoading ? "Enviando solicitud…" : "Enviar mi solicitud"}

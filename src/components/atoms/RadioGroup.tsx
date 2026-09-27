@@ -21,6 +21,7 @@ interface RadioGroupProps {
   useField?: (field: string) => UseFieldResult
   idPrefix?: string
   className?: string
+  required?: boolean
 }
 
 export function RadioGroup({
@@ -30,12 +31,13 @@ export function RadioGroup({
   useField = defaultUseField,
   idPrefix = "",
   className,
+  required = false,
 }: RadioGroupProps) {
   const { value, error, setValue, mounted } = useField(field)
   const groupId = `${idPrefix}${toKebab(field)}`
 
   return (
-    <fieldset className={cn("flex flex-col gap-3 p-2", className)}>
+    <fieldset aria-required={required || undefined} className={cn("flex flex-col gap-3 p-2", className)}>
       <legend className={cn("text-xs font-bold uppercase tracking-widest", error ? "text-error" : "text-on-surface/70")}>
         {label}
       </legend>
@@ -53,6 +55,7 @@ export function RadioGroup({
                 type="radio"
                 name={groupId}
                 value={option.value}
+                required={required && option === options[0]}
                 checked={mounted ? value === option.value : false}
                 onChange={(event) => setValue(event.target.value)}
                 className="h-5 w-5 cursor-pointer accent-brand-orange disabled:cursor-not-allowed"
