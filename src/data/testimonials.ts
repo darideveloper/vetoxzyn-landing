@@ -4,7 +4,7 @@
 // in Avatar); Carlos's avatar reuses the brand logo asset directly.
 import alanAvatar from "@/assets/testimonials/alan-gamborino.webp"
 import danielaAvatar from "@/assets/testimonials/daniela-avila.webp"
-import logoAsset from "@/assets/brand/logo.webp"
+import type { Testimonial } from "@/lib/testimonials"
 
 export const TESTIMONIALS = [
   {
@@ -23,16 +23,4 @@ export const TESTIMONIALS = [
     accent: "pink",
     avatar: alanAvatar,
   },
-  {
-    quote:
-      "«Integramos vetoxzyn® a nuestros protocolos sanitarios; elevó el nivel de bioseguridad de consulta.»",
-    name: "MVZ Carlos Valdés",
-    role: "Clínica BioPet · Monterrey",
-    accent: "green",
-    avatar: logoAsset,
-  },
-] as const
-
-export type TestimonialAccent = (typeof TESTIMONIALS)[number]["accent"]
-
-export type Testimonial = (typeof TESTIMONIALS)[number]
+] as const satisfies readonly Testimonial[]

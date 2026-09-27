@@ -6,13 +6,14 @@ import Challenges from "@/components/organisms/Challenges.astro"
 import Testimonials from "@/components/organisms/Testimonials.astro"
 import Products from "@/components/organisms/Products.astro"
 import ContactSection from "@/components/organisms/ContactSection.astro"
+import { TESTIMONIALS } from "@/data/testimonials"
 ---
 
 <Layout lang="es">
   <PageSEO currentPage="home" slot="seo" />
   <Hero />
   <Challenges />
-  <Testimonials />
+  <Testimonials testimonials={TESTIMONIALS} />
   <Products />
   <ContactSection />
 </Layout>

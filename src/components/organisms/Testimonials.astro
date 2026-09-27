@@ -2,15 +2,35 @@
 import DividerImage from "@/components/atoms/DividerImage.astro"
 import SectionHeader from "@/components/molecules/SectionHeader.astro"
 import TestimonialCard from "@/components/molecules/TestimonialCard.astro"
-import { TESTIMONIALS } from "@/data/testimonials"
 import { SECTION_IDS } from "@/data/section-ids"
+import type { Testimonial } from "@/lib/testimonials"
 import divider1 from "@/assets/dividers/divider-1.webp"
 import divider2 from "@/assets/dividers/divider-2.webp"
 
 const DIVIDERS: ImageMetadata[] = [divider1, divider2]
+
+interface Props {
+  testimonials: readonly Testimonial[]
+  id?: string
+  headingId?: string
+}
+
+const {
+  testimonials,
+  id = SECTION_IDS.testimonios,
+  headingId = "testimonials-heading",
+} = Astro.props
+
+if (testimonials.length !== 2 && testimonials.length !== 3) {
+  throw new Error("Testimonials requires exactly 2 or 3 testimonials")
+}
+
+const gridClass = testimonials.length === 2
+  ? "mt-12 grid grid-cols-1 gap-gutter min-[980px]:grid-cols-[1fr_5vw_1fr]"
+  : "mt-12 grid grid-cols-1 gap-gutter min-[980px]:grid-cols-[1fr_5vw_1fr_5vw_1fr]"
 ---
 
-<section id={SECTION_IDS.testimonios} aria-labelledby="testimonials-heading" class="js-testimonials-section relative scroll-mt-20 overflow-hidden overflow-x-clip py-xl" transition:animate="none">
+<section id={id} aria-labelledby={headingId} class="js-testimonials-section relative scroll-mt-20 overflow-hidden overflow-x-clip py-xl" transition:animate="none">
   <div aria-hidden="true" class="bg-fluid-shape absolute inset-0 -z-10 bg-surface-container-highest/50 backdrop-blur-md"></div>
   <div aria-hidden="true" class="js-testimonials-glow pointer-events-none absolute -top-40 -right-40 -z-10 h-96 w-96 rounded-full bg-brand-orange/10 blur-3xl"></div>
   <div aria-hidden="true" class="js-testimonials-glow pointer-events-none absolute -bottom-40 -left-40 -z-10 h-[500px] w-[500px] rounded-full bg-brand-pink/10 blur-3xl"></div>
@@ -19,18 +39,18 @@ const DIVIDERS: ImageMetadata[] = [divider1, divider2]
       <SectionHeader
         align="center"
         eyebrow="EVIDENCIA CLÍNICA"
-        id="testimonials-heading"
+        id={headingId}
         title="Lo que dicen los veterinarios"
         titleClass="mt-4"
         subtitle="Experiencias reales documentadas sobre la integración de matrices bioseguras en la práctica clínica diaria."
         subtitleClass="mx-auto mt-4 max-w-2xl font-body-lg text-body-lg text-on-surface-variant"
       />
     </div>
-    <div class="mt-12 grid grid-cols-1 gap-gutter min-[980px]:grid-cols-[1fr_5vw_1fr_5vw_1fr]">
-      {TESTIMONIALS.map((t, i) => (
+    <div class={gridClass}>
+      {testimonials.map((t, i) => (
         <>
           <TestimonialCard quote={t.quote} name={t.name} role={t.role} accent={t.accent} avatar={t.avatar} />
-          {i < TESTIMONIALS.length - 1 && (
+          {i < testimonials.length - 1 && (
             <div aria-hidden="true" class="js-testimonials-divider js-testimonials-reveal js-reveal h-24 w-full overflow-hidden rounded-xl min-[980px]:h-[60%] min-[980px]:self-center">
               <DividerImage src={DIVIDERS[i]} />
             </div>
