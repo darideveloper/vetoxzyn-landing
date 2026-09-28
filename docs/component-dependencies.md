@@ -1,6 +1,6 @@
 ---
 created: 2026-09-06
-updated: 2026-09-12
+updated: 2026-09-28
 tags:
   - astro
   - components
@@ -88,13 +88,15 @@ index.astro
 │   │   ├── atoms/Avatar.astro (wrapper + astro:assets Image [96,192] for ImageMetadata, plain-<img> fallback for strings — avatars pipelined from src/assets)
 │   │   └── atoms/Icon.astro (bare filled format_quote, tone per accent)
 │   └── atoms/DividerImage.astro ×2 (Picture AVIF+WebP, widths [200,400], sizes `(max-width: 768px) 100vw, 5vw`, hover via pictureAttributes) ──► assets/dividers/divider-*.webp (1600×1600 AI masters)
-├── organisms/Products.astro (static shell + split row + strip, scoped GSAP reveal script ──► lib/gsap, no client: directive, id="productos")
+├── organisms/Products.astro (section shell + grid + overlap gallery strip, scoped GSAP reveal script ──► lib/gsap, no client: directive, id="productos"; frontmatter Astro wrapper resolves gallery srcsets via astro:assets getImage)
 │   ├── molecules/SectionHeader.astro (h2 string title + subtitle, align center, no eyebrow)
-│   ├── molecules/ProductPanel.astro ×2 (tone light|dark: backdrop + header + SpecGrid + CTA + vertical pill)
+│   ├── molecules/ProductPanel.astro ×2 (tone light|dark: backdrop + header + SpecGrid + CTA + vertical pill; grid columns own the width, no lg:w-1/2)
 │   │   ├── atoms/ResponsiveImage.astro (Picture AVIF+WebP, widths [768,1280,1536,2048]) ──► assets/products/topico.webp | instalaciones.webp (4096×2304 16:9 AI masters)
 │   │   ├── molecules/SpecGrid.astro (tone + items from panel SPECS const) ──► atoms/SpecItem.astro ×5 (wide? on Presentaciones)
 │   │   ├── atoms/Button.tsx (product tone light|dark href="#contacto-formulario")
 │   │   └── atoms/Badge.astro (feature vertical: water_drop | cleaning_services)
+│   ├── molecules/ProductGallery.tsx (client:visible island: Swiper + Autoplay only, calm 3.5s loop, peek+grow 1.2→2→3→4, presentational URL props from Products frontmatter; each slide is a consistent white plate (`bg-on-primary` + `shadow-card` + padding, `object-contain`) because gallery masters are transparent cutouts; the image itself renders at `scale: 1.5` overflowing the plate (no clipping) for the oversized bleed look, easing to `1.6` on hover via `--ease-gallery-zoom` (no overshoot) with reduced-motion parity; each slide links to `#contacto-formulario` (Spanish `aria-label`, drags excluded via Swiper `preventClicks`); the swiper viewport is `overflow: visible` so the track never cuts the bleed) ──► swiper/react + swiper/modules (Autoplay) + assets/gallery/*.webp (7 × 400px squares, Spanish alts in GALLERY_SOURCES)
+│   │   └── (pre-hydration slide geometry lives in `global.css` under `.js-products-gallery` — mirrors the breakpoints so the unhydrated markup is already a correct strip: zero CLS, real row for no-JS/crawlers)
 │   └── molecules/FormulaStrip.astro (formula banner)
 └── organisms/ContactSection.astro (static shell + tint overlay + backdrop + grid, section#contacto, scoped GSAP reveal script ──► lib/gsap, form shell only — island untouched)
     ├── molecules/SectionHeader.astro (h2 gradient slot on SECTION_TITLE_CORE + subtitle)
@@ -197,7 +199,7 @@ src/components/organisms/ (all thinned to section composition — shells + grids
 ├── Hero.astro            (section shell + blobs + 12-col grid) ──► molecules/{SectionHeader,HeroBullets,HeroActions,HeroMediaCard} + lib/gsap
 ├── Challenges.astro      (section shell + 7/5 grid) ──► molecules/{SectionHeader,FeatureList,MediaWithTags} + lib/gsap
 ├── Testimonials.astro    (section shell + prop-driven 2|3 card/divider grid) ──► molecules/{SectionHeader,TestimonialCard} + atoms/DividerImage + lib/{testimonials,gsap}
-├── Products.astro        (section shell + split row + strip) ──► molecules/{SectionHeader,ProductPanel ×2,FormulaStrip} + lib/gsap
+├── Products.astro        (section shell + grid + overlap gallery strip; feathered backdrop-blur softens the light/dark seam behind the strip) ──► molecules/{SectionHeader,ProductPanel ×2,ProductGallery,FormulaStrip} + lib/gsap + astro:assets (getImage) + assets/gallery
 ├── ContactSection.astro  (section shell + backdrop + 12-col grid, GSAP reveal script only — no other inline script) ──► molecules/{SectionHeader,ContactBackdrop,ContactForm,FaqAccordion,ContactMedia,DisclaimerNote} + lib/gsap
 ├── Header.astro          (border-b shell) ──► molecules/PrimaryNav
 └── Footer.astro          (border-t shell) ──► molecules/FooterMeta
@@ -219,6 +221,7 @@ src/components/molecules/
 ├── FeatureRow.astro (Icon + title + desafío/solución; .hover-subtle, pointer-free) ──► atoms/Icon
 ├── MediaWithTags.astro (tilted image + gradient + 2 absolute tags) ──► atoms/{ResponsiveImage,Badge ×2} + assets/challenges
 ├── ProductPanel.astro (tone light|dark: backdrop + header + SpecGrid + CTA href="#contacto-formulario" + vertical pill; SPECS const inside) ──► atoms/{ResponsiveImage,Button,Badge} + molecules/SpecGrid + data/section-ids + assets/products
+├── ProductGallery.tsx (client:visible island, presentational: slides + sizes string props only; Swiper core CSS + Autoplay module, calm loop, breakpoints, reduced-motion gate + offscreen pause; white product plates; region carrusel, Spanish aria-label, no headings) ──► swiper/{react,modules,css} (no Navigation/Pagination)
 ├── SpecGrid.astro (tone + items → SpecItem grid) ──► atoms/SpecItem
 ├── FormulaStrip.astro (static formula banner)
 ├── FaqAccordion.astro (glass panel + header + single-open exclusivity script; faqs const inside; root #contacto-faq) ──► molecules/FaqItem ×3 + atoms/Icon + data/section-ids
@@ -285,6 +288,7 @@ Single-language only: no i18n, no hreflang, canonical from `BUSINESS_DATA.url + 
 | Island | Mount | Binds to |
 |---|---|---|
 | `molecules/ContactForm.tsx` | `client:load` on `/` and `/contact` | `store/contact` (fields + submit), `store/useField` via atoms |
+| `molecules/ProductGallery.tsx` | `client:visible` on `/` (inside Products) | nothing (presentational URL props from Products frontmatter; no store) |
 
 One instance per page; surrounding content stays static Astro HTML. Submit is fully client-side (`preventDefault`, never native form navigation, so ClientRouter swaps don't interfere). Zustand `persist` (`vetoxzyn-contact-storage`) survives reloads and VT navigations.
 
@@ -372,10 +376,11 @@ None.
 
 ```text
 index.astro
-└── organisms/Products.astro ──► molecules/{SectionHeader, ProductPanel ×2} + lib/gsap
+└── organisms/Products.astro ──► molecules/{SectionHeader, ProductPanel ×2, ProductGallery} + lib/gsap + astro:assets (getImage)
     ├── SectionHeader.astro (two-use-context heading and orientation copy)
-    └── ProductPanel.astro ×2 ──► atoms/{ResponsiveImage, Button, Badge} + molecules/SpecGrid + data/section-ids + assets/products
-        └── SpecGrid.astro ──► atoms/SpecItem ×5
+    ├── ProductPanel.astro ×2 ──► atoms/{ResponsiveImage, Button, Badge} + molecules/SpecGrid + data/section-ids + assets/products
+    │   └── SpecGrid.astro ──► atoms/SpecItem ×5
+    └── ProductGallery.tsx (client:visible; single instance — mobile-between via DOM order, desktop-overlap via grid span + explicit row/col placement; GSAP-excluded by design; pre-hydration width geometry in global.css; slides are white plates) ──► swiper (Autoplay only) + assets/gallery (7 × 400px, widths [256,320,400] AVIF-first)
 ```
 
 `molecules/FormulaStrip.astro` is intentionally unreachable: its formula, mechanism, and residue claims were removed pending final technical-document validation. Retain it only as a cleanup/reinstatement candidate.

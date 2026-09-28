@@ -79,6 +79,8 @@
   /* Unified interaction-feedback tokens (single source of motion truth) */
   --duration-hover: 250ms;
   --ease-hover: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  /* Overshoot-free decel for the gallery bleed zoom (smooth, never bouncy). */
+  --ease-gallery-zoom: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Base cursor / focus / marker contract (Tailwind v4 sets button to default) */
@@ -266,6 +268,7 @@ body > footer {
   .link { transition: none; }
   .hover-subtle { transition: none; }
   .hover-subtle:hover { transform: none; filter: none; }
+  .product-bleed, .product-bleed:hover { transition: none; scale: 1.5; }
   .image-pan { animation: none; }
   .organic-blob-1 { animation: none; }
   .organic-blob-2 { animation: none; }
@@ -297,6 +300,58 @@ body > footer {
 @keyframes panImage {
   0% { object-position: 0% 50%; }
   100% { object-position: 100% 50%; }
+}
+
+/* Products gallery — pre-hydration slide geometry (layout only, no colors).
+   Mirrors the island's Swiper breakpoints (slidesPerView/spaceBetween) so the
+   unhydrated markup is already a correct strip: no ~750px layout shift when
+   Swiper takes over, and no-JS/crawlers see a real row instead of one giant
+   square. Swiper's inline styles win after init and compute to these widths. */
+.js-products-gallery .swiper-slide {
+  width: 83.333%;
+  margin-right: 12px;
+}
+.js-products-gallery .swiper-slide:last-child {
+  margin-right: 0;
+}
+
+@media (min-width: 640px) {
+  .js-products-gallery .swiper-slide {
+    width: calc(50% - 8px);
+    margin-right: 16px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .js-products-gallery .swiper-slide {
+    width: calc((100% - 40px) / 3);
+    margin-right: 20px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .js-products-gallery .swiper-slide {
+    width: calc((100% - 72px) / 4);
+    margin-right: 24px;
+  }
+}
+
+/* Products gallery — visible swiper viewport so the oversized bleed is never
+   cut by the track itself (page-level clipping still owned by the region's
+   overflow-x-clip). Beats Swiper's own .swiper{overflow:hidden}. */
+.js-products-gallery .swiper.swiper-initialized.swiper-horizontal {
+  overflow: visible;
+}
+
+/* Oversized product bleed: static 1.5x, eases to 1.6x on hover using motion
+   tokens (never hardcoded durations/easings). The overshoot-free zoom ease
+   keeps it smooth instead of springy. */
+.js-products-gallery .product-bleed {
+  scale: 1.5;
+  transition: scale var(--duration-hover) var(--ease-gallery-zoom);
+}
+.js-products-gallery .product-bleed:hover {
+  scale: 1.6;
 }
 
 /* Stitch 05-contact-form tokens (from design/stitch/05-contact-form/code.html <style>, verbatim) */

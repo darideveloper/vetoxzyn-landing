@@ -1,7 +1,48 @@
 ---
+import { getImage } from "astro:assets"
 import SectionHeader from "@/components/molecules/SectionHeader.astro"
 import ProductPanel from "@/components/molecules/ProductPanel.astro"
+import { ProductGallery } from "@/components/molecules/ProductGallery"
 import { SECTION_IDS } from "@/data/section-ids"
+import atomizador60 from "@/assets/gallery/Envase_AtomizadorVetoxzyn_60ml.webp"
+import atomizador120 from "@/assets/gallery/Envase_AtomizadorVetoxzyn_120ml.webp"
+import atomizador240 from "@/assets/gallery/Envase_AtomizadorVetoxzyn_240ml.webp"
+import atomizador480 from "@/assets/gallery/Envase_AtomizadorVetoxzyn_480ml.webp"
+import atomizador950 from "@/assets/gallery/Envase_AtomizadorVetoxzyn_950ml.webp"
+import garrafa4 from "@/assets/gallery/Garrafa_4L_Vetoxzyn.webp"
+import garrafa23 from "@/assets/gallery/Garrafa_23L_Vetoxzyn.webp"
+
+// Gallery masters are 400px squares, so the strip set stays at/below
+// native width (never the 2048w panel masters, never upscaled).
+const GALLERY_WIDTHS = [256, 320, 400]
+const GALLERY_SIZES = "(max-width: 639px) 82vw, (max-width: 1023px) 46vw, (max-width: 1279px) 31vw, 24vw"
+
+const GALLERY_SOURCES = [
+  { src: atomizador60, alt: "Envase atomizador Vetoxzyn de 60 mililitros" },
+  { src: atomizador120, alt: "Envase atomizador Vetoxzyn de 120 mililitros" },
+  { src: atomizador240, alt: "Envase atomizador Vetoxzyn de 240 mililitros" },
+  { src: atomizador480, alt: "Envase atomizador Vetoxzyn de 480 mililitros" },
+  { src: atomizador950, alt: "Envase atomizador Vetoxzyn de 950 mililitros" },
+  { src: garrafa4, alt: "Garrafa Vetoxzyn de 4 litros" },
+  { src: garrafa23, alt: "Garrafa Vetoxzyn de 23 litros" },
+] as const
+
+// Astro wrapper: resolve AVIF-first srcsets at build; the .tsx island
+// stays presentational (plain URL strings, never astro:assets).
+const gallerySlides = await Promise.all(
+  GALLERY_SOURCES.map(async ({ src, alt }) => {
+    const [avif, webp] = await Promise.all([
+      getImage({ src, widths: GALLERY_WIDTHS, format: "avif" }),
+      getImage({ src, widths: GALLERY_WIDTHS, format: "webp" }),
+    ])
+    return {
+      avifSrcSet: avif.srcSet.attribute,
+      webpSrcSet: webp.srcSet.attribute,
+      fallbackSrc: webp.src,
+      alt,
+    }
+  }),
+)
 ---
 
 <section
@@ -20,9 +61,31 @@ import { SECTION_IDS } from "@/data/section-ids"
     />
   </div>
 
-  <div class="flex w-full flex-col lg:flex-row">
-    <ProductPanel tone="light" />
-    <ProductPanel tone="dark" />
+  <div class="grid w-full grid-cols-1 lg:grid-cols-2 lg:grid-rows-[100vh_auto]">
+    <div class="min-w-0 lg:col-start-1 lg:row-start-1 lg:row-end-3">
+      <ProductPanel tone="light" />
+    </div>
+    {/* client:visible island — no js-reveal/js-products-panel hooks, so the
+        GSAP timeline below never selects it and autoplay never fights scroll.
+        No own background: on lg both panels span rows 1–2, so this row sits
+        directly on their real animated photo backgrounds (same elements,
+        same image-pan — sync is structural, not copied). Mobile stays a
+        plain in-flow strip between the stacked panels. */}
+    <div class="relative z-20 min-w-0 lg:col-span-2 lg:col-start-1 lg:row-start-2">
+      {/* Feathered backdrop-blur over the light/dark seam: the same panel
+          photos keep showing behind the strip, but the hard center edge
+          diffuses so the carousel reads as one stage instead of two halves. */}
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-0 z-0 hidden backdrop-blur-md [mask-image:linear-gradient(to_right,transparent,black_30%,black_70%,transparent)] lg:block"
+      ></div>
+      <div class="relative z-10 mx-auto w-full max-w-5xl px-gutter py-lg lg:pt-md lg:pb-xl">
+        <ProductGallery slides={gallerySlides} sizes={GALLERY_SIZES} client:visible />
+      </div>
+    </div>
+    <div class="min-w-0 lg:col-start-2 lg:row-start-1 lg:row-end-3">
+      <ProductPanel tone="dark" />
+    </div>
   </div>
 </section>
 
