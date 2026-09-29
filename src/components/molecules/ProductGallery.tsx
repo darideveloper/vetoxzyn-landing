@@ -86,11 +86,12 @@ export function ProductGallery({ slides, sizes }: ProductGalleryProps) {
         {slides.map((slide) => (
           <SwiperSlide key={slide.alt}>
             {/* Transparent product cutouts need a surface: one consistent
-                white plate (elevation via shadow only, per craft floor) reads
-                the same on the light panel, the dark panel and mobile white.
+                ice-glass plate (surface-ice wash + glass hairline, same
+                voice as HeroMediaCard) melts into the page wash while
+                keeping the cutout legible on light, dark and mobile.
                 The image itself scales past the plate (no clipping) for the
                 oversized bleed look. */}
-            <div className="aspect-square w-full rounded-2xl bg-on-primary p-md shadow-card">
+            <div className="aspect-square w-full rounded-2xl border border-glass-border bg-surface-ice/80 p-md shadow-card backdrop-blur-md">
               {/* Whole slide links to the contact form (smooth scroll via the
                   base layer; Swiper's preventClicks keeps drags from
                   navigating; keyboard-focusable with the shared ring). */}
