@@ -3,13 +3,30 @@ import SectionHeader from "@/components/molecules/SectionHeader.astro"
 import HeroBullets from "@/components/molecules/HeroBullets.astro"
 import HeroActions from "@/components/molecules/HeroActions.astro"
 import HeroMediaCard from "@/components/molecules/HeroMediaCard.astro"
+import Icon from "@/components/atoms/Icon.astro"
+import ResponsiveImage from "@/components/atoms/ResponsiveImage.astro"
+import { AVATARS } from "@/data/audiences"
 import { SECTION_IDS } from "@/data/section-ids"
+
+interface Props {
+  audienceVariant?: "priority" | "grid" | "editorial"
+}
+
+const { audienceVariant } = Astro.props
+
+const audienceLayout = audienceVariant === "priority"
+  ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
+  : audienceVariant === "editorial"
+  ? "grid-cols-1 gap-md md:grid-cols-2"
+  : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+
+const audienceSpan = (index: number) => audienceVariant === "priority" && index < 2 ? "lg:col-span-2" : ""
 ---
 
 <section
   id={SECTION_IDS.inicio}
   aria-labelledby="hero-heading"
-  class="js-hero-section relative flex min-h-[90vh] scroll-mt-20 items-center justify-center overflow-hidden pt-xl pb-xl font-body-md text-on-surface"
+  class:list={["js-hero-section relative flex min-h-[90vh] scroll-mt-20 items-center justify-center overflow-hidden pb-xl font-body-md text-on-surface", audienceVariant === "priority" ? "pt-[7rem]" : "pt-xl"]}
   transition:animate="none"
 >
   <div aria-hidden="true" class="js-hero-blob pointer-events-none absolute inset-0">
@@ -18,6 +35,24 @@ import { SECTION_IDS } from "@/data/section-ids"
   <div aria-hidden="true" class="js-hero-blob pointer-events-none absolute inset-0">
     <div class="blob-bg right-[-10%] bottom-[-10%] h-[50vw] w-[50vw] rounded-full bg-secondary-fixed/30" style="animation-delay: -5s;"></div>
   </div>
+  {audienceVariant === "priority" && (
+    <details class="js-avatar-menu group absolute left-0 top-gutter z-30">
+      <summary aria-label="Elegir perfil" title="Elegir perfil" class="lift relative z-20 flex h-14 w-8 cursor-pointer list-none items-center justify-center rounded-r-full border border-brand-orange border-l-0 bg-brand-orange p-0 text-on-primary shadow-card motion-safe:transition-[background-color,box-shadow,width] motion-safe:duration-[calc(var(--duration-hover)*8)] hover:w-20 hover:bg-brand-orange/80 hover:shadow-lg focus-visible:outline-none">
+        <span aria-hidden="true" class="material-symbols-outlined text-2xl opacity-100 motion-safe:transition-[opacity,transform] motion-safe:duration-[var(--duration-hover)] group-open:scale-75 group-open:opacity-0 group-[.is-closing]:scale-100 group-[.is-closing]:opacity-100">arrow_forward</span>
+        <span aria-hidden="true" class="material-symbols-outlined absolute text-2xl opacity-0 motion-safe:transition-[opacity,transform] motion-safe:duration-[var(--duration-hover)] group-open:scale-100 group-open:opacity-100 group-[.is-closing]:scale-75 group-[.is-closing]:opacity-0">close</span>
+      </summary>
+      <div class="avatar-menu absolute left-0 top-0 flex h-14 w-screen flex-row items-center justify-between gap-xs bg-transparent pl-16 pr-sm">
+        {AVATARS.map((avatar) => (
+          <a href="#proximamente" class="lift relative isolate mx-xs min-w-0 flex flex-1 items-center justify-center gap-sm overflow-hidden rounded-lg border border-surface-container-highest px-sm py-xs text-on-surface shadow-card last:mr-md hover:bg-surface-container-highest/60 focus-visible:outline-none" aria-label={`Explorar ${avatar.label}`}>
+            <ResponsiveImage src={avatar.image} alt="" sizes="(max-width: 640px) 50vw, 16vw" widths={[320, 480, 640]} class="absolute inset-0 -z-10 h-full w-full object-cover opacity-25" />
+            <div aria-hidden="true" class="absolute inset-0 -z-10 bg-on-primary/65"></div>
+            <Icon name={avatar.icon} tone="orange" filled />
+            <span class="font-label-bold text-label">{avatar.label}</span>
+          </a>
+        ))}
+      </div>
+    </details>
+  )}
   <div class="relative z-10 mx-auto grid w-full max-w-max-width grid-cols-1 items-center gap-lg px-gutter lg:grid-cols-12">
     <div class="z-20 flex flex-col items-center gap-md text-center md:items-start md:text-left lg:col-span-7">
       <SectionHeader
@@ -38,6 +73,56 @@ import { SECTION_IDS } from "@/data/section-ids"
   </div>
 </section>
 
+{audienceVariant && (
+  <section
+    aria-label="Perfiles de cliente"
+    class:list={["relative z-10 overflow-hidden font-body-md text-on-surface", audienceVariant === "priority" && "hidden", audienceVariant === "editorial" ? "bg-surface-container-highest/30 py-xl" : "py-lg"]}
+  >
+    <div class="relative z-10 mx-auto w-full max-w-max-width px-gutter">
+      <div class:list={[audienceVariant === "editorial" ? "flex w-full flex-wrap items-start justify-center gap-md md:justify-between" : ["grid", "gap-sm", audienceLayout]]}>
+        {AVATARS.map((avatar, index) => (
+          <a
+            href="#proximamente"
+            class:list={[
+              "lift group relative isolate text-left active:scale-[.98] cursor-pointer",
+              audienceVariant !== "editorial" && "flex items-center overflow-hidden border border-glass-border motion-safe:transition-[background-color,border-radius,padding] motion-safe:duration-[var(--duration-hover)] motion-safe:ease-[var(--ease-hover)]",
+              audienceVariant === "priority" && "min-h-24 gap-md rounded-xl bg-secondary-fixed/30 p-md",
+              audienceVariant === "grid" && "min-h-20 gap-sm rounded-lg bg-on-primary/85 p-sm shadow-card",
+              audienceVariant === "editorial" && "h-20 w-20 shrink-0 overflow-visible md:h-24 md:w-24",
+              audienceSpan(index),
+            ]}
+            aria-label={`Explorar ${avatar.label}`}
+          >
+            {audienceVariant === "editorial" ? (
+              <span class="absolute inset-y-0 left-0 z-10 flex h-full w-20 items-center overflow-hidden rounded-full border border-glass-border bg-on-primary shadow-card motion-safe:transition-[width] motion-safe:duration-[calc(var(--duration-hover)*2)] motion-safe:ease-[var(--ease-hover)] group-hover:w-[12rem] group-focus-visible:w-[12rem] md:w-24">
+                <ResponsiveImage src={avatar.image} alt="" sizes="(max-width: 640px) 100vw, 8rem" widths={[320, 480, 640]} class="absolute inset-0 h-full w-full object-cover opacity-45" />
+                <div aria-hidden="true" class="absolute inset-0 bg-on-primary/35"></div>
+                <span class="relative z-10 ml-md shrink-0"><Icon name={avatar.icon} variant="bare" tone="orange" filled class="text-2xl" /></span>
+                <span class="absolute top-1/2 left-[4.25rem] right-[3.25rem] z-10 -translate-y-1/2 font-label-bold text-label leading-tight text-on-surface opacity-0 motion-safe:transition-opacity motion-safe:duration-[calc(var(--duration-hover)*2)] motion-safe:ease-[var(--ease-hover)] group-hover:opacity-100 group-focus-visible:opacity-100">
+                  {avatar.label}
+                </span>
+                <span aria-hidden="true" class="absolute top-1/2 right-sm z-10 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center text-brand-orange">
+                  <span class="material-symbols-outlined hero-avatar-arrow text-[22px]">arrow_forward</span>
+                </span>
+              </span>
+            ) : (
+              <>
+                <ResponsiveImage src={avatar.image} alt="" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" widths={[480, 800, 1024]} class:list={["absolute inset-0 -z-10 h-full w-full object-cover transition-opacity duration-[var(--duration-hover)] ease-[var(--ease-hover)]", audienceVariant === "priority" && "opacity-20 group-hover:opacity-35", audienceVariant === "grid" && "opacity-10 group-hover:opacity-20"]} />
+                <div aria-hidden="true" class="absolute inset-0 -z-10 bg-gradient-to-r from-on-primary/95 via-on-primary/85 to-on-primary/40"></div>
+                <Icon name={avatar.icon} tone="orange" filled />
+                <span class:list={["font-label-bold text-on-surface", audienceVariant === "grid" ? "text-label" : "text-label-bold"]}>{avatar.label}</span>
+                <span aria-hidden="true" class="ml-auto inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-orange text-on-primary">
+                  <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                </span>
+              </>
+            )}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
 <script>
   import { gsap } from "@/lib/gsap"
 
@@ -46,6 +131,34 @@ import { SECTION_IDS } from "@/data/section-ids"
   const init = () => {
     const hero = document.querySelector(".js-hero-section")
     if (!hero) return
+
+    hero.querySelectorAll<HTMLDetailsElement>(".js-avatar-menu").forEach((menu) => {
+      if (menu.dataset.motionBound) return
+      menu.dataset.motionBound = "true"
+      let closeTimer: number | undefined
+      menu.querySelector("summary")?.addEventListener("click", (event) => {
+        event.preventDefault()
+
+        if (!menu.open || menu.classList.contains("is-closing")) {
+          if (closeTimer) window.clearTimeout(closeTimer)
+          closeTimer = undefined
+          menu.open = true
+          menu.classList.remove("is-closing")
+          return
+        }
+
+        menu.classList.add("is-closing")
+        const panel = menu.querySelector<HTMLElement>(".avatar-menu")
+        const duration = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? 0
+          : Number.parseFloat(getComputedStyle(panel ?? menu).animationDuration) * 1000 || 300
+        closeTimer = window.setTimeout(() => {
+          menu.open = false
+          menu.classList.remove("is-closing")
+          closeTimer = undefined
+        }, duration)
+      })
+    })
 
     mm?.revert()
     mm = gsap.matchMedia()
@@ -91,3 +204,41 @@ import { SECTION_IDS } from "@/data/section-ids"
   document.addEventListener("astro:page-load", init)
   init()
 </script>
+
+<style>
+  .hero-avatar-arrow {
+    font-variation-settings: 'FILL' 0, 'wght' 700, 'opsz' 24;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    details[open] > .avatar-menu {
+      animation: avatar-menu-in calc(var(--duration-hover) * 4) var(--ease-hover) both;
+    }
+
+    details.is-closing > .avatar-menu {
+      animation: avatar-menu-out calc(var(--duration-hover) * 4) var(--ease-hover) both;
+    }
+  }
+
+  @keyframes avatar-menu-in {
+    from {
+      opacity: 0;
+      transform: translateX(-1rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes avatar-menu-out {
+    from {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateX(-1rem);
+    }
+  }
+</style>

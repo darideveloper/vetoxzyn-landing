@@ -74,6 +74,7 @@ index.astro
 │   └── molecules/HeroMediaCard.astro (credential chip as inner markup)
 │       ├── atoms/ResponsiveImage.astro (Picture AVIF+WebP, eager, widths [480,800,1024,1280]) ──► assets/hero/hero-clinica.webp (1122×1402 4:5 AI master)
 │       └── atoms/Icon.astro ×2 (biotech circle filled + verified bare primary)
+│   └── optional audience buttons (audienceVariant priority|grid|editorial) ──► atoms/{Icon,ResponsiveImage} + data/audiences.ts
 ├── organisms/Challenges.astro (static shell + 7/5 grid, section#desafios, scoped GSAP reveal script ──► lib/gsap, no client: directive)
 │   ├── molecules/SectionHeader.astro (E2 eyebrow + h2 string title + subtitle)
 │   ├── molecules/FeatureList.astro (features const inside) ──► molecules/FeatureRow.astro ×3
@@ -306,6 +307,7 @@ None.
 - `data/section-ids.ts` — SECTION_IDS (`as const`: inicio, desafios, testimonios, productos, contacto, contactoFormulario, contactoFaq); single source of truth for section anchors — organisms + CTA molecules import from here, never hardcode
 - `lib/testimonials.ts` — shared `Testimonial`/`TestimonialAccent` props contract for 2- or 3-record sections
 - `data/testimonials.ts` — TESTIMONIALS (`as const` ×2: quote/name/role/accent/avatar as imported `ImageMetadata` from `src/assets/testimonials/`), satisfying `lib/testimonials` types
+- `data/audiences.ts` — AVATARS (`as const` ×6: documented A1–A6 labels, Material icons, and reused local images), consumed by Hero's optional audience button variant
 - `src/consts.ts` — SITE_TITLE, SITE_DESCRIPTION (SEO fallback)
 - `styles/global.css` — tailwind v4 + tw-animate-css + `@theme inline` tokens
   (17 colors, see `docs/design-tokens.md`: hero set + `04-products` set minus

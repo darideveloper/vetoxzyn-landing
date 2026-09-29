@@ -1,0 +1,19 @@
+---
+import Challenges from "@/components/organisms/Challenges.astro"
+import ContactSection from "@/components/organisms/ContactSection.astro"
+import Hero from "@/components/organisms/Hero.astro"
+import Products from "@/components/organisms/Products.astro"
+import Testimonials from "@/components/organisms/Testimonials.astro"
+import PageSEO from "@/components/seo/PageSEO.astro"
+import { TESTIMONIALS } from "@/data/testimonials"
+import Layout from "@/layouts/Layout.astro"
+---
+
+<Layout lang="es">
+  <PageSEO currentPage="home" slot="seo" />
+  <Hero audienceVariant="priority" />
+  <Challenges />
+  <Testimonials testimonials={TESTIMONIALS} />
+  <Products />
+  <ContactSection />
+</Layout>
