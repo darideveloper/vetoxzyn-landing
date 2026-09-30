@@ -10,6 +10,7 @@ export interface GallerySlide {
   webpSrcSet: string
   fallbackSrc: string
   alt: string
+  presentation?: string
 }
 
 interface ProductGalleryProps {
@@ -60,7 +61,7 @@ export function ProductGallery({ slides, sizes }: ProductGalleryProps) {
       ref={regionRef}
       role="region"
       aria-roledescription="carrusel"
-      aria-label="Galería de presentaciones Vetoxzyn"
+      aria-label="Galería de presentaciones vetoxzyn"
       className="js-products-gallery w-full overflow-x-clip"
     >
       <Swiper
@@ -91,7 +92,7 @@ export function ProductGallery({ slides, sizes }: ProductGalleryProps) {
                 keeping the cutout legible on light, dark and mobile.
                 The image itself scales past the plate (no clipping) for the
                 oversized bleed look. */}
-            <div className="aspect-square w-full rounded-2xl border border-glass-border bg-surface-ice/80 p-md shadow-card backdrop-blur-md">
+            <div className="relative aspect-square w-full rounded-2xl border border-glass-border bg-surface-ice/80 p-md shadow-card backdrop-blur-md">
               {/* Whole slide links to the contact form (smooth scroll via the
                   base layer; Swiper's preventClicks keeps drags from
                   navigating; keyboard-focusable with the shared ring). */}
@@ -112,6 +113,15 @@ export function ProductGallery({ slides, sizes }: ProductGalleryProps) {
                 />
               </picture>
               </a>
+              {slide.presentation && (
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute bottom-3 left-3 z-10 inline-flex items-center gap-2 rounded-md bg-inverse-surface/90 px-3 py-2 text-on-primary shadow-media backdrop-blur-sm"
+                >
+                  <span className="h-2 w-2 rounded-full bg-brand-orange" />
+                  <span className="font-label-bold text-label-bold">{slide.presentation}</span>
+                </div>
+              )}
             </div>
           </SwiperSlide>
         ))}

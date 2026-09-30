@@ -22,7 +22,11 @@ const GALLERY_SOURCES = Object.entries(galleryModules)
       .replace(/\.(png|jpe?g|avif|webp)$/i, "")
       .replace(/\.webp$/i, "")
     const alt = base.replace(/[_-]+/g, " ").replace(/\s+/g, " ").trim()
-    return { src: mod.default, alt }
+    const presentationMatch = base.match(/(\d+)\s*(ml|l)/i)
+    const presentation = presentationMatch
+      ? `${presentationMatch[1]} ${presentationMatch[2].toLowerCase() === "ml" ? "ml" : "L"}`
+      : undefined
+    return { src: mod.default, alt, presentation }
   })
 
 // Gallery masters are ~400px squares, so the strip set stays at/below
@@ -33,7 +37,7 @@ const GALLERY_SIZES = "(max-width: 639px) 82vw, (max-width: 1023px) 46vw, (max-w
 // Astro wrapper: resolve AVIF-first srcsets at build; the .tsx island
 // stays presentational (plain URL strings, never astro:assets).
 const gallerySlides = await Promise.all(
-  GALLERY_SOURCES.map(async ({ src, alt }) => {
+  GALLERY_SOURCES.map(async ({ src, alt, presentation }) => {
     const [avif, webp] = await Promise.all([
       getImage({ src, widths: GALLERY_WIDTHS, format: "avif" }),
       getImage({ src, widths: GALLERY_WIDTHS, format: "webp" }),
@@ -43,6 +47,7 @@ const gallerySlides = await Promise.all(
       webpSrcSet: webp.srcSet.attribute,
       fallbackSrc: webp.src,
       alt,
+      presentation,
     }
   }),
 )
