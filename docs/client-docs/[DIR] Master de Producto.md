@@ -21,7 +21,7 @@ Es una **solución oxidativa electrolizada de pH neutro**, basada en **ácido hi
 
   **Ingredientes Inertes**    Agua electrolizada y NaCl                                 Agua electrolizada y NaCl
 
-  **Presentaciones**          30ml a 950ml                                              1L, 4L, 20L
+  **Presentaciones**          60 ml a 950 ml                                            4L, 23L
 
   **Toxicidad**               Grado 0 (No irritante)                                    Grado 0 (No irritante)
   ---------------------------------------------------------------------------------------------------------------------------------------------------

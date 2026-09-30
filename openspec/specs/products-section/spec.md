@@ -22,11 +22,11 @@ Each panel SHALL render its title, subhead, vertical pill, background image trea
 
 #### Scenario: Tópico light panel
 - **WHEN** the light panel renders
-- **THEN** it shows title `Tópico`, sub `Higiene tópica de piel, mucosas y áreas post-quirúrgicas.`, specs `100 ppm (0.010%)` / `6.0–7.5 (neutro)` / `> 850 mV` / `Grado 0 (no irritante)` / `30ml a 950ml`, and a light-tone CTA
+- **THEN** it shows title `Tópico`, sub `Higiene tópica de piel, mucosas y áreas post-quirúrgicas.`, specs `100 ppm (0.010%)` / `6.0–7.5 (neutro)` / `> 850 mV` / `Grado 0 (no irritante)` / `60 ml a 950 ml`, and a light-tone CTA
 
 #### Scenario: Instalaciones dark panel
 - **WHEN** the dark panel renders
-- **THEN** it shows title `Instalaciones`, sub `Superficies, instrumental, áreas de consulta y quirófano, agua.`, specs `500 ppm (0.050%)` / `6.0–7.5 (neutro)` / `> 900 mV` / `Grado 0 (no irritante)` / `1L · 4L · 20L`, and a dark-tone CTA
+- **THEN** it shows title `Instalaciones`, sub `Superficies, instrumental, áreas de consulta y quirófano, agua.`, specs `500 ppm (0.050%)` / `6.0–7.5 (neutro)` / `> 900 mV` / `Grado 0 (no irritante)` / `4L · 23L`, and a dark-tone CTA
 
 ### Requirement: Voted atoms reuse
 The panels SHALL use `Button variant="product" tone="light"` (Tópico) and `tone="dark"` (Instalaciones) for the `Más información` CTAs with an `arrow_forward` glyph, each carrying `mt-md` top margin separating it from its HUD spec grid, and `Badge variant="feature" icon="water_drop"|"cleaning_services"` for the two vertical `No requiere enjuague` pills (intentional restyle: glass feature pills replace the design's solid orange/pink pills per the P3-drop vote). The contact section SHALL keep `id="contacto"` per `section-anchors`, while the product CTAs target the `#contacto-formulario` form wrapper. No new atom SHALL be created.
