@@ -64,6 +64,7 @@ Gotchas:
 ## Language (mandatory, Spanish-first)
 
 All user-visible website copy SHALL be written in Spanish: page content, headings, buttons, links, aria-labels, and SEO titles/descriptions. Code identifiers, docs, and specs stay in English.
+When the brand appears in user-visible website copy, it SHALL be written as `vetoxzyn` in lowercase (or `vetoxzyn®` where the registered-mark spelling is required).
 
 ## Atomic Component Hierarchy (mandatory, vanilla-only)
 
