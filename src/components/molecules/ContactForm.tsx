@@ -7,13 +7,48 @@ import { Textarea } from "@/components/atoms/Textarea"
 import { FormRow } from "@/components/molecules/FormRow"
 import { InterestPicker } from "@/components/molecules/InterestPicker"
 import { FormSuccess } from "@/components/molecules/FormSuccess"
-import { useContactStore } from "@/store/contact"
+import { useContactStore, type ErrorCopy } from "@/store/contact"
+import { DEFAULT_FORM_COPY } from "@/data/copy"
 import { SECTION_IDS } from "@/data/section-ids"
 import { submitContactForm } from "@/lib/api/contact"
 import { FetchError } from "@/lib/api/client"
 import { API_ERROR_MESSAGE, API_REQUEST_MESSAGE, API_TIMEOUT_MESSAGE } from "@/lib/api/constants"
 
-export function ContactForm() {
+export interface FormCopy {
+  eyebrow: string
+  title: string
+  nameLabel: string
+  namePlaceholder: string
+  clinicaLabel: string
+  clinicaPlaceholder: string
+  telefonoLabel: string
+  telefonoPlaceholder: string
+  ciudadLabel: string
+  ciudadPlaceholder: string
+  emailLabel: string
+  emailPlaceholder: string
+  interestsLegend: string
+  interests: { topico: string; instalaciones: string; distribucion: string }
+  medioLabel: string
+  medioOptions: { correo: string; llamada: string; whatsapp: string }
+  motivoLabel: string
+  motivoOptions: { problema: string; informacion: string; incorporacion: string }
+  messageLabel: string
+  messagePlaceholder: string
+  submitLabel: string
+  submittingLabel: string
+  hint: string
+  successTitle: string
+  successSubtitle: string
+  successReset: string
+  errors: ErrorCopy
+}
+
+interface Props {
+  copy?: FormCopy
+}
+
+export function ContactForm({ copy = DEFAULT_FORM_COPY }: Props) {
   const isSubmitted = useContactStore((state) => state.isSubmitted)
   const isLoading = useContactStore((state) => state.isLoading)
   const submitError = useContactStore((state) => state.submitError)
@@ -21,6 +56,12 @@ export function ContactForm() {
   const setSubmitted = useContactStore((state) => state.setSubmitted)
   const setSubmitError = useContactStore((state) => state.setSubmitError)
   const reset = useContactStore((state) => state.reset)
+  const setErrorCopy = useContactStore((state) => state.setErrorCopy)
+
+  // Inject per-avatar validation messages when the copy changes.
+  React.useEffect(() => {
+    setErrorCopy(copy.errors)
+  }, [copy.errors, setErrorCopy])
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -73,7 +114,14 @@ export function ContactForm() {
   }
 
   if (isSubmitted) {
-    return <FormSuccess onReset={() => reset()} />
+    return (
+      <FormSuccess
+        onReset={() => reset()}
+        title={copy.successTitle}
+        subtitle={copy.successSubtitle}
+        resetLabel={copy.successReset}
+      />
+    )
   }
 
   return (
@@ -84,44 +132,44 @@ export function ContactForm() {
         <div className="relative z-10 mb-10 flex items-center gap-4">
           <span aria-hidden="true" className="material-symbols-outlined bg-gradient-to-br from-brand-orange to-brand-pink bg-clip-text text-4xl text-transparent">biotech</span>
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-on-surface/50">Cuéntanos sobre tu necesidad</p>
-            <h3 className="font-display-lg text-2xl font-bold text-on-surface">Recibe orientación para tu clínica</h3>
+            <p className="text-xs font-bold uppercase tracking-widest text-on-surface/50">{copy.eyebrow}</p>
+            <h3 className="font-display-lg text-2xl font-bold text-on-surface">{copy.title}</h3>
           </div>
         </div>
         <form onSubmit={handleSubmit} noValidate aria-busy={isLoading} className="relative z-10 space-y-8">
           <FormRow>
-            <Input field="name" idPrefix="contacto-" label="Nombre" placeholder="Dr. Juan Pérez" autoComplete="name" required />
-            <Input field="clinica" idPrefix="contacto-" label="Clínica / Hospital" placeholder="Hospital Veterinario Central" autoComplete="organization" required />
+            <Input field="name" idPrefix="contacto-" label={copy.nameLabel} placeholder={copy.namePlaceholder} autoComplete="name" required />
+            <Input field="clinica" idPrefix="contacto-" label={copy.clinicaLabel} placeholder={copy.clinicaPlaceholder} autoComplete="organization" required />
           </FormRow>
           <FormRow>
-            <Input field="telefono" idPrefix="contacto-" label="Teléfono / WhatsApp" type="tel" placeholder="+52 55 1234 5678" autoComplete="tel" required />
-            <Input field="ciudadEstado" idPrefix="contacto-" label="Ciudad / estado" placeholder="Celaya, Guanajuato" autoComplete="address-level1" required />
+            <Input field="telefono" idPrefix="contacto-" label={copy.telefonoLabel} type="tel" placeholder={copy.telefonoPlaceholder} autoComplete="tel" required />
+            <Input field="ciudadEstado" idPrefix="contacto-" label={copy.ciudadLabel} placeholder={copy.ciudadPlaceholder} autoComplete="address-level1" required />
           </FormRow>
-          <Input field="email" idPrefix="contacto-" label="Correo electrónico" type="email" placeholder="contacto@clinica.com" autoComplete="email" required />
-          <InterestPicker idPrefix="contacto-" />
+          <Input field="email" idPrefix="contacto-" label={copy.emailLabel} type="email" placeholder={copy.emailPlaceholder} autoComplete="email" required />
+          <InterestPicker idPrefix="contacto-" legend={copy.interestsLegend} labels={copy.interests} />
           <RadioGroup
             field="medioContacto"
             idPrefix="contacto-"
-            label="Medio preferido de comunicación"
+            label={copy.medioLabel}
             required
             options={[
-              { value: "correo", label: "Correo" },
-              { value: "llamada", label: "Llamada" },
-              { value: "whatsapp", label: "Mensaje de WhatsApp" },
+              { value: "correo", label: copy.medioOptions.correo },
+              { value: "llamada", label: copy.medioOptions.llamada },
+              { value: "whatsapp", label: copy.medioOptions.whatsapp },
             ]}
           />
           <RadioGroup
             field="motivoInteres"
             idPrefix="contacto-"
-            label="Te interesa el producto porque"
+            label={copy.motivoLabel}
             required
             options={[
-              { value: "problema", label: "Puede solucionar un problema actual" },
-              { value: "informacion", label: "Quiero informarme más" },
-              { value: "incorporacion", label: "Puedo incorporarlo próximamente" },
+              { value: "problema", label: copy.motivoOptions.problema },
+              { value: "informacion", label: copy.motivoOptions.informacion },
+              { value: "incorporacion", label: copy.motivoOptions.incorporacion },
             ]}
           />
-          <Textarea field="message" idPrefix="contacto-" label="Mensaje personalizado" placeholder="Especifique sus requerimientos de volumen o dudas adicionales..." rows={3} required />
+          <Textarea field="message" idPrefix="contacto-" label={copy.messageLabel} placeholder={copy.messagePlaceholder} rows={3} required />
           <Checkbox
             field="aceptaAviso"
             idPrefix="contacto-"
@@ -141,10 +189,10 @@ export function ContactForm() {
           />
           <div className="flex flex-col items-stretch gap-4 pt-6 md:items-end">
             <Button type="submit" size="sm" disabled={isLoading} className="deep-float-shadow group w-full justify-center md:w-auto">
-              {isLoading ? "Enviando solicitud…" : "Enviar mi solicitud"}
+              {isLoading ? copy.submittingLabel : copy.submitLabel}
               <span className="material-symbols-outlined text-3xl transition-transform duration-[var(--duration-hover)] ease-[var(--ease-hover)] motion-safe:group-hover:translate-x-1" aria-hidden="true">arrow_forward</span>
             </Button>
-            <p className="text-center text-xs text-on-surface/50 md:text-right">Revisaremos tu solicitud y te contactaremos por el medio indicado.</p>
+            <p className="text-center text-xs text-on-surface/50 md:text-right">{copy.hint}</p>
             {submitError && <p role="alert" className="text-center text-sm font-medium text-error md:text-right">{submitError}</p>}
           </div>
         </form>

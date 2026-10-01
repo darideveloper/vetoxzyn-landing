@@ -1,30 +1,22 @@
 ---
 import FeatureRow from "./FeatureRow.astro"
 
-const features = [
-  {
-    icon: "shield",
-    title: "Cuidado del instrumental",
-    challenge: "La higiene del instrumental debe considerar también los materiales y el proceso donde se utiliza.",
-    solution: "Revisar primero dónde y cómo se utiliza para orientar una integración adecuada.",
-  },
-  {
-    icon: "water_drop",
-    title: "Higiene vinculada al paciente",
-    challenge: "La higiene relacionada con el paciente requiere distinguir claramente el contexto de uso.",
-    solution: "Definir primero la necesidad y trabajar únicamente con usos autorizados para vetoxzyn®.",
-  },
-  {
-    icon: "eco",
-    title: "Higiene del entorno clínico",
-    challenge: "Una clínica reúne diferentes áreas, superficies y momentos de higiene.",
-    solution: "Organizar el uso por contexto facilita una integración más clara dentro de la clínica.",
-  },
-]
+interface Feature {
+  title: string
+  challenge: string
+  solution: string
+}
+interface Props {
+  features: Feature[]
+}
+const { features } = Astro.props
+
+// Icons are global code constants (no per-avatar icon customization).
+const ICONS = ["shield", "water_drop", "eco"]
 ---
 
 <div class="mt-lg flex flex-col gap-8">
-  {features.map((f) => (
-    <FeatureRow icon={f.icon} title={f.title} challenge={f.challenge} solution={f.solution} />
+  {features.map((f, i) => (
+    <FeatureRow icon={ICONS[i] ?? ICONS[ICONS.length - 1]} title={f.title} challenge={f.challenge} solution={f.solution} />
   ))}
 </div>

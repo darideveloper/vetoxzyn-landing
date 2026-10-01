@@ -1,0 +1,166 @@
+{
+  "seo": {
+    "title": "Vetoxzyn",
+    "description": "Vetoxzyn — official site."
+  },
+  "hero": {
+    "eyebrow": "VETOXZYN® PARA PRÁCTICA VETERINARIA",
+    "title": "Los espacios de tu clínica necesitan protocolos de higiene.",
+    "subtitle": "Cuéntanos dónde quieres integrar Vetoxzyn® y te orientamos según tu contexto de trabajo.",
+    "bullets": [
+      { "label": "Para clínica" },
+      { "label": "Áreas de trabajo" },
+      { "label": "Procesos de higiene" }
+    ],
+    "primaryCta": { "label": "★ Orientarme para mi clínica" },
+    "secondaryCta": { "label": "Ver cómo se integra" },
+    "overlay": { "name": "Dr. Resultados", "role": "División Veterinaria" },
+    "image": "./hero.webp",
+    "imageAlt": "Instrumental quirúrgico veterinario sobre una bandeja estéril"
+  },
+  "challenges": {
+    "eyebrow": "EN TU CLÍNICA, CADA USO CUENTA",
+    "title": "Un mejor protocolo empieza por distinguir dónde y cómo necesitas actuar.",
+    "subtitle": "Cada contexto permite orientar mejor la forma de integrar Vetoxzyn®.",
+    "features": [
+      {
+        "title": "Cuidado del instrumental",
+        "challenge": "La higiene del instrumental debe considerar también los materiales y el proceso donde se utiliza.",
+        "solution": "Revisar primero dónde y cómo se utiliza para orientar una integración adecuada."
+      },
+      {
+        "title": "Higiene vinculada al paciente",
+        "challenge": "La higiene relacionada con el paciente requiere distinguir claramente el contexto de uso.",
+        "solution": "Definir primero la necesidad y trabajar únicamente con usos autorizados para Vetoxzyn®."
+      },
+      {
+        "title": "Higiene del entorno clínico",
+        "challenge": "Una clínica reúne diferentes áreas, superficies y momentos de higiene.",
+        "solution": "Organizar el uso por contexto facilita una integración más clara dentro de la clínica."
+      }
+    ],
+    "image": "./challenges.webp",
+    "imageAlt": "Personal veterinario atendiendo a un perro sobre una camilla clínica",
+    "badges": { "top": "En tus pacientes", "bottom": "En tus instalaciones" }
+  },
+  "testimonials": {
+    "eyebrow": "EVIDENCIA CLÍNICA",
+    "title": "Lo que dicen los veterinarios",
+    "subtitle": "Experiencias reales documentadas sobre la integración de matrices bioseguras en la práctica clínica diaria.",
+    "entries": [
+      {
+        "quote": "“Llevamos tiempo usándolo en múltiples casos de herida y post operatorios tanto simples como complicados y hemos tenido una evolución favorable de nuestros pacientes es una excelente opción.”",
+        "name": "MVZ Daniela Ávila",
+        "role": "",
+        "accent": "orange",
+        "avatar": "./testimonial-daniela.webp"
+      },
+      {
+        "quote": "“En nuestra práctica con animales no convencionales, Vetoxzyn ha demostrado ser un excelente coadyuvante en el manejo de heridas y lesiones cutáneas. Destaca por su buena tolerancia, baja citotoxicidad y apoyo efectivo en la cicatrización, especialmente en reptiles y aves. Una herramienta confiable dentro del manejo clínico diario.”",
+        "name": "MVZ Alan Doshey Gamborino Prieto",
+        "role": "",
+        "accent": "pink",
+        "avatar": "./testimonial-alan.webp"
+      }
+    ],
+    "divider": "./divider.webp"
+  },
+  "products": {
+    "title": "Dos contextos de uso, una orientación más clara",
+    "subtitle": "Identifica primero dónde necesitas integrarlo y después revisa la configuración aplicable a ese uso.",
+    "lines": [
+      {
+        "line": "topico",
+        "title": "Higiene vinculada al paciente",
+        "tagline": "Configuración destinada a contextos de higiene vinculados al paciente, conforme a los usos autorizados.",
+        "image": "./topico.webp",
+        "imageAlt": "Entorno clínico luminoso de la línea Tópico"
+      },
+      {
+        "line": "instalaciones",
+        "title": "Higiene de espacios y procesos",
+        "tagline": "Configuración orientada a espacios, superficies y procesos de higiene dentro del entorno veterinario.",
+        "image": "./instalaciones.webp",
+        "imageAlt": "Entorno clínico de la línea Instalaciones"
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "ORIENTACIÓN PARA TU CLÍNICA",
+    "title": "Revisemos cómo quieres integrar Vetoxzyn® en tu clínica.",
+    "subtitle": "Describe brevemente dónde quieres utilizar Vetoxzyn® y podremos orientarte según tu contexto de trabajo.",
+    "backdropWord": "BIOSEGURIDAD",
+    "image": "./contact.webp",
+    "imageAlt": "Clínica veterinaria de alta tecnología con superficies de vidrio e instrumental metálico bajo luz blanca",
+    "faq": [
+      {
+        "question": "¿Qué es vetoxzyn®?",
+        "answer": "Es una solución oxidativa de pH neutro a base de ácido hipocloroso (HOCl) de alta estabilidad, obtenida por electrólisis. Es la misma molécula que producen de forma natural los glóbulos blancos. Se clasifica como auxiliar de higiene y bioseguridad integral. No es un medicamento."
+      },
+      {
+        "question": "¿Puedo usarlo directamente con pacientes?",
+        "answer": "Sí. La línea vinculada a la higiene del paciente viene lista para usar: higiene de heridas superficiales, mucosas externas, zonas postquirúrgicas y ombligo de neonatos. No arde, no mancha y no requiere enjuague."
+      },
+      {
+        "question": "¿Puede utilizarse en superficies de la clínica?",
+        "answer": "Sí, con la línea de higiene de espacios y procesos (500 ppm concentrada). Para superficies se diluye 1:10. En material de acero inoxidable se utiliza directo, sin diluir; para otros materiales, 1:10 con agua destilada. No provoca corrosión."
+      },
+      {
+        "question": "¿Qué presentaciones existen?",
+        "answer": "Higiene del paciente: 60, 120, 240, 480 y 950 ml. Higiene de espacios y procesos: 4 L y 23 L. Los formatos de 200 L y 1,000 L se revisan con el equipo comercial de la marca."
+      }
+    ],
+    "form": {
+      "eyebrow": "Cuéntanos sobre tu necesidad",
+      "title": "Recibe orientación para tu clínica",
+      "nameLabel": "Nombre",
+      "namePlaceholder": "Dr. Juan Pérez",
+      "clinicaLabel": "Clínica / Hospital",
+      "clinicaPlaceholder": "Hospital Veterinario Central",
+      "telefonoLabel": "Teléfono / WhatsApp",
+      "telefonoPlaceholder": "+52 55 1234 5678",
+      "ciudadLabel": "Ciudad / estado",
+      "ciudadPlaceholder": "Celaya, Guanajuato",
+      "emailLabel": "Correo electrónico",
+      "emailPlaceholder": "contacto@clinica.com",
+      "interestsLegend": "¿Qué configuración te interesa?",
+      "interests": {
+        "topico": "Higiene vinculada al paciente",
+        "instalaciones": "Higiene de espacios y procesos",
+        "distribucion": "Distribución"
+      },
+      "medioLabel": "Medio preferido de comunicación",
+      "medioOptions": {
+        "correo": "Correo",
+        "llamada": "Llamada",
+        "whatsapp": "Mensaje de WhatsApp"
+      },
+      "motivoLabel": "Te interesa el producto porque",
+      "motivoOptions": {
+        "problema": "Puede solucionar un problema actual",
+        "informacion": "Quiero informarme más",
+        "incorporacion": "Puedo incorporarlo próximamente"
+      },
+      "messageLabel": "Mensaje personalizado",
+      "messagePlaceholder": "Especifique sus requerimientos de volumen o dudas adicionales...",
+      "submitLabel": "Enviar mi solicitud",
+      "submittingLabel": "Enviando solicitud…",
+      "hint": "Revisaremos tu solicitud y te contactaremos por el medio indicado.",
+      "successTitle": "Gracias — tu mensaje fue registrado. Te contactaremos pronto.",
+      "successSubtitle": "Te contactaremos por el medio que indicaste.",
+      "successReset": "Enviar otro mensaje",
+      "errors": {
+        "name": "El nombre es obligatorio",
+        "emailRequired": "El correo electrónico es obligatorio",
+        "emailInvalid": "Correo electrónico inválido",
+        "message": "El mensaje debe tener al menos 10 caracteres",
+        "clinica": "La clínica u hospital es obligatorio",
+        "telefono": "Ingresa un teléfono o WhatsApp válido",
+        "ciudad": "La ciudad o estado es obligatorio",
+        "medio": "Selecciona un medio de contacto",
+        "motivo": "Selecciona el motivo de tu interés",
+        "interest": "Selecciona al menos una configuración de interés"
+      }
+    }
+  }
+}

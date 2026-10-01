@@ -1,0 +1,171 @@
+{
+  "seo": {
+    "title": "vetoxzyn® para unidades de producción | Vetoxzyn",
+    "description": "Higiene oxidativa para instalaciones y agua de bebida: bioseguridad en protocolos pecuarios con vetoxzyn®."
+  },
+  "hero": {
+    "eyebrow": "BIOSEGURIDAD PARA UNIDADES DE PRODUCCIÓN",
+    "title": "vetoxzyn®: higiene oxidativa para tus instalaciones y tu agua de bebida.",
+    "subtitle": "Integra tecnología oxidativa a tus protocolos sanitarios, sin residuos que afecten tus procesos.",
+    "bullets": [
+      {
+        "label": "Instalaciones"
+      },
+      {
+        "label": "Agua de bebida"
+      },
+      {
+        "label": "Protocolos sanitarios"
+      }
+    ],
+    "primaryCta": {
+      "label": "★ Cotiza para tu granja"
+    },
+    "secondaryCta": {
+      "label": "Ver cómo se integra"
+    },
+    "overlay": {
+      "name": "Ingeniero Eficiencia",
+      "role": "Unidad de producción"
+    },
+    "image": "./hero.webp",
+    "imageAlt": "Instrumental quirúrgico veterinario sobre una bandeja estéril"
+  },
+  "challenges": {
+    "eyebrow": "PROTEGE TU OPERACIÓN",
+    "title": "La bioseguridad se sostiene en protocolos, no en improvisación.",
+    "subtitle": "Cada punto de tu operación permite ordenar mejor la higiene.",
+    "features": [
+      {
+        "title": "Higiene de ubre",
+        "challenge": "Mastitis y baja calidad de leche en el ordeño.",
+        "solution": "Higiene oxidativa en protocolos pre y post ordeño para apoyar condiciones higiénicas óptimas."
+      },
+      {
+        "title": "Agua de bebida",
+        "challenge": "Biofilm y sabor extraño en el agua de bebida.",
+        "solution": "Reducción de biopelícula en tuberías sin dejar sabor u olor que rechacen los animales."
+      },
+      {
+        "title": "Ambiente de granja",
+        "challenge": "Brotes respiratorios en granja.",
+        "solution": "Nebulización y limpieza de superficies dentro de tus protocolos de bioseguridad."
+      }
+    ],
+    "image": "./challenges.webp",
+    "imageAlt": "Personal veterinario atendiendo a un perro sobre una camilla clínica",
+    "badges": {
+      "top": "En tu operación",
+      "bottom": "En tus instalaciones"
+    }
+  },
+  "testimonials": {
+    "eyebrow": "EVIDENCIA DE CAMPO",
+    "title": "Lo que dicen los productores",
+    "subtitle": "Experiencias documentadas sobre la integración de tecnología oxidativa en protocolos pecuarios.",
+    "entries": [
+      {
+        "quote": "“Llevamos tiempo usándolo en múltiples casos de herida y post operatorios tanto simples como complicados y hemos tenido una evolución favorable de nuestros pacientes es una excelente opción.”",
+        "name": "MVZ Daniela Ávila",
+        "role": "",
+        "accent": "orange",
+        "avatar": "./testimonial-daniela.webp"
+      },
+      {
+        "quote": "“En nuestra práctica con animales no convencionales, Vetoxzyn ha demostrado ser un excelente coadyuvante en el manejo de heridas y lesiones cutáneas. Destaca por su buena tolerancia, baja citotoxicidad y apoyo efectivo en la cicatrización, especialmente en reptiles y aves. Una herramienta confiable dentro del manejo clínico diario.”",
+        "name": "MVZ Alan Doshey Gamborino Prieto",
+        "role": "",
+        "accent": "pink",
+        "avatar": "./testimonial-alan.webp"
+      }
+    ],
+    "divider": "./divider.webp"
+  },
+  "products": {
+    "title": "Línea para tus instalaciones y agua",
+    "subtitle": "Una configuración orientada a espacios, superficies y agua dentro de tu unidad de producción.",
+    "lines": [
+      {
+        "line": "instalaciones",
+        "title": "Higiene de espacios y procesos",
+        "tagline": "Configuración orientada a instalaciones, superficies y agua de bebida, con presentaciones de alto volumen.",
+        "image": "./instalaciones.webp",
+        "imageAlt": "Entorno clínico de la línea Instalaciones"
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "HIGIENE EN TU GRANJA",
+    "title": "¿Listo para proteger tu unidad de producción?",
+    "subtitle": "Cuéntanos cómo es tu operación y te orientamos según tus protocolos de bioseguridad.",
+    "backdropWord": "BIOSEGURIDAD",
+    "image": "./contact.webp",
+    "imageAlt": "Clínica veterinaria de alta tecnología con superficies de vidrio e instrumental metálico bajo luz blanca",
+    "faq": [
+      {
+        "question": "¿Sirve como tratamiento para curar la mastitis?",
+        "answer": "Se recomienda su uso como una solución oxidativa de alta pureza en los protocolos sanitarios y de higiene de la ubre. Proporciona una limpieza externa especializada que mejora las condiciones de bioseguridad sin dejar residuos que afecten la calidad de los procesos."
+      },
+      {
+        "question": "¿Puede usarse en el agua de bebida?",
+        "answer": "Sí. En protocolos de agua de bebida se integra por dosificación según consumo, con dilución 1:100, para apoyar la reducción de biopelícula en tuberías sin dejar sabor u olor que rechacen los animales."
+      },
+      {
+        "question": "¿Qué presentaciones manejan para volumen?",
+        "answer": "La línea de higiene de espacios y procesos se ofrece en 1 L, 4 L y 20 L. Los formatos de 200 L y 1,000 L se revisan con el equipo comercial de la marca."
+      }
+    ],
+    "form": {
+      "eyebrow": "Cuéntanos sobre tu operación",
+      "title": "Recibe orientación para tu granja",
+      "nameLabel": "Nombre",
+      "namePlaceholder": "Ing. Juan Pérez",
+      "clinicaLabel": "Empresa / Unidad de producción",
+      "clinicaPlaceholder": "Granja Avícola del Bajío",
+      "telefonoLabel": "Teléfono / WhatsApp",
+      "telefonoPlaceholder": "+52 55 1234 5678",
+      "ciudadLabel": "Ciudad / estado",
+      "ciudadPlaceholder": "Celaya, Guanajuato",
+      "emailLabel": "Correo electrónico",
+      "emailPlaceholder": "compras@granja.com",
+      "interestsLegend": "¿Qué configuración te interesa?",
+      "interests": {
+        "topico": "Higiene vinculada al animal",
+        "instalaciones": "Higiene de espacios y agua",
+        "distribucion": "Distribución"
+      },
+      "medioLabel": "Medio preferido de comunicación",
+      "medioOptions": {
+        "correo": "Correo",
+        "llamada": "Llamada",
+        "whatsapp": "Mensaje de WhatsApp"
+      },
+      "motivoLabel": "Te interesa el producto porque",
+      "motivoOptions": {
+        "problema": "Puede solucionar un problema actual",
+        "informacion": "Quiero informarme más",
+        "incorporacion": "Puedo incorporarlo próximamente"
+      },
+      "messageLabel": "Mensaje personalizado",
+      "messagePlaceholder": "Especifique su volumen, tipo de producción o dudas adicionales...",
+      "submitLabel": "Enviar mi solicitud",
+      "submittingLabel": "Enviando solicitud…",
+      "hint": "Revisaremos tu solicitud y te contactaremos por el medio indicado.",
+      "successTitle": "Gracias — tu mensaje fue registrado. Te contactaremos pronto.",
+      "successSubtitle": "Te contactaremos por el medio que indicaste.",
+      "successReset": "Enviar otro mensaje",
+      "errors": {
+        "name": "El nombre es obligatorio",
+        "emailRequired": "El correo electrónico es obligatorio",
+        "emailInvalid": "Correo electrónico inválido",
+        "message": "El mensaje debe tener al menos 10 caracteres",
+        "clinica": "La empresa o unidad de producción es obligatoria",
+        "telefono": "Ingresa un teléfono o WhatsApp válido",
+        "ciudad": "La ciudad o estado es obligatorio",
+        "medio": "Selecciona un medio de contacto",
+        "motivo": "Selecciona el motivo de tu interés",
+        "interest": "Selecciona al menos una configuración de interés"
+      }
+    }
+  }
+}

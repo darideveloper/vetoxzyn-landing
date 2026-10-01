@@ -1,11 +1,13 @@
-## ADDED Requirements
+## Purpose
 
+Single-language SEO hierarchy, sitemap/robots, optimized images, and heading a11y.
+## Requirements
 ### Requirement: Two-layer single-language SEO hierarchy
-The system SHALL provide `BaseSEO.astro` (core engine, `useTagLine` default `true`) and thin `PageSEO.astro` wrapper (defaults `jsonType="LocalBusiness"`; does not forward `useTagLine`). Title resolves prop → `SITE_TITLE`; description resolves prop → `baseDescription` → `SITE_DESCRIPTION`. Off-home pages append `| BUSINESS_DATA.name` unless `useTagLine` is `false`. No i18n/hreflang branches SHALL exist. `BUSINESS_DATA.url` (the origin prefix for canonical, `og:url`, `og:image`, JSON-LD `url`/`@id`/`logo`/`image`) SHALL be the checkout's own URL in dev (Portless branch-subdomain) and the prod domain in builds.
+The system SHALL provide `BaseSEO.astro` (core engine) and thin `PageSEO.astro` wrapper, where each page supplies a `seo` object (title, description) sourced from that page's avatar data, with the social image and business JSON-LD fields held globally from `src/data/site-config.ts`. Title resolves page value → `SITE_TITLE`; description resolves page value → `SITE_DESCRIPTION`. No i18n/hreflang branches SHALL exist. `BUSINESS_DATA.url` (the origin prefix for canonical, `og:url`, `og:image`, JSON-LD `url`/`@id`) SHALL remain the checkout's own URL in dev (Portless branch-subdomain) and the prod domain in builds, computed globally, and the business fields (telephone, email, logo) plus the og-image SHALL also come from global config for every page.
 
-#### Scenario: Home page metadata
-- **WHEN** `index.astro` renders `<PageSEO currentPage="home" slot="seo" />`
-- **THEN** `<head>` contains resolved title (no tagline duplication), meta description, canonical `${BUSINESS_DATA.url}/`, OG/Twitter tags with `og:locale="en_US"`, and a `LocalBusiness` JSON-LD block (name, url, telephone, address, geo, sameAs)
+#### Scenario: Per-page metadata
+- **WHEN** any avatar page renders `<PageSEO seo={...} slot="seo" />`
+- **THEN** `<head>` contains that page's resolved title, meta description, the global og-image, canonical for its own route, OG/Twitter tags, and a `LocalBusiness` JSON-LD block using the global telephone/email/logo with the global origin
 
 #### Scenario: Non-prod indexing guard
 - **WHEN** the site builds with `import.meta.env.PROD === false`
@@ -15,6 +17,10 @@ The system SHALL provide `BaseSEO.astro` (core engine, `useTagLine` default `tru
 - **WHEN** a dev server runs in a worktree with `PORTLESS_URL=https://<branch>.vetoxzyn.localhost`
 - **THEN** the served pages' canonical and `og:url` emit the branch-subdomain origin, not the main checkout's URL
 
+#### Scenario: Dummy home is not indexed
+- **WHEN** the production sitemap is generated
+- **THEN** the home `/` is excluded from indexable content (excluded from the sitemap and emitted `noindex`) and the avatar routes are included
+
 ### Requirement: Layout SEO slot pattern
 `Layout.astro` SHALL render `<slot name="seo" />` inside `<head>`, global favicons (`/favicon.ico`, `/favicon.svg`, `/apple-touch-icon.png`), `<ClientRouter />`, Header/Footer shell, and `<slot />` body content.
 
@@ -23,11 +29,11 @@ The system SHALL provide `BaseSEO.astro` (core engine, `useTagLine` default `tru
 - **THEN** its metadata lands in `<head>` while body content renders in the shared shell unchanged
 
 ### Requirement: Sitemap, robots, and static assets
-The system SHALL generate `/sitemap-index.xml` via `@astrojs/sitemap` using the configured `site` URL, listing prod routes ONLY (dev-only routes SHALL NOT appear), serve dynamic `robots.txt` pointing at that sitemap, and ship `favicon.svg/.ico/.png`, `apple-touch-icon.png`, and 1200x630 `og-image.jpg` from `public/` with zero 404s.
+The system SHALL generate `/sitemap-index.xml` via `@astrojs/sitemap` using the configured `site` URL, listing prod routes ONLY (all generated avatar routes; dev-only routes and the home `/` SHALL NOT appear), serve dynamic `robots.txt` pointing at that sitemap, and ship `favicon.svg/.ico/.png`, `apple-touch-icon.png`, and 1200x630 `og-image.jpg` from `public/` with zero 404s.
 
 #### Scenario: Crawler bootstrap
 - **WHEN** a crawler fetches `/robots.txt` and `/sitemap-index.xml` from a production build
-- **THEN** robots returns `Allow: /` plus the absolute sitemap URL and the sitemap lists all prod static routes and no dev-only routes
+- **THEN** robots returns `Allow: /` plus the absolute sitemap URL and the sitemap lists all avatar routes and no dev-only or placeholder routes
 
 ### Requirement: Optimized images via astro:assets
 Whenever a raster content image is added, it SHALL be rendered with the `Picture` component from `astro:assets` (`formats={['avif','webp']}`, `widths` + `sizes` responsive set, encoders from the global `image.service` config — webp quality 80, avif quality 70); hero images SHALL use `loading="eager"` + `fetchpriority="high"` + `decoding="async"`, all other images `loading="lazy"` + `decoding="async"`. SVG art SHALL pass through unchanged (Astro does not rasterize SVG). No placeholder image SHALL be added just to satisfy this rule.
@@ -47,5 +53,6 @@ Whenever a raster content image is added, it SHALL be rendered with the `Picture
 Every page SHALL have exactly one `H1` with `H2-H6` in unskipped order; interactive elements with non-descriptive visible text SHALL carry `aria-label`.
 
 #### Scenario: Hierarchy and labels
-- **WHEN** the landing page renders
+- **WHEN** any avatar page (and the home) renders
 - **THEN** there is exactly one `H1`, section headings descend without skipping levels, and icon-only buttons expose `aria-label` context
+

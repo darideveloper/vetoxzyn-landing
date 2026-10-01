@@ -3,11 +3,11 @@
 Two-panel Products split (Tópico light / Instalaciones dark) with HUD spec grids, product CTAs, and formula banner on `/`.
 ## Requirements
 ### Requirement: Products section structure and anchors
-The system SHALL render a static `Products` organism on `/` with `id="productos"` (per `SECTION_IDS.productos`), composed of a section header, a two-panel split (Tópico light / Instalaciones dark), and a `ProductGallery` proof strip, with client-side JavaScript limited to the gallery island (`client:visible`) and the existing GSAP reveal block.
+The system SHALL render a static `Products` organism on each avatar page with `id="productos"` (per `SECTION_IDS.productos`), composed of a section header, a split of the product lines the avatar declares (`Tópico` light / `Instalaciones` dark; one or both), and a `ProductGallery` proof strip, with client-side JavaScript limited to the gallery island (`client:visible`) and the existing GSAP reveal block.
 
 #### Scenario: Section composition
-- **WHEN** a visitor loads `/`
-- **THEN** a `#productos` region appears between Testimonials and Contact containing an in-flow centered `SectionHeader` (`Dos contextos de uso, una orientación más clara`) with sub copy above the split, two half-panels side by side on desktop, and the gallery strip (between panels on mobile, overlapping below them on desktop)
+- **WHEN** a visitor loads an avatar page
+- **THEN** a `#productos` region appears between Testimonials and Contact containing a centered `SectionHeader` from the avatar's copy above the split, the declared panel(s) side by side on desktop, and the gallery strip (between panels on mobile, overlapping below them on desktop)
 
 #### Scenario: Hero anchor fulfilled
 - **WHEN** a visitor activates a CTA targeting the Products section (`href="#productos"`)
@@ -15,18 +15,23 @@ The system SHALL render a static `Products` organism on `/` with `id="productos"
 
 #### Scenario: GSAP ignores the gallery
 - **WHEN** the Products scroll animation runs
-- **THEN** the header and the two panels animate as before while the gallery strip is never selected by the panel reveal timeline and never blocks panel animation
+- **THEN** the header and panels animate as before while the gallery strip is never selected by the panel reveal timeline and never blocks panel animation
 
 ### Requirement: Panel content and HUD specs
-Each panel SHALL render its title, subhead, vertical pill, background image treatment, HUD spec grid (Concentración / pH / ORP / Toxicidad / Presentaciones with exact design values), and one product CTA.
+Each panel SHALL render its title, tagline, vertical pill, background image treatment, HUD spec grid (Concentración / pH / ORP / Toxicidad / Presentaciones with exact global design values), and one product CTA; the title, tagline and image SHALL come from the avatar data while the spec values and labels stay global. The section SHALL also render the global formula banner (Fórmula / Mecanismo / Sin residuos) from `src/data/products.ts` on every avatar page.
 
 #### Scenario: Tópico light panel
 - **WHEN** the light panel renders
-- **THEN** it shows title `Tópico`, sub `Higiene tópica de piel, mucosas y áreas post-quirúrgicas.`, specs `100 ppm (0.010%)` / `6.0–7.5 (neutro)` / `> 850 mV` / `Grado 0 (no irritante)` / `60 ml a 950 ml`, and a light-tone CTA
+- **THEN** it shows the avatar's light-line title and tagline, the global Tópico specs `100 ppm (0.010%)` / `6.0–7.5 (neutro)` / `> 850 mV` / `Grado 0 (no irritante)` / `60 ml a 950 ml`, and a light-tone CTA
 
 #### Scenario: Instalaciones dark panel
 - **WHEN** the dark panel renders
-- **THEN** it shows title `Instalaciones`, sub `Superficies, instrumental, áreas de consulta y quirófano, agua.`, specs `500 ppm (0.050%)` / `6.0–7.5 (neutro)` / `> 900 mV` / `Grado 0 (no irritante)` / `4L · 23L`, and a dark-tone CTA
+- **THEN** it shows the avatar's dark-line title and tagline, the global Instalaciones specs `500 ppm (0.050%)` / `6.0–7.5 (neutro)` / `> 900 mV` / `Grado 0 (no irritante)` / `4L · 23L`, and a dark-tone CTA
+
+#### Scenario: Formula banner is global
+- **WHEN** any avatar page renders the products section
+- **THEN** the formula banner shows the global `Fórmula: H₂O + NaCl + electrólisis = HOCl`, `Mecanismo: Lisis por oxidación en segundos`, and `Sin residuos persistentes` values, identical on every avatar page
+>>>>>>> feature/json-avatars
 
 ### Requirement: Voted atoms reuse
 The panels SHALL use `Button variant="product" tone="light"` (Tópico) and `tone="dark"` (Instalaciones) for the `Más información` CTAs with an `arrow_forward` glyph, each carrying `mt-md` top margin separating it from its HUD spec grid, and `Badge variant="feature" icon="water_drop"|"cleaning_services"` for the two vertical `No requiere enjuague` pills (intentional restyle: glass feature pills replace the design's solid orange/pink pills per the P3-drop vote). The contact section SHALL keep `id="contacto"` per `section-anchors`, while the product CTAs target the `#contacto-formulario` form wrapper. No new atom SHALL be created.
@@ -62,11 +67,11 @@ The section SHALL stack panels vertically on mobile (content first, HUD below) w
 - **THEN** each pill's top edge is below its panel title, its bottom edge sits ~24px under its HUD card's bottom edge, and a ~22px horizontal gap separates pill and card with no viewport overflow
 
 ### Requirement: Local optimized imagery
-Both panel backgrounds SHALL be local WebP images under `src/assets/products/` rendered via `astro:assets Image` (responsive widths+sizes, `loading="lazy"`); no external image hotlink SHALL remain in this section.
+Both panel backgrounds SHALL be local images resolved from the avatar's co-located content folder via the collection `image()` helper and `astro:assets` (responsive widths+sizes, `loading="lazy"`); no external image hotlink SHALL remain in this section.
 
 #### Scenario: Optimized local render
-- **WHEN** the page builds and loads `/`
-- **THEN** both panel images are served from local build output with the luminosity treatment intact and no `googleusercontent` URL appears in the section markup
+- **WHEN** an avatar page builds and loads
+- **THEN** both panel images are served from that avatar's local build output with the luminosity treatment intact and no external URL appears in the section markup
 
 ### Requirement: Accessibility and brand rules
 The section SHALL keep unskipped heading order (section `h2` → panel `h3`s), decorative layers hidden from assistive tech, meaningful alt text on both images, keyboard-operable CTAs with visible focus, `prefers-reduced-motion` disabling the pan animation, and safe-vocabulary copy (no cura/trata/desinfectante-clínico claims).
@@ -92,4 +97,11 @@ The section SHALL render at most one `ProductGallery` instance — exactly one w
 #### Scenario: Empty source omits the strip
 - **WHEN** the gallery source folder contains no image files
 - **THEN** no gallery region, slide, or seam-blur band exists in the DOM or the accessibility tree, the two panels still render, and the empty grid row collapses to zero height
+
+### Requirement: Single-line panel layout
+When an avatar declares only one product line, the section SHALL render that single panel full-width on desktop (spanning the space the two panels would occupy) rather than leaving an empty half, with the gallery strip behavior unchanged.
+
+#### Scenario: Single-line avatar fills the row
+- **WHEN** an avatar declares only one product line and the viewport is desktop width
+- **THEN** the single panel spans the full content width with no empty second panel, and the gallery strip still renders per its own rules
 

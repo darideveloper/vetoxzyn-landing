@@ -1,0 +1,30 @@
+---
+import { getCollection } from "astro:content"
+import Layout from "@/layouts/Layout.astro"
+import PageSEO from "@/components/seo/PageSEO.astro"
+import Hero from "@/components/organisms/Hero.astro"
+import Challenges from "@/components/organisms/Challenges.astro"
+import Testimonials from "@/components/organisms/Testimonials.astro"
+import Products from "@/components/organisms/Products.astro"
+import ContactSection from "@/components/organisms/ContactSection.astro"
+import { toPageData } from "@/lib/avatars"
+
+export async function getStaticPaths() {
+  const avatars = await getCollection("avatars")
+  return avatars.map((entry) => ({
+    params: { slug: entry.id },
+    props: { page: toPageData(entry) },
+  }))
+}
+
+const { page } = Astro.props
+---
+
+<Layout lang="es">
+  <PageSEO currentPage={page.slug} title={page.seo.title} description={page.seo.description} slot="seo" />
+  <Hero data={page.hero} />
+  <Challenges data={page.challenges} />
+  <Testimonials data={page.testimonials} />
+  <Products data={page.products} slug={page.slug} />
+  <ContactSection data={page.contact} />
+</Layout>

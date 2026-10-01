@@ -1,19 +1,25 @@
 ---
+import { getCollection } from "astro:content"
 import Layout from "@/layouts/Layout.astro"
 import PageSEO from "@/components/seo/PageSEO.astro"
-import Hero from "@/components/organisms/Hero.astro"
-import Challenges from "@/components/organisms/Challenges.astro"
-import Testimonials from "@/components/organisms/Testimonials.astro"
-import Products from "@/components/organisms/Products.astro"
-import ContactSection from "@/components/organisms/ContactSection.astro"
-import { TESTIMONIALS } from "@/data/testimonials"
+
+const avatars = (await getCollection("avatars")).sort((a, b) => a.id.localeCompare(b.id))
 ---
 
 <Layout lang="es">
-  <PageSEO currentPage="home" slot="seo" />
-  <Hero />
-  <Challenges />
-  <Testimonials testimonials={TESTIMONIALS} />
-  <Products />
-  <ContactSection />
+  <PageSEO currentPage="home" noindex slot="seo" />
+  <section class="mx-auto max-w-max-width px-gutter py-20">
+    <h1 class="font-display-lg text-display-lg text-on-surface">Vetoxzyn</h1>
+    <nav aria-label="Páginas por avatar" class="mt-lg">
+      <ul class="flex flex-col gap-sm">
+        {avatars.map((avatar) => (
+          <li>
+            <a href={`/${avatar.id}`} class="link cursor-pointer text-body-lg">
+              {avatar.data.hero.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </section>
 </Layout>

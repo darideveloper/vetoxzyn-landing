@@ -1,0 +1,178 @@
+{
+  "seo": {
+    "title": "vetoxzyn® para aves de alto valor | Vetoxzyn",
+    "description": "Nebulización segura en presencia de aves: bioseguridad para aviarios con vetoxzyn®."
+  },
+  "hero": {
+    "eyebrow": "BIOSEGURIDAD PARA AVES DE ALTO VALOR",
+    "title": "vetoxzyn®: aire y espacios seguros con tus aves presentes.",
+    "subtitle": "Tecnología oxidativa pensada para protocolos de nebulización en presencia de aves.",
+    "bullets": [
+      {
+        "label": "Aviarios"
+      },
+      {
+        "label": "Nebulización segura"
+      },
+      {
+        "label": "Vías respiratorias"
+      }
+    ],
+    "primaryCta": {
+      "label": "★ Solicita muestra"
+    },
+    "secondaryCta": {
+      "label": "Ver cómo se integra"
+    },
+    "overlay": {
+      "name": "Guardián de Aire",
+      "role": "Aves de alto valor"
+    },
+    "image": "./hero.webp",
+    "imageAlt": "Instrumental quirúrgico veterinario sobre una bandeja estéril"
+  },
+  "challenges": {
+    "eyebrow": "PROTEGE TU AVIARIO",
+    "title": "El aire y los espacios importan tanto como el ave.",
+    "subtitle": "Cada protocolo permite cuidar mejor el entorno de tus aves.",
+    "features": [
+      {
+        "title": "Químicos agresivos",
+        "challenge": "Aves de alto valor que no toleran químicos agresivos.",
+        "solution": "Solución oxidativa de alta pureza con alta seguridad en tejido vivo."
+      },
+      {
+        "title": "Aire del aviario",
+        "challenge": "Patógenos en el aire sin poder desalojar el aviario.",
+        "solution": "Nebulización con dilución 1:10 en presencia de animales."
+      },
+      {
+        "title": "Entorno limpio",
+        "challenge": "Residuos que contaminan el entorno.",
+        "solution": "Sin residuos persistentes; 100% biodegradable."
+      }
+    ],
+    "image": "./challenges.webp",
+    "imageAlt": "Personal veterinario atendiendo a un perro sobre una camilla clínica",
+    "badges": {
+      "top": "En tus aves",
+      "bottom": "En tu aviario"
+    }
+  },
+  "testimonials": {
+    "eyebrow": "EVIDENCIA DE CAMPO",
+    "title": "Lo que dicen los cuidadores de aves",
+    "subtitle": "Experiencias documentadas sobre la integración de tecnología oxidativa en el cuidado de aves.",
+    "entries": [
+      {
+        "quote": "“Llevamos tiempo usándolo en múltiples casos de herida y post operatorios tanto simples como complicados y hemos tenido una evolución favorable de nuestros pacientes es una excelente opción.”",
+        "name": "MVZ Daniela Ávila",
+        "role": "",
+        "accent": "orange",
+        "avatar": "./testimonial-daniela.webp"
+      },
+      {
+        "quote": "“En nuestra práctica con animales no convencionales, Vetoxzyn ha demostrado ser un excelente coadyuvante en el manejo de heridas y lesiones cutáneas. Destaca por su buena tolerancia, baja citotoxicidad y apoyo efectivo en la cicatrización, especialmente en reptiles y aves. Una herramienta confiable dentro del manejo clínico diario.”",
+        "name": "MVZ Alan Doshey Gamborino Prieto",
+        "role": "",
+        "accent": "pink",
+        "avatar": "./testimonial-alan.webp"
+      }
+    ],
+    "divider": "./divider.webp"
+  },
+  "products": {
+    "title": "Líneas para tu aviario",
+    "subtitle": "Ambas líneas permiten atender el cuidado tópico y la nebulización de tus espacios.",
+    "lines": [
+      {
+        "line": "topico",
+        "title": "Higiene vinculada al ave",
+        "tagline": "Configuración de alta tolerancia para higiene tópica de piel, mucosas y áreas sensibles.",
+        "image": "./topico.webp",
+        "imageAlt": "Entorno clínico luminoso de la línea Tópico"
+      },
+      {
+        "line": "instalaciones",
+        "title": "Higiene de espacios y aire",
+        "tagline": "Configuración para nebulización (dilución 1:10) y limpieza de superficies del aviario.",
+        "image": "./instalaciones.webp",
+        "imageAlt": "Entorno clínico de la línea Instalaciones"
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "CUIDADO DE TUS AVES",
+    "title": "¿Listo para asegurar el aire de tus aves?",
+    "subtitle": "Cuéntanos sobre tu aviario y te orientamos según tus protocolos de nebulización.",
+    "backdropWord": "AVIARIO",
+    "image": "./contact.webp",
+    "imageAlt": "Clínica veterinaria de alta tecnología con superficies de vidrio e instrumental metálico bajo luz blanca",
+    "faq": [
+      {
+        "question": "¿Puedo nebulizar con las aves presentes?",
+        "answer": "Sí. En protocolos de nebulización con aves presentes se integra con dilución 1:10, con un tiempo de exposición de 20 a 40 minutos, pensado para ser seguro en vías respiratorias dentro de tus protocolos de bioseguridad."
+      },
+      {
+        "question": "¿Es seguro para aves sensibles?",
+        "answer": "Es una solución oxidativa biomimética de alta pureza y muy baja irritabilidad, con alta seguridad en tejido vivo. No genera residuos persistentes; su función principal es la higiene."
+      },
+      {
+        "question": "¿Qué presentaciones manejan?",
+        "answer": "La línea vinculada al paciente se ofrece de 30 ml a 950 ml y la línea de espacios y procesos en 1 L, 4 L y 20 L. Los formatos de 200 L y 1,000 L se revisan con el equipo comercial."
+      }
+    ],
+    "form": {
+      "eyebrow": "Cuéntanos sobre tu aviario",
+      "title": "Recibe orientación para tu aviario",
+      "nameLabel": "Nombre",
+      "namePlaceholder": "Juan Pérez",
+      "clinicaLabel": "Aviario / Criaderos",
+      "clinicaPlaceholder": "Aviario San Miguel",
+      "telefonoLabel": "Teléfono / WhatsApp",
+      "telefonoPlaceholder": "+52 55 1234 5678",
+      "ciudadLabel": "Ciudad / estado",
+      "ciudadPlaceholder": "Celaya, Guanajuato",
+      "emailLabel": "Correo electrónico",
+      "emailPlaceholder": "contacto@aviario.com",
+      "interestsLegend": "¿Qué configuración te interesa?",
+      "interests": {
+        "topico": "Higiene vinculada al ave",
+        "instalaciones": "Higiene de espacios y aire",
+        "distribucion": "Distribución"
+      },
+      "medioLabel": "Medio preferido de comunicación",
+      "medioOptions": {
+        "correo": "Correo",
+        "llamada": "Llamada",
+        "whatsapp": "Mensaje de WhatsApp"
+      },
+      "motivoLabel": "Te interesa el producto porque",
+      "motivoOptions": {
+        "problema": "Puede solucionar un problema actual",
+        "informacion": "Quiero informarme más",
+        "incorporacion": "Puedo incorporarlo próximamente"
+      },
+      "messageLabel": "Mensaje personalizado",
+      "messagePlaceholder": "Especifique el tipo de aves, su aviario o dudas adicionales...",
+      "submitLabel": "Enviar mi solicitud",
+      "submittingLabel": "Enviando solicitud…",
+      "hint": "Revisaremos tu solicitud y te contactaremos por el medio indicado.",
+      "successTitle": "Gracias — tu mensaje fue registrado. Te contactaremos pronto.",
+      "successSubtitle": "Te contactaremos por el medio que indicaste.",
+      "successReset": "Enviar otro mensaje",
+      "errors": {
+        "name": "El nombre es obligatorio",
+        "emailRequired": "El correo electrónico es obligatorio",
+        "emailInvalid": "Correo electrónico inválido",
+        "message": "El mensaje debe tener al menos 10 caracteres",
+        "clinica": "El aviario o criadero es obligatorio",
+        "telefono": "Ingresa un teléfono o WhatsApp válido",
+        "ciudad": "La ciudad o estado es obligatorio",
+        "medio": "Selecciona un medio de contacto",
+        "motivo": "Selecciona el motivo de tu interés",
+        "interest": "Selecciona al menos una configuración de interés"
+      }
+    }
+  }
+}

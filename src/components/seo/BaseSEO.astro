@@ -13,6 +13,7 @@ interface Props {
   extraJson?: Record<string, unknown>
   ogImage?: string
   useTagLine?: boolean
+  noindex?: boolean
 }
 
 const {
@@ -25,6 +26,7 @@ const {
   extraJson = {},
   ogImage,
   useTagLine = true,
+  noindex = false,
 } = Astro.props as Props
 
 const isProd = import.meta.env.PROD
@@ -78,7 +80,7 @@ const jsonLd = { ...baseSchema, ...extraJson }
 <meta name="description" content={resolvedDescription} />
 {baseKeywords && <meta name="keywords" content={baseKeywords} />}
 <link rel="canonical" href={canonicalUrl} />
-{!isProd && <meta name="robots" content="noindex, nofollow" />}
+{(!isProd || noindex) && <meta name="robots" content="noindex, nofollow" />}
 <meta property="og:type" content={ogType} />
 <meta property="og:title" content={pageTitle} />
 <meta property="og:description" content={resolvedDescription} />

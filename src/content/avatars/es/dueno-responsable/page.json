@@ -1,0 +1,171 @@
+{
+  "seo": {
+    "title": "vetoxzyn® para el cuidado de tu mascota | Vetoxzyn",
+    "description": "Limpieza tópica segura para la piel de tu mascota: higiene oxidativa de alta tolerancia con vetoxzyn®."
+  },
+  "hero": {
+    "eyebrow": "HIGIENE TÓPICA PARA TU MASCOTA",
+    "title": "vetoxzyn®: limpieza tópica segura para la piel de tu mascota.",
+    "subtitle": "Una fórmula biomimética de alta pureza y muy baja irritabilidad para apoyar la higiene tópica en casa.",
+    "bullets": [
+      {
+        "label": "Piel y mucosas"
+      },
+      {
+        "label": "No irrita"
+      },
+      {
+        "label": "No mancha"
+      }
+    ],
+    "primaryCta": {
+      "label": "★ Escríbenos por WhatsApp"
+    },
+    "secondaryCta": {
+      "label": "Ver la línea"
+    },
+    "overlay": {
+      "name": "Dueño Responsable",
+      "role": "Perros y gatos"
+    },
+    "image": "./hero.webp",
+    "imageAlt": "Instrumental quirúrgico veterinario sobre una bandeja estéril"
+  },
+  "challenges": {
+    "eyebrow": "HIGIENE TÓPICA EN CASA",
+    "title": "Una opción segura para el cuidado de tu mascota.",
+    "subtitle": "Cada situación en casa permite elegir mejor cómo apoyar su higiene.",
+    "features": [
+      {
+        "title": "Piel irritada",
+        "challenge": "Piel irritada o lastimada sin una opción segura.",
+        "solution": "Fórmula biomimética de muy baja irritabilidad que mantiene condiciones higiénicas óptimas."
+      },
+      {
+        "title": "Productos que arden",
+        "challenge": "Productos que arden o manchan a tu mascota.",
+        "solution": "No arde, no mancha y no requiere enjuague."
+      },
+      {
+        "title": "Químicos en casa",
+        "challenge": "Miedo a usar químicos agresivos en casa.",
+        "solution": "100% biodegradable, sin residuos persistentes."
+      }
+    ],
+    "image": "./challenges.webp",
+    "imageAlt": "Personal veterinario atendiendo a un perro sobre una camilla clínica",
+    "badges": {
+      "top": "En tu mascota",
+      "bottom": "En casa"
+    }
+  },
+  "testimonials": {
+    "eyebrow": "CUIDADO CON CONFIANZA",
+    "title": "Lo que dicen los dueños de mascotas",
+    "subtitle": "Experiencias documentadas sobre la integración de higiene oxidativa en el cuidado diario.",
+    "entries": [
+      {
+        "quote": "“Llevamos tiempo usándolo en múltiples casos de herida y post operatorios tanto simples como complicados y hemos tenido una evolución favorable de nuestros pacientes es una excelente opción.”",
+        "name": "MVZ Daniela Ávila",
+        "role": "",
+        "accent": "orange",
+        "avatar": "./testimonial-daniela.webp"
+      },
+      {
+        "quote": "“En nuestra práctica con animales no convencionales, Vetoxzyn ha demostrado ser un excelente coadyuvante en el manejo de heridas y lesiones cutáneas. Destaca por su buena tolerancia, baja citotoxicidad y apoyo efectivo en la cicatrización, especialmente en reptiles y aves. Una herramienta confiable dentro del manejo clínico diario.”",
+        "name": "MVZ Alan Doshey Gamborino Prieto",
+        "role": "",
+        "accent": "pink",
+        "avatar": "./testimonial-alan.webp"
+      }
+    ],
+    "divider": "./divider.webp"
+  },
+  "products": {
+    "title": "La línea para tu mascota",
+    "subtitle": "Una presentación lista para usar en casa, sin necesidad de diluir ni enjuagar.",
+    "lines": [
+      {
+        "line": "topico",
+        "title": "Higiene tópica para tu mascota",
+        "tagline": "Presentación de consumo lista para usar: higiene de piel, mucosas externas y áreas sensibles.",
+        "image": "./topico.webp",
+        "imageAlt": "Entorno clínico luminoso de la línea Tópico"
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "CUIDADO EN CASA",
+    "title": "¿Listo para el cuidado de tu mascota?",
+    "subtitle": "Escríbenos y te orientamos sobre cómo apoyar la higiene tópica de tu mascota.",
+    "backdropWord": "MASCOTA",
+    "image": "./contact.webp",
+    "imageAlt": "Clínica veterinaria de alta tecnología con superficies de vidrio e instrumental metálico bajo luz blanca",
+    "faq": [
+      {
+        "question": "¿Cura las heridas de mi mascota?",
+        "answer": "vetoxzyn® actúa mediante un proceso de oxidación avanzada que garantiza condiciones higiénicas óptimas en la zona, siendo un producto de alta tolerancia y 100% seguro en tejido vivo. Su función principal es ayudar a mantener la zona limpia para apoyar el proceso de estabilización del tejido."
+      },
+      {
+        "question": "¿Arde o mancha?",
+        "answer": "No. La fórmula es de muy baja irritabilidad: no arde, no mancha y no requiere enjuague, pensada para el cuidado tópico en casa."
+      },
+      {
+        "question": "¿Cómo se usa?",
+        "answer": "La presentación de consumo viene lista para usar. Apoya la higiene de piel y mucosas externas. Ante una herida profunda o un cuadro que te preocupe, consulta siempre a tu médico veterinario."
+      }
+    ],
+    "form": {
+      "eyebrow": "Cuéntanos sobre tu mascota",
+      "title": "Recibe orientación de cuidado",
+      "nameLabel": "Nombre",
+      "namePlaceholder": "María López",
+      "clinicaLabel": "¿Dónde vives?",
+      "clinicaPlaceholder": "Ciudad de México",
+      "telefonoLabel": "Teléfono / WhatsApp",
+      "telefonoPlaceholder": "+52 55 1234 5678",
+      "ciudadLabel": "Mascota y edad",
+      "ciudadPlaceholder": "Perro, 4 años",
+      "emailLabel": "Correo electrónico",
+      "emailPlaceholder": "maria@correo.com",
+      "interestsLegend": "¿Qué te interesa?",
+      "interests": {
+        "topico": "Cuidado tópico de mi mascota",
+        "instalaciones": "Higiene de mi hogar",
+        "distribucion": "Distribución"
+      },
+      "medioLabel": "Medio preferido de comunicación",
+      "medioOptions": {
+        "correo": "Correo",
+        "llamada": "Llamada",
+        "whatsapp": "Mensaje de WhatsApp"
+      },
+      "motivoLabel": "Te interesa el producto porque",
+      "motivoOptions": {
+        "problema": "Puede solucionar un problema actual",
+        "informacion": "Quiero informarme más",
+        "incorporacion": "Puedo incorporarlo próximamente"
+      },
+      "messageLabel": "Mensaje personalizado",
+      "messagePlaceholder": "Cuéntanos sobre tu mascota o tus dudas adicionales...",
+      "submitLabel": "Enviar mi solicitud",
+      "submittingLabel": "Enviando solicitud…",
+      "hint": "Revisaremos tu solicitud y te contactaremos por el medio indicado.",
+      "successTitle": "Gracias — tu mensaje fue registrado. Te contactaremos pronto.",
+      "successSubtitle": "Te contactaremos por el medio que indicaste.",
+      "successReset": "Enviar otro mensaje",
+      "errors": {
+        "name": "El nombre es obligatorio",
+        "emailRequired": "El correo electrónico es obligatorio",
+        "emailInvalid": "Correo electrónico inválido",
+        "message": "El mensaje debe tener al menos 10 caracteres",
+        "clinica": "Indica dónde vives",
+        "telefono": "Ingresa un teléfono o WhatsApp válido",
+        "ciudad": "Indica tu mascota y su edad",
+        "medio": "Selecciona un medio de contacto",
+        "motivo": "Selecciona el motivo de tu interés",
+        "interest": "Selecciona al menos una opción de interés"
+      }
+    }
+  }
+}

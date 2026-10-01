@@ -1,24 +1,31 @@
 ---
+import type { ImageMetadata } from "astro"
 import Badge from "../atoms/Badge.astro"
 import ResponsiveImage from "../atoms/ResponsiveImage.astro"
-import challengesImg from "@/assets/challenges/challenges-clinica.webp"
+
+interface Props {
+  image: ImageMetadata
+  imageAlt: string
+  badges: { top: string; bottom: string }
+}
+const { image, imageAlt, badges } = Astro.props
 ---
 
 <div class="tilt-float relative rounded-[32px] border border-surface-container-highest bg-on-primary p-4 shadow-media">
   <div class="relative aspect-[4/5] w-full overflow-hidden rounded-[24px] bg-surface-container-highest">
     <ResponsiveImage
-      src={challengesImg}
+      src={image}
       widths={[480, 800, 1024, 1200]}
       sizes="(max-width: 1024px) 100vw, 450px"
-      alt="Personal veterinario atendiendo a un perro sobre una camilla clínica"
+      alt={imageAlt}
       class="h-full w-full object-cover"
     />
     <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-inverse-surface/40 to-transparent"></div>
   </div>
   <div class="absolute top-12 left-0 z-30 lg:-ml-6">
-    <Badge variant="tag" tone="dark">En tus pacientes</Badge>
+    <Badge variant="tag" tone="dark">{badges.top}</Badge>
   </div>
   <div class="absolute right-0 bottom-16 z-30 lg:-mr-6">
-    <Badge variant="tag" tone="light" icon="verified">En tus instalaciones</Badge>
+    <Badge variant="tag" tone="light" icon="verified">{badges.bottom}</Badge>
   </div>
 </div>

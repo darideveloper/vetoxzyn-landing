@@ -47,7 +47,11 @@ Keep masters lossless (PNG / lossless WebP) when possible so the build performs 
 
 ## `public/` exception
 
-`public/` is never processed by Astro — by design. It holds stable-URL meta only: `og-image.jpg` (1200×630), favicons, `apple-touch-icon.png`. Content images (including avatars and the brand logo) live in `src/assets/` and ship hashed from `dist/_astro/` with immutable nginx caching.
+`public/` is never processed by Astro — by design. It holds stable-URL meta only: `og-image.jpg` (1200×630), favicons, `apple-touch-icon.png`. Content images (including the brand logo) live in `src/assets/` and ship hashed from `dist/_astro/` with immutable nginx caching.
+
+### Per-avatar content-image exception (add-json-avatar-pages)
+
+Avatar page content is a co-located exception: each avatar keeps its JSON **and** its images together under `src/content/avatars/es/<slug>/` (hero, section media, testimonial portraits, product panels, and a `gallery/` subfolder for the product slider). These images resolve through the content-collection `image()` helper (`schema: ({ image }) => …`) → `ImageMetadata` → `astro:assets`, so they still ship hashed from `dist/_astro/` with identical AVIF/WebP behavior. The JSON stores relative paths (e.g. `./hero.webp`, `./gallery/Foo.png`). Brand/global images (logo) stay in `src/assets/`.
 
 ## Entry points
 
