@@ -1,6 +1,6 @@
 ---
 created: 2026-09-06
-updated: 2026-09-28
+updated: 2026-09-30
 tags:
   - astro
   - components
@@ -26,7 +26,9 @@ File-based routing, SSG (`output` default `static`, no SSR adapter). No catch-al
 src/pages/ (prod routes — everything here ships in dist/ + sitemap)
 ├── index.astro       ← landing: hero + challenges + testimonials + products + ContactForm island
 ├── about.astro       ← static content page
-├── aviso-de-privacidad.astro ← build-time Markdown privacy notice
+├── aviso-de-privacidad.astro ← build-time Markdown privacy notice (client-provided, frozen)
+├── politica-de-cookies.astro ← build-time Markdown cookie policy (`footer-legal-pages`)
+├── terminos.astro ← build-time Markdown channel terms (`footer-legal-pages`)
 ├── contact.astro     ← branded H1 (SectionHeader h1) + ContactSection organism
 ├── 404.astro         ← branded ES not-found (SectionHeader h1 + B2/B3 CTAs + sitemap), flex-1 centered
 └── robots.txt.ts     ← API route (dynamic robots.txt), no components
@@ -44,7 +46,7 @@ Pages are few, so per-page trees below are the reference. Overview:
 
 ```
 ┌──────────────────────────────────────────────┐
-│  index / about / contact / 404 (.astro)      │
+│  index / about / contact / aviso / cookies / terminos / 404 (.astro)      │
 └──────────────────┬───────────────────────────┘
                    ▼
 ┌──────────────────────────────────────────────┐
@@ -105,6 +107,7 @@ index.astro
     │   ├── molecules/FormRow.tsx ×2 ──► atoms/Input ×2 each (name/clinica, telefono/email, idPrefix="contacto-")
     │   ├── molecules/InterestPicker.tsx ──► atoms/Checkbox ×3 (lineaTopico/Instalaciones/Distribucion, idPrefix="contacto-")
     │   ├── molecules/FormSuccess.tsx ──► atoms/Button (reset, size sm)
+    │   ├── atoms/Checkbox (consent `aceptaAviso`, aviso/cookie links — `footer-legal-pages`)
     │   ├── atoms/Textarea (message, idPrefix="contacto-") + atoms/Button (submit primary sm)
     │   └── store/contact (validateAll, isSubmitted, reset) + data/section-ids
     ├── molecules/FaqAccordion.astro (glass panel + header + single-open exclusivity script, root #contacto-faq)
@@ -153,6 +156,24 @@ aviso-de-privacidad.astro
 └── atoms/Markdown.astro ──► lib/markdown + data/privacy-notice.md
 ```
 
+### politica-de-cookies.astro tree (`footer-legal-pages`)
+
+```
+politica-de-cookies.astro
+├── Layout.astro ──► shared shell (lang="es")
+├── seo/PageSEO.astro ──► SEO chain (currentPage="cookies")
+└── atoms/Markdown.astro ──► lib/markdown + data/cookies-policy.md
+```
+
+### terminos.astro tree (`footer-legal-pages`)
+
+```
+terminos.astro
+├── Layout.astro ──► shared shell (lang="es")
+├── seo/PageSEO.astro ──► SEO chain (currentPage="terms")
+└── atoms/Markdown.astro ──► lib/markdown + data/terms.md
+```
+
 ### 404.astro tree
 
 ```
@@ -178,7 +199,7 @@ src/components/atoms/
 ├── Button.tsx    (React, variant primary|secondary|product, size md|sm, tone light|dark for product, optional href → renders <a> with identical classes + explicit cursor-pointer; all variants token-colored + .lift + active:scale-[.98] + disabled:opacity/cursor-not-allowed, pointer via base layer) ──► lib/utils
 ├── Input.tsx     (F1 underline, store-bound, optional idPrefix → label-associated id, hover:border-on-surface/30, token-timed, focus ring via base) ──► store/useField ──► store/contact
 ├── Textarea.tsx  (F3 glass, store-bound, optional idPrefix → label-associated id, hover:border-on-surface/30, token-timed, focus ring via base) ──► store/useField ──► store/contact
-├── Checkbox.tsx  (F2 pill, store-bound, optional idPrefix → label-associated id, cursor-pointer on label + input, token-timed wash) ──► store/useField ──► store/contact
+├── Checkbox.tsx  (F2 pill, store-bound, optional idPrefix → label-associated id, cursor-pointer on label + input, token-timed wash; `label: React.ReactNode` so consent rows embed inline links; error span `text-error` when invalid) ──► store/useField ──► store/contact
 ├── Icon.astro    (I1 circle default; variant bare, tone pink|orange|primary|green, size md|lg — GAP-A; deliberately motionless — parent containers own the motion)
 ├── Badge.astro   (P1 feature | P2 tag with tone dark|primary|light + icon — GAP-B; .hover-subtle, pointer-free)
 ├── Eyebrow.astro (E2, static; .hover-subtle, pointer-free)
@@ -211,6 +232,7 @@ src/components/molecules/
 │   ├── FormRow.tsx ×2 (grid wrapper) ──► atoms/Input ×2 each
 │   ├── InterestPicker.tsx (idPrefix passthrough) ──► atoms/Checkbox ×3
 │   ├── FormSuccess.tsx ──► atoms/Button (reset)
+│   ├── atoms/Checkbox (consent `aceptaAviso`, rich label with aviso/cookie links — `footer-legal-pages`)
 │   └── atoms/{Input,Textarea,Button} direct + store/contact
 ├── TestimonialCard.astro (static: Card C1 + Avatar + bare Icon + footer) ──► atoms/{Card,Avatar,Icon} + lib/testimonials (type-only)
 ├── SectionHeader.astro (eyebrow? + title + titleClass extras + level h1|h2 + id + subtitle + align left|center; locked SECTION_TITLE_CORE for both levels, title slot only for inline markup reusing the core) ──► atoms/Eyebrow
@@ -232,9 +254,9 @@ src/components/molecules/
 ├── FormRow.tsx (grid wrapper, React children only)
 ├── InterestPicker.tsx (optional idPrefix passthrough) ──► atoms/Checkbox ×3
 ├── FormSuccess.tsx ──► atoms/Button
-├── PrimaryNav.astro ──► molecules/ContactLinks + atoms/{NavLink,BrandLogo h-20 eager} + data/site-config (via ContactLinks)
-├── ContactLinks.astro (WhatsApp wa.me phone + email pair, multiple roots) ──► atoms/NavLink ×2 + data/site-config
-└── FooterMeta.astro (BrandLogo h-16 lazy + © + links row + Facebook logo link new-tab) ──► molecules/ContactLinks + atoms/BrandLogo + data/site-config (BUSINESS_DATA, SOCIAL_LINKS.facebook)
+├── PrimaryNav.astro ──► atoms/{NavLink,BrandLogo h-20 eager} (no ContactLinks — orphan since 2026-09-23)
+├── ContactLinks.astro (ORPHAN, retained for future use: static phone + email spans, no links) ──► data/site-config (PHONES.formatted, EMAIL.address)
+└── FooterMeta.astro (BrandLogo h-16 lazy + Montserrat wordmark + 6-NavLink centered-stack→sm-row with grouped · separators, page container — `footer-legal-pages`) ──► atoms/{NavLink ×6,BrandLogo} + data/site-config (PHONES)
 ```
 
 `Layout.astro` loads Material Symbols Outlined (FILL 0..1) for Icon/Badge/Eyebrow.
@@ -266,8 +288,7 @@ Layout.astro (flex-shell: body `flex min-h-dvh flex-col`, main `flex flex-1 flex
 └── organisms/Footer.astro (border-t shell)
     └── molecules/FooterMeta.astro
         ├── atoms/BrandLogo.astro (h-16 lazy ──► src/assets/brand/logo.webp via Picture)
-        ├── data/site-config (BUSINESS_DATA, SOCIAL_LINKS.facebook — footer FB logo link new-tab)
-        └── molecules/ContactLinks.astro (see above)
+        └── atoms/NavLink.astro ×6 (phone wa.me new-tab via PHONES, Contacto /contact, Aviso /aviso-de-privacidad, Canal /contact, Cookies /politica-de-cookies, Términos /terminos) ──► data/site-config (PHONES)
 ```
 
 ## Optional chains
@@ -306,7 +327,7 @@ None.
 - `lib/gsap.ts` — SSR-safe GSAP entry (registerPlugin + ScrollTrigger.config + gsap.defaults + `load`/`astro:page-load` refresh); imported by the 5 home organism scripts + the two pattern helpers below (gsap chunk shared/cached)
 - `lib/kinetic-marquee.ts` — infinite-marquee factory (pattern only, no host wired) ──► lib/gsap (+ gsap/ModifiersPlugin)
 - `lib/animate-counters.ts` — `data-value` stat-counter helper (pattern only, no stats wired) ──► lib/gsap
-- `data/site-config.ts` — PHONES, EMAIL, ADDRESS, SOCIAL_LINKS, GOOGLE_MAPS, BUSINESS_HOURS, BUSINESS_DATA (`as const`; logo = imported `src/assets/brand/logo.webp` ImageMetadata)
+- `data/site-config.ts` — PHONES (`922 223 1006`, `tel:+529222231006`, `wa.me/529222231006`), EMAIL (`grupohocliva@gmail.com`), ADDRESS (Minatitlán domicile, `MX`), SOCIAL_LINKS, GOOGLE_MAPS, BUSINESS_HOURS, BUSINESS_DATA (`legalName: "GRUPO HOCLIVA SAS"`, `as const`; logo = imported `src/assets/brand/logo.webp` ImageMetadata). Only consumers: `BaseSEO` (BUSINESS_DATA) + orphan `ContactLinks` (formatted/address); footer renders no phone/email.
 - `data/section-ids.ts` — SECTION_IDS (`as const`: inicio, desafios, testimonios, productos, contacto, contactoFormulario, contactoFaq); single source of truth for section anchors — organisms + CTA molecules import from here, never hardcode
 - `lib/testimonials.ts` — shared `Testimonial`/`TestimonialAccent` props contract for 2- or 3-record sections
 - `data/testimonials.ts` — TESTIMONIALS (`as const` ×2: quote/name/role/accent/avatar as imported `ImageMetadata` from `src/assets/testimonials/`), satisfying `lib/testimonials` types
@@ -326,8 +347,8 @@ None.
     header/main/footer z-1 context) + smooth-scroll set (`html scroll-behavior: smooth`,
     reduced-motion `auto`)
 - `store/contact.ts` — contactSchema (Zod: name/email/message required + clinica/telefono
-  optional strings + lineaTopico/lineaInstalaciones/lineaDistribucion booleans), field map,
-  setField/validateAll/reset, persist
+  optional strings + lineaTopico/lineaInstalaciones/lineaDistribucion booleans + `aceptaAviso` consent boolean refined to `true` — `footer-legal-pages`), field map,
+  setField/validateAll/reset, persist (consent excluded from storage and POST payload)
 - `store/useField.ts` — hydration-safe field hook (injectable into atoms)
 - `lib/api/client.ts` — `safeFetch` + `FetchError` (scaffold, no callers yet)
 - `lib/api/types.ts`, `lib/api/constants.ts` — shared API types/messages (scaffold)
@@ -349,10 +370,10 @@ None.
   markup change when brand art lands. Product CTAs are `Más información` → `#contacto-formulario`
   (`fix-links-ctas`); the hero secondary (`Ver línea Tópico`) keeps `#productos` as the deliberate exemption.
 - Initial setup (`initial-landing-setup`): vanilla-only atoms per `astro-atomic-components` (no `ui/`, no `Validated*`); single Zustand `contact` store (not generic `form.ts`) until a second form exists.
-- Business values in `site-config.ts`: phone (WhatsApp `+52 1 461 574 7483`), email and facebook are real (`fix-links-ctas`); address, maps and hours stay placeholders (`TODO(replace)`) — canonical/JSON-LD contact block semi-fictional until they land.
+- Business values in `site-config.ts` (`footer-legal-pages`, 2026-09-30): phone `922 223 1006` (`tel:+529222231006`, `wa.me/529222231006`), email `grupohocliva@gmail.com`, Minatitlán domicile, `legalName: "GRUPO HOCLIVA SAS"` — the frozen aviso identity; maps and hours stay placeholders (`TODO(replace)`). Supersedes the `fix-links-ctas` 461 values above (history kept).
 - No `PUBLIC_*` env vars exist; Dockerfile ships zero `ARG/ENV` pairs by design.
 - Hero/section images: none yet (placeholder SVG not used — Astro won't rasterize SVG via `Image`); any future raster image MUST use the wrapper atoms (`ResponsiveImage`/`DividerImage`, AVIF-first `Picture`, widths+sizes, eager hero / lazy rest) — see `docs/astro-image-optimization.md`.
-- **Orphaned / not reachable from any page**: none. Template `Welcome.astro` deleted during setup. `src/assets/astro.svg` unused (harmless template leftover, remove when real brand art lands).
+- **Orphaned / not reachable from any page**: `molecules/ContactLinks.astro` (static phone/email spans, retained for future use) + `molecules/FormulaStrip.astro` (see below). Template `Welcome.astro` deleted during setup. `src/assets/astro.svg` unused (harmless template leftover, remove when real brand art lands).
 - Challenges section (`add-challenges-section`): `organisms/Challenges.astro` replicates `design/stitch/02-challanges` (content card 7-col + tilted media card 5-col, `lg:-ml-16`, hover lift via `tilt-float` — Stitch's static `-rotate-3` dropped after live measurement showed ~22px badge-text clip at 1024–1280px; offsets `-ml-6`/`-mr-6` = `px-gutter`, verified 0px overflow/clip at 390/768/1024/1280/1440); feature-row Icons are `circle orange lg` (w-12 in Stitch = our `lg`, doc previously said `md` — corrected here and in `atoms-page-global-components.md`); media image is a 512px Stitch placeholder (`src/assets/challenges/`, landscape JPEG cropped via `object-cover` in the `aspect-[4/5]` card, lazy, widths capped at native 512/384); no `Card C1`/`Button`/island in this section.
 - Testimonials section (`add-testimonials-section`, merged from `feature/testimonials`): `organisms/Testimonials.astro` = `03-testimonials` (E2 eyebrow `EVIDENCIA CLÍNICA` + 3-col grid of `molecules/TestimonialCard.astro` over `data/testimonials.ts`, Stitch verbatim ES copy); merge kept main's newer `Hero` (`max-w-[28rem]` card fix), `ContactForm` (`max-w-[32rem]`), `global.css` (products tokens + HUD/image-pan effects) and `hero-section` spec. `id` collision resolved by narrative order: Testimonials keeps `section-3`, Products moved to `section-4`, Hero secondary CTA (`Ver línea Tópico`) retargeted `#section-3` → `#section-4`.
 - Contact section (`add-contact-section`): `organisms/ContactSection.astro` replicates `design/stitch/05-contact-form` content (blob background + `BIOSEGURIDAD` massive type + in-flow header flattened from the Stitch `lg:absolute` overlay per Products precedent) as a simplified static grid in the standard `max-w-max-width` container — left column stacking FAQ + image + disclaimer, right column with the `ContactForm` island at full height; mild skew tilts, no overlap, float disabled (follow-up simplifications of the absolute overlap machine). Deviations from Stitch, all decided in explore: submit is voted `Button primary sm` + `arrow_forward` span (B5-large dropped; span not `Icon` atom — React island boundary); disclaimer sits beside the image in row 2 and stacks visible on mobile (Stitch `hidden lg:flex` dropped — compliance copy). Verified 0px overflow at 390/768/1024/1280/1440 on both `/` and `/contact` (headless, incl. FAQ exclusivity, island hydration, ES validation errors). Contact image is a `src/assets/contact/` placeholder (byte-reuse of the products crop, `TODO(replace)` in README); swap files with no markup change when brand art lands. `ContactForm` shell is now glass grid (`FormRow` `md:grid-cols-2`, pill group, `rows=3`, `flex justify-end` submit) and fully ES (island + store fallbacks + both page headings — the "labels partly EN" note is closed).
@@ -371,6 +392,7 @@ None.
 
 - Outbound-contact removal (2026-09-23): `ContactLinks` now renders phone and email as static text (it no longer imports `NavLink`); `FooterMeta` retains a non-interactive Facebook SVG icon; `site-config` no longer stores WhatsApp, `tel:`, `mailto:`, Facebook, Google Maps embed, or JSON-LD `sameAs` URLs. Google Fonts stylesheet resources remain because they provide the site typography and Material icon glyphs; they are not navigation targets.
 - Testimonial refresh (2026-09-23): the first two entries in `data/testimonials.ts` are MVZ Daniela Ávila and MVZ Alan Doshey Gamborino Prieto, with their supplied local public photos at `public/testimonials/{daniela-avila,alan-gamborino}.webp`; the third testimonial remains unchanged.
+- Footer legal pages (`footer-legal-pages`, 2026-09-30): `FooterMeta` 2 dead spans → 6 `NavLink`s (phone→wa.me new-tab, `/contact` ×2, aviso, `/politica-de-cookies`, `/terminos`); new `data/cookies-policy.md` + `data/terms.md` with matching routes (aviso page pattern, `lang="es"`); `/aviso-de-privacidad` frozen (client copy, untouched); `site-config` identity → frozen aviso values (phone/email/address/legalName + `href`/`wa` keys); `ContactForm` gains blocking consent `Checkbox` (`aceptaAviso`, rich label with aviso/cookie `.link`s, excluded from persist + payload); `Checkbox` atom `label: React.ReactNode` + error span. Decisions: no cookie banner, light non-transactional terms, generic processors, Meta/GA worded as planned, no counsel review (template-grade). Verified `check:palette` clean + `astro build` green (9 routes incl. new legal pages, sitemap auto-lists them).
 
 ### Current Products subtree (2026-09-23)
 
@@ -395,13 +417,14 @@ index.astro and contact.astro
     │   ├── FormRow.tsx ×2 ──► atoms/Input.tsx ×4 (name, clinic, phone, city/state)
     │   ├── atoms/Input.tsx (optional email) + atoms/Textarea.tsx (custom message)
     │   ├── InterestPicker.tsx ──► atoms/Checkbox.tsx ×3 (patient hygiene, spaces/processes, distributor)
+    │   ├── atoms/Checkbox.tsx (consent `aceptaAviso` with aviso/cookie links — `footer-legal-pages`)
     │   ├── atoms/RadioGroup.tsx ×2 (preferred contact method and interest reason)
     │   ├── FormSuccess.tsx ──► atoms/Button.tsx
     │   └── lib/api/contact.ts ──► lib/api/{client, types} + store/contact (type only)
     └── FaqAccordion.astro ──► molecules/FaqItem.astro ×4 + atoms/Icon.astro + data/section-ids
 ```
 
-`store/contact.ts` persists every contact field while excluding transient submission state. Full-form Zod validation requires the contact details, email, both radio selections, a 10-character message, and at least one interest option before `ContactForm.tsx` snapshots Zustand data and submits JSON. The typed endpoint rejects explicit unsuccessful JSON responses and distinguishes timeout, request, and generic errors.
+`store/contact.ts` persists every contact field except `aceptaAviso`, while excluding transient submission state. Full-form Zod validation requires the contact details, email, both radio selections, a 10-character message, at least one interest option, and accepted privacy consent before `ContactForm.tsx` snapshots Zustand data and submits JSON (consent flag stripped from the payload). The typed endpoint rejects explicit unsuccessful JSON responses and distinguishes timeout, request, and generic errors.
 
 ### Current Footer subtree (2026-09-23)
 
@@ -411,7 +434,7 @@ Layout.astro
     └── atoms/BrandLogo.astro (h-16, carga diferida) + contenido estático del footer
 ```
 
-`FooterMeta.astro` conserva su distribución adaptable, logotipo y espaciado originales. El contenido de contacto y canal comercial es estático; el texto de privacidad enlaza a `/aviso-de-privacidad`. `DisclaimerNote.astro` remains reachable through `ContactSection` and now states the non-substitution-of-professional-judgment product notice.
+`FooterMeta.astro` renders BrandLogo + a 6-`NavLink` row (phone→wa.me new-tab, `/contact` ×2, `/aviso-de-privacidad`, `/politica-de-cookies`, `/terminos` — `footer-legal-pages`, 2026-09-30). No email/Facebook in the footer; `ContactLinks` is orphan (static spans, retained for future use). `DisclaimerNote.astro` remains reachable through `ContactSection` and now states the non-substitution-of-professional-judgment product notice.
 
 ### Current Header subtree (2026-09-24)
 

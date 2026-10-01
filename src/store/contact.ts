@@ -14,6 +14,7 @@ const contactFieldsSchema = z.object({
   lineaTopico: z.boolean(),
   lineaInstalaciones: z.boolean(),
   lineaDistribucion: z.boolean(),
+  aceptaAviso: z.boolean().refine((v) => v === true, { message: "Debes aceptar el aviso de privacidad para continuar" }),
 })
 
 export const contactSchema = contactFieldsSchema.refine(
@@ -50,6 +51,7 @@ export const initialState: ContactValues = {
   lineaTopico: false,
   lineaInstalaciones: false,
   lineaDistribucion: false,
+  aceptaAviso: false,
 }
 
 interface ContactStore extends ContactValues {
@@ -164,7 +166,7 @@ export const useContactStore = create<ContactStore>()(
       name: "vetoxzyn-contact-storage",
       storage: createJSONStorage(() => safeStorage),
       partialize: (state) => {
-        const { errors, isLoading, isSubmitted, submitError, ...rest } = state
+        const { errors, isLoading, isSubmitted, submitError, aceptaAviso, ...rest } = state
         return rest
       },
     }

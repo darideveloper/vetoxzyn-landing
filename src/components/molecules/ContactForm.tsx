@@ -1,5 +1,6 @@
 import * as React from "react"
 import { Button } from "@/components/atoms/Button"
+import { Checkbox } from "@/components/atoms/Checkbox"
 import { Input } from "@/components/atoms/Input"
 import { RadioGroup } from "@/components/atoms/RadioGroup"
 import { Textarea } from "@/components/atoms/Textarea"
@@ -121,6 +122,23 @@ export function ContactForm() {
             ]}
           />
           <Textarea field="message" idPrefix="contacto-" label="Mensaje personalizado" placeholder="Especifique sus requerimientos de volumen o dudas adicionales..." rows={3} required />
+          <Checkbox
+            field="aceptaAviso"
+            idPrefix="contacto-"
+            label={
+              <>
+                He leído y acepto el{" "}
+                <a href="/aviso-de-privacidad" className="link cursor-pointer" onClick={(e) => e.stopPropagation()}>
+                  aviso de privacidad
+                </a>{" "}
+                y la{" "}
+                <a href="/politica-de-cookies" className="link cursor-pointer" onClick={(e) => e.stopPropagation()}>
+                  política de cookies
+                </a>
+                .
+              </>
+            }
+          />
           <div className="flex flex-col items-stretch gap-4 pt-6 md:items-end">
             <Button type="submit" size="sm" disabled={isLoading} className="deep-float-shadow group w-full justify-center md:w-auto">
               {isLoading ? "Enviando solicitud…" : "Enviar mi solicitud"}

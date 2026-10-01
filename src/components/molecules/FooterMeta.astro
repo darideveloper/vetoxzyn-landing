@@ -1,18 +1,35 @@
 ---
 import BrandLogo from "../atoms/BrandLogo.astro"
 import NavLink from "../atoms/NavLink.astro"
+import { PHONES } from "@/data/site-config"
 ---
 
-<div class="mx-auto flex max-w-5xl flex-col gap-2 px-4 py-6 text-sm sm:flex-row sm:items-center sm:justify-between">
-  <div class="flex items-center gap-3">
+<div class="mx-auto flex max-w-max-width flex-col items-center gap-4 px-gutter py-8 text-center text-sm sm:flex-row sm:justify-between sm:gap-6 sm:py-10 sm:text-left">
+  <div class="flex shrink-0 items-center gap-3">
     <BrandLogo class="h-16" loading="lazy" />
-    <p>vetoxzyn®</p>
+    <p class="font-display-lg text-lg font-bold tracking-tight">vetoxzyn®</p>
   </div>
-  <p class="flex flex-wrap items-center gap-3 text-on-surface-variant">
-    <span>Contacto</span>
-    <span aria-hidden="true">·</span>
-    <NavLink href="/aviso-de-privacidad">Aviso de Privacidad</NavLink>
-    <span aria-hidden="true">·</span>
-    <span>Canal comercial</span>
+  <p class="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-on-surface-variant sm:justify-end">
+    <span class="inline-flex items-center gap-3">
+      <NavLink href={PHONES.main.wa} target="_blank" rel="noopener" class="py-1 font-semibold">{PHONES.main.formatted}</NavLink>
+      <span aria-hidden="true">·</span>
+    </span>
+    <span class="inline-flex items-center gap-3">
+      <NavLink href="/contact" class="py-1">Contacto</NavLink>
+      <span aria-hidden="true">·</span>
+    </span>
+    <span class="inline-flex items-center gap-3">
+      <NavLink href="/aviso-de-privacidad" class="py-1">Aviso de Privacidad</NavLink>
+      <span aria-hidden="true">·</span>
+    </span>
+    <span class="inline-flex items-center gap-3">
+      <NavLink href="/contact" class="py-1">Canal comercial</NavLink>
+      <span aria-hidden="true">·</span>
+    </span>
+    <span class="inline-flex items-center gap-3">
+      <NavLink href="/politica-de-cookies" class="py-1">Política de Cookies</NavLink>
+      <span aria-hidden="true">·</span>
+    </span>
+    <NavLink href="/terminos" class="py-1">Términos</NavLink>
   </p>
 </div>
