@@ -1,0 +1,16 @@
+---
+import { renderInline } from "@/lib/markdown"
+
+// Renders a short content text node (heading, label, eyebrow, subtitle,
+// quote) as inline rich text at build time. Inline only — never emits a
+// wrapping <p>, so it is safe inside <h1>/<h2>/<span>/<p>/<summary>.
+// Attributes/meta (alt, placeholder, href, SEO) MUST NOT use this.
+interface Props {
+  content: string
+  class?: string
+}
+const { content, class: cls = "" } = Astro.props as Props
+const html = renderInline(content)
+---
+
+<span class:list={[cls]} set:html={html} />

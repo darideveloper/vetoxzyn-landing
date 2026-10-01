@@ -1,0 +1,178 @@
+{
+  "seo": {
+    "title": "vetoxzyn® para distribuidores | Vetoxzyn",
+    "description": "Escalabilidad y margen para tu red de distribución: vetoxzyn®, solución oxidativa de alta pureza para canales mayoristas."
+  },
+  "hero": {
+    "eyebrow": "CANAL DE DISTRIBUCIÓN PECUARIO",
+    "title": "vetoxzyn®: escalabilidad y margen para tu red de distribución.",
+    "subtitle": "Integra a tu catálogo una tecnología oxidativa de alta pureza, con recompra recurrente y respaldo técnico para tus clientes.",
+    "bullets": [
+      {
+        "label": "Para tu catálogo"
+      },
+      {
+        "label": "Volumen y capilaridad"
+      },
+      {
+        "label": "Recompra recurrente"
+      }
+    ],
+    "primaryCta": {
+      "label": "★ Cotiza volúmenes"
+    },
+    "secondaryCta": {
+      "label": "Ver líneas disponibles"
+    },
+    "overlay": {
+      "name": "Socio Crecimiento",
+      "role": "Canal de distribución"
+    },
+    "image": "./hero.webp",
+    "imageAlt": "Instrumental quirúrgico veterinario sobre una bandeja estéril"
+  },
+  "challenges": {
+    "eyebrow": "MUEVE TU INVENTARIO CON CONFIANZA",
+    "title": "Un producto con recompra clara sostiene mejor tu canal.",
+    "subtitle": "Cada línea permite atender un segmento distinto sin complicar tu operación.",
+    "features": [
+      {
+        "title": "Rotación de inventario",
+        "challenge": "Inventario que no rota y márgenes apretados.",
+        "solution": "Dos líneas con usos complementarios que amplían tu oferta sin canibalizarse."
+      },
+      {
+        "title": "Oferta clara para tu cliente",
+        "challenge": "Clientes que piden bioseguridad sin saber qué ofrecer.",
+        "solution": "Material de apoyo técnico-comercial para presentar la solución oxidativa correctamente."
+      },
+      {
+        "title": "Recompra",
+        "challenge": "Productos con recompra lenta.",
+        "solution": "Una base de higiene de uso recurrente que favorece el pedido repetido."
+      }
+    ],
+    "image": "./challenges.webp",
+    "imageAlt": "Personal veterinario atendiendo a un perro sobre una camilla clínica",
+    "badges": {
+      "top": "A tu red",
+      "bottom": "En tus clientes"
+    }
+  },
+  "testimonials": {
+    "eyebrow": "CANAL CONFIABLE",
+    "title": "Lo que dicen los distribuidores",
+    "subtitle": "Experiencias de mayoristas y revendedores que integran tecnología oxidativa a su catálogo.",
+    "entries": [
+      {
+        "quote": "“Llevamos tiempo usándolo en múltiples casos de herida y post operatorios tanto simples como complicados y hemos tenido una evolución favorable de nuestros pacientes es una excelente opción.”",
+        "name": "MVZ Daniela Ávila",
+        "role": "",
+        "accent": "orange",
+        "avatar": "./testimonial-daniela.webp"
+      },
+      {
+        "quote": "“En nuestra práctica con animales no convencionales, Vetoxzyn ha demostrado ser un excelente coadyuvante en el manejo de heridas y lesiones cutáneas. Destaca por su buena tolerancia, baja citotoxicidad y apoyo efectivo en la cicatrización, especialmente en reptiles y aves. Una herramienta confiable dentro del manejo clínico diario.”",
+        "name": "MVZ Alan Doshey Gamborino Prieto",
+        "role": "",
+        "accent": "pink",
+        "avatar": "./testimonial-alan.webp"
+      }
+    ],
+    "divider": "./divider.webp"
+  },
+  "products": {
+    "title": "Líneas para tu canal de distribución",
+    "subtitle": "Presenta ambas líneas con la presentación de mayor volumen para tu operación.",
+    "lines": [
+      {
+        "line": "topico",
+        "title": "Higiene vinculada al paciente",
+        "tagline": "Configuración de uso recurrente para higiene vinculada al paciente, con formatos de consumo frecuente.",
+        "image": "./topico.webp",
+        "imageAlt": "Entorno clínico luminoso de la línea Tópico"
+      },
+      {
+        "line": "instalaciones",
+        "title": "Higiene de espacios y procesos",
+        "tagline": "Configuración orientada a espacios y procesos, con presentaciones de alto volumen (1 L · 4 L · 20 L).",
+        "image": "./instalaciones.webp",
+        "imageAlt": "Entorno clínico de la línea Instalaciones"
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "HABLEMOS DE TU CANAL",
+    "title": "¿Listo para crecer tu canal de distribución?",
+    "subtitle": "Cuéntanos tu zona y volumen estimado para orientar esquemas de suministro.",
+    "backdropWord": "DISTRIBUCIÓN",
+    "image": "./contact.webp",
+    "imageAlt": "Clínica veterinaria de alta tecnología con superficies de vidrio e instrumental metálico bajo luz blanca",
+    "faq": [
+      {
+        "question": "¿Cuáles son los volúmenes mínimos?",
+        "answer": "Los esquemas de suministro se ajustan según tu zona y capacidad de distribución. Compártenos tu volumen estimado y revisamos la configuración comercial aplicable contigo."
+      },
+      {
+        "question": "¿Qué esquemas de distribución manejan?",
+        "answer": "Trabajamos con mayoristas y revendedores regionales. El equipo comercial revisa contigo la cobertura, el abasto y la presentación de cada línea."
+      },
+      {
+        "question": "¿Cómo se sostiene el abasto?",
+        "answer": "La base de higiene es de uso recurrente, lo que favorece el pedido repetido. Los planes de reposición se acuerdan según tu rotación."
+      }
+    ],
+    "form": {
+      "eyebrow": "Cuéntanos sobre tu canal",
+      "title": "Recibe orientación comercial",
+      "nameLabel": "Nombre",
+      "namePlaceholder": "Juan Pérez",
+      "clinicaLabel": "Empresa / Distribuidora",
+      "clinicaPlaceholder": "Distribuidora Agropecuaria del Norte",
+      "telefonoLabel": "Teléfono / WhatsApp",
+      "telefonoPlaceholder": "+52 55 1234 5678",
+      "ciudadLabel": "Ciudad / estado",
+      "ciudadPlaceholder": "Monterrey, Nuevo León",
+      "emailLabel": "Correo electrónico",
+      "emailPlaceholder": "compras@distribuidora.com",
+      "interestsLegend": "¿Qué línea te interesa distribuir?",
+      "interests": {
+        "topico": "Higiene vinculada al paciente",
+        "instalaciones": "Higiene de espacios y procesos",
+        "distribucion": "Distribución"
+      },
+      "medioLabel": "Medio preferido de comunicación",
+      "medioOptions": {
+        "correo": "Correo",
+        "llamada": "Llamada",
+        "whatsapp": "Mensaje de WhatsApp"
+      },
+      "motivoLabel": "Te interesa el producto porque",
+      "motivoOptions": {
+        "problema": "Puede solucionar un problema actual",
+        "informacion": "Quiero informarme más",
+        "incorporacion": "Puedo incorporarlo próximamente"
+      },
+      "messageLabel": "Mensaje personalizado",
+      "messagePlaceholder": "Especifique su zona, volumen estimado o dudas adicionales...",
+      "submitLabel": "Enviar mi solicitud",
+      "submittingLabel": "Enviando solicitud…",
+      "hint": "Revisaremos tu solicitud y te contactaremos por el medio indicado.",
+      "successTitle": "Gracias — tu mensaje fue registrado. Te contactaremos pronto.",
+      "successSubtitle": "Te contactaremos por el medio que indicaste.",
+      "successReset": "Enviar otro mensaje",
+      "errors": {
+        "name": "El nombre es obligatorio",
+        "emailRequired": "El correo electrónico es obligatorio",
+        "emailInvalid": "Correo electrónico inválido",
+        "message": "El mensaje debe tener al menos 10 caracteres",
+        "clinica": "La empresa o distribuidora es obligatoria",
+        "telefono": "Ingresa un teléfono o WhatsApp válido",
+        "ciudad": "La ciudad o estado es obligatorio",
+        "medio": "Selecciona un medio de contacto",
+        "motivo": "Selecciona el motivo de tu interés",
+        "interest": "Selecciona al menos una línea de interés"
+      }
+    }
+  }
+}

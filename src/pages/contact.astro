@@ -3,11 +3,12 @@ import Layout from "@/layouts/Layout.astro"
 import PageSEO from "@/components/seo/PageSEO.astro"
 import ContactSection from "@/components/organisms/ContactSection.astro"
 import SectionHeader from "@/components/molecules/SectionHeader.astro"
+import { DEFAULT_CONTACT } from "@/data/default-contact"
 ---
 
 <Layout>
   <PageSEO currentPage="contact" title="Contacto" slot="seo" />
-  <ContactSection>
+  <ContactSection data={DEFAULT_CONTACT}>
     <SectionHeader level="h1" title="Contáctanos" slot="page-title" />
   </ContactSection>
 </Layout>

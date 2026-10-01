@@ -3,35 +3,38 @@ import { getImage } from "astro:assets"
 import type { ImageMetadata } from "astro"
 import SectionHeader from "@/components/molecules/SectionHeader.astro"
 import ProductPanel from "@/components/molecules/ProductPanel.astro"
+import FormulaStrip from "@/components/molecules/FormulaStrip.astro"
 import { ProductGallery } from "@/components/molecules/ProductGallery"
 import { SECTION_IDS } from "@/data/section-ids"
+import type { ProductsData } from "@/lib/avatars"
 
-// Gallery source: drop files in src/assets/a2-dr-resultados/gallery/
-// (png/webp/jpg/avif). Empty folder (only .gitkeep) → no slides →
-// the strip is skipped. Sorted by path for a stable order.
+interface Props {
+  data: ProductsData
+  slug: string
+}
+const { data, slug } = Astro.props
+
+// Gallery sources are auto-sourced per avatar: drop files in
+// src/content/avatars/es/<slug>/gallery/ (png/webp/jpg/jpeg/avif). Empty
+// folder → no slides → the strip is skipped. Sorted by path for stable order.
 const galleryModules = import.meta.glob<{ default: ImageMetadata }>(
-  "@/assets/a2-dr-resultados/gallery/*.{png,webp,jpg,jpeg,avif}",
+  "@/content/avatars/es/*/gallery/*.{png,webp,jpg,jpeg,avif}",
   { eager: true },
 )
 
 const GALLERY_SOURCES = Object.entries(galleryModules)
+  .filter(([path]) => path.includes(`/es/${slug}/gallery/`))
   .sort(([a], [b]) => a.localeCompare(b))
   .map(([path, mod]) => {
     const file = path.split("/").pop() ?? path
-    const base = file
-      .replace(/\.(png|jpe?g|avif|webp)$/i, "")
-      .replace(/\.webp$/i, "")
+    const base = file.replace(/\.(png|jpe?g|avif|webp)$/i, "")
     const alt = base.replace(/[_-]+/g, " ").replace(/\s+/g, " ").trim()
     return { src: mod.default, alt }
   })
 
-// Gallery masters are ~400px squares, so the strip set stays at/below
-// native width (never the 2048w panel masters, never upscaled).
 const GALLERY_WIDTHS = [256, 320, 400]
 const GALLERY_SIZES = "(max-width: 639px) 82vw, (max-width: 1023px) 46vw, (max-width: 1279px) 31vw, 24vw"
 
-// Astro wrapper: resolve AVIF-first srcsets at build; the .tsx island
-// stays presentational (plain URL strings, never astro:assets).
 const gallerySlides = await Promise.all(
   GALLERY_SOURCES.map(async ({ src, alt }) => {
     const [avif, webp] = await Promise.all([
@@ -46,6 +49,9 @@ const gallerySlides = await Promise.all(
     }
   }),
 )
+
+const lines = data.lines
+const single = lines.length === 1
 ---
 
 <section
@@ -58,41 +64,69 @@ const gallerySlides = await Promise.all(
     <SectionHeader
       align="center"
       id="products-heading"
-      title="Dos contextos de uso, una orientación más clara"
-      subtitle="Identifica primero dónde necesitas integrarlo y después revisa la configuración aplicable a ese uso."
+      title={data.title}
+      subtitle={data.subtitle}
       subtitleClass="mx-auto mt-sm max-w-[28rem] font-body-md text-body-md text-on-surface-variant"
     />
   </div>
 
-  <div class="grid w-full grid-cols-1 lg:grid-cols-2 lg:grid-rows-[100vh_auto]">
-    <div class="min-w-0 lg:col-start-1 lg:row-start-1 lg:row-end-3">
-      <ProductPanel tone="light" />
+  {single ? (
+    <div class="grid w-full grid-cols-1">
+      <div class="min-w-0">
+        <ProductPanel
+          line={lines[0].line}
+          title={lines[0].title}
+          tagline={lines[0].tagline}
+          image={lines[0].image}
+          imageAlt={lines[0].imageAlt}
+          fullWidth
+        />
+      </div>
+      {gallerySlides.length > 0 && (
+        <div class="relative z-20 min-w-0">
+          <div class="relative z-10 mx-auto w-full max-w-5xl px-gutter py-lg">
+            <ProductGallery slides={gallerySlides} sizes={GALLERY_SIZES} client:visible />
+          </div>
+        </div>
+      )}
     </div>
-    {/* client:visible island — no js-reveal/js-products-panel hooks, so the
-        GSAP timeline below never selects it and autoplay never fights scroll.
-        No own background: on lg both panels span rows 1–2, so this row sits
-        directly on their real animated photo backgrounds (same elements,
-        same image-pan — sync is structural, not copied). Mobile stays a
-        plain in-flow strip between the stacked panels.
-        Skipped entirely when the gallery folder is empty. */}
-    {gallerySlides.length > 0 && (
-    <div class="relative z-20 min-w-0 lg:col-span-2 lg:col-start-1 lg:row-start-2">
-      {/* Feathered backdrop-blur over the light/dark seam: the same panel
-          photos keep showing behind the strip, but the hard center edge
-          diffuses so the carousel reads as one stage instead of two halves. */}
-      <div
-        aria-hidden="true"
-        class="pointer-events-none absolute inset-0 z-0 hidden backdrop-blur-md [mask-image:linear-gradient(to_right,transparent,black_30%,black_70%,transparent)] lg:block"
-      ></div>
-      <div class="relative z-10 mx-auto w-full max-w-5xl px-gutter py-lg lg:pt-md lg:pb-xl">
-        <ProductGallery slides={gallerySlides} sizes={GALLERY_SIZES} client:visible />
+  ) : (
+    <div class="grid w-full grid-cols-1 lg:grid-cols-2 lg:grid-rows-[100vh_auto]">
+      <div class="min-w-0 lg:col-start-1 lg:row-start-1 lg:row-end-3">
+        <ProductPanel
+          line={lines[0].line}
+          title={lines[0].title}
+          tagline={lines[0].tagline}
+          image={lines[0].image}
+          imageAlt={lines[0].imageAlt}
+        />
+      </div>
+      {/* client:visible island — no js-reveal/js-products-panel hooks, so the
+          GSAP timeline never selects it and autoplay never fights scroll. */}
+      {gallerySlides.length > 0 && (
+        <div class="relative z-20 min-w-0 lg:col-span-2 lg:col-start-1 lg:row-start-2">
+          <div
+            aria-hidden="true"
+            class="pointer-events-none absolute inset-0 z-0 hidden backdrop-blur-md [mask-image:linear-gradient(to_right,transparent,black_30%,black_70%,transparent)] lg:block"
+          ></div>
+          <div class="relative z-10 mx-auto w-full max-w-5xl px-gutter py-lg lg:pt-md lg:pb-xl">
+            <ProductGallery slides={gallerySlides} sizes={GALLERY_SIZES} client:visible />
+          </div>
+        </div>
+      )}
+      <div class="min-w-0 lg:col-start-2 lg:row-start-1 lg:row-end-3">
+        <ProductPanel
+          line={lines[1].line}
+          title={lines[1].title}
+          tagline={lines[1].tagline}
+          image={lines[1].image}
+          imageAlt={lines[1].imageAlt}
+        />
       </div>
     </div>
-    )}
-    <div class="min-w-0 lg:col-start-2 lg:row-start-1 lg:row-end-3">
-      <ProductPanel tone="dark" />
-    </div>
-  </div>
+  )}
+
+  <FormulaStrip />
 </section>
 
 <script>
@@ -108,7 +142,6 @@ const gallerySlides = await Promise.all(
     mm = gsap.matchMedia()
 
     mm.add("(prefers-reduced-motion: no-preference)", () => {
-      // Unhide so GSAP can measure the natural state BEFORE the .from()
       gsap.set(section.querySelectorAll(".js-products-reveal"), {
         autoAlpha: 1,
         force3D: true,
@@ -127,26 +160,22 @@ const gallerySlides = await Promise.all(
         y: 40,
         duration: 1.2,
         ease: "power4.out",
-      })
-        .from(
-          section.querySelectorAll(".js-products-panel"),
-          {
-            autoAlpha: 0,
-            y: 60,
-            duration: 1.2,
-            stagger: 0.2,
-            ease: "expo.out",
-          },
-          "-=0.8",
-        )
+      }).from(
+        section.querySelectorAll(".js-products-panel"),
+        {
+          autoAlpha: 0,
+          y: 60,
+          duration: 1.2,
+          stagger: 0.2,
+          ease: "expo.out",
+        },
+        "-=0.8",
+      )
     })
 
     mm.add("(prefers-reduced-motion: reduce)", () => {
       const targets = section.querySelectorAll(".js-products-reveal")
 
-      // Already in view (short page, tall viewport, restored scroll):
-      // onEnter would never fire, so reveal immediately instead of
-      // sticking hidden.
       if (ScrollTrigger.isInViewport(section as Element)) {
         gsap.set(targets, { autoAlpha: 1 })
         return

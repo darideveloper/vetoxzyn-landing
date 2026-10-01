@@ -1,18 +1,20 @@
 ---
 import Icon from "../atoms/Icon.astro"
 
-const bullets = [
-  { icon: "local_hospital", label: "Para clínica" },
-  { icon: "workspaces", label: "Áreas de trabajo" },
-  { icon: "cleaning_services", label: "Procesos de higiene" },
-]
+interface Props {
+  labels: string[]
+}
+const { labels } = Astro.props
+
+// Icons are global code constants (no per-avatar icon customization).
+const ICONS = ["local_hospital", "workspaces", "cleaning_services"]
 ---
 
 <ul class="js-hero-bullets js-hero-reveal js-reveal mt-sm flex w-fit flex-col gap-sm">
-  {bullets.map((b) => (
+  {labels.map((label, i) => (
     <li class="flex items-center gap-md">
-      <Icon name={b.icon} filled />
-      <span class="text-body-md text-on-surface-variant">{b.label}</span>
+      <Icon name={ICONS[i] ?? ICONS[ICONS.length - 1]} filled />
+      <span class="text-body-md text-on-surface-variant">{label}</span>
     </li>
   ))}
 </ul>

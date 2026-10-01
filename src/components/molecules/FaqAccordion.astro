@@ -3,29 +3,15 @@ import Icon from "../atoms/Icon.astro"
 import FaqItem from "./FaqItem.astro"
 import { SECTION_IDS } from "@/data/section-ids"
 
+interface Faq {
+  question: string
+  answer: string
+}
 interface Props {
+  faqs: Faq[]
   class?: string
 }
-const { class: cls = "" } = Astro.props
-
-const faqs = [
-  {
-    q: "¿Qué es vetoxzyn®?",
-    a: "Es una solución oxidativa de pH neutro a base de ácido hipocloroso (HOCl) de alta estabilidad, obtenida por electrólisis. Es la misma molécula que producen de forma natural los glóbulos blancos. Se clasifica como auxiliar de higiene y bioseguridad integral. No es un medicamento.",
-  },
-  {
-    q: "¿Puedo usarlo directamente con pacientes?",
-    a: "Sí. La línea vinculada a la higiene del paciente viene lista para usar: higiene de heridas superficiales, mucosas externas, zonas postquirúrgicas y ombligo de neonatos. No arde, no mancha y no requiere enjuague.",
-  },
-  {
-    q: "¿Puede utilizarse en superficies de la clínica?",
-    a: "Sí, con la línea de higiene de espacios y procesos (500 ppm concentrada). Para superficies se diluye 1:10. En material de acero inoxidable se utiliza directo, sin diluir; para otros materiales, 1:10 con agua destilada. No provoca corrosión.",
-  },
-  {
-    q: "¿Qué presentaciones existen?",
-    a: "Higiene del paciente: 60, 120, 240, 480 y 950 ml. Higiene de espacios y procesos: 4 L y 23 L. Los formatos de 200 L y 1,000 L se revisan con el equipo comercial de la marca.",
-  },
-]
+const { faqs, class: cls = "" } = Astro.props
 ---
 
 <div data-faq id={SECTION_IDS.contactoFaq} class:list={["glass-panel-heavy w-full rounded-3xl p-8 shadow-2xl backdrop-blur-md rotate-[1deg] lg:rotate-[3deg]", cls]}>
@@ -35,7 +21,7 @@ const faqs = [
   </div>
   <div class="space-y-3">
     {faqs.map((f) => (
-      <FaqItem q={f.q} a={f.a} />
+      <FaqItem q={f.question} a={f.answer} />
     ))}
   </div>
 </div>

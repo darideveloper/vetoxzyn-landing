@@ -1,23 +1,21 @@
 ## Purpose
 
 Swiper gallery proof strip (`ProductGallery`) inside `#productos` — 7 product presentations with calm autoplay, deferred hydration, and small-width images.
-
 ## Requirements
-
 ### Requirement: Gallery slide content and Spanish alts
-The system SHALL render a `ProductGallery` island with image-only slides sourced automatically from `src/assets/a2-dr-resultados/gallery/` via eager `import.meta.glob` (matching `png`, `webp`, `jpg`, `jpeg`, `avif`), sorted by path for a stable order, each with a Spanish alt text derived from its filename (separators `_-` become spaces, stacked extensions stripped). Slide image URLs/srcsets SHALL be resolved by an Astro wrapper (via `astro:assets`) and passed as plain string props — the `.tsx` island stays presentational and never imports `astro:assets` components directly.
+The system SHALL render a `ProductGallery` island with image-only slides sourced automatically from the **current avatar's co-located gallery folder** (`src/content/avatars/es/<slug>/gallery/`) via eager `import.meta.glob` (matching `png`, `webp`, `jpg`, `jpeg`, `avif`) resolved per avatar, sorted by path for a stable order, each with a Spanish alt text derived from its filename (separators `_-` become spaces, stacked extensions stripped) or provided in JSON. JSON-provided alts SHALL remain plain strings (never markdown-rendered), and every slide image field SHALL resolve via the collection `image()` helper (or the `import.meta.glob` registry fallback). Slide image URLs/srcsets SHALL be resolved by an Astro wrapper (via `astro:assets`) and passed as plain string props — the `.tsx` island stays presentational and never imports `astro:assets` components directly.
 
 #### Scenario: Auto-sourced presentations visible
-- **WHEN** a visitor reaches the gallery strip
-- **THEN** one slide appears per image file in the gallery folder in filename order, each showing one product image with no text overlay, arrows, or dots
+- **WHEN** a visitor reaches the gallery strip on an avatar page
+- **THEN** one slide appears per image file in that avatar's gallery source in filename order, each showing one product image with no text overlay, arrows, or dots
 
 #### Scenario: Screen-reader names
 - **WHEN** a screen reader traverses the slides
-- **THEN** each image announces its filename-derived Spanish alt (e.g. `Envase AtomizadorVetoxzyn 120ml`) and decorative layers are silent
+- **THEN** each image announces its Spanish alt (filename-derived or JSON-provided) and decorative layers are silent
 
 #### Scenario: Empty folder skips the strip
-- **WHEN** the gallery folder contains no image files
-- **THEN** no gallery region, slide, or seam-blur markup renders and no gallery JS hydrates
+- **WHEN** an avatar's gallery source contains no image files
+- **THEN** no gallery region, slide, or seam-blur markup renders, the panels still render, and no gallery JS hydrates
 
 ### Requirement: Responsive peek-and-grow columns
 The system SHALL drive visible columns via Swiper breakpoints: `1.2` with peek on mobile, `2` from `640px`, `3` from `1024px`, `4` from `1280px`, with `spaceBetween` growing per step.
@@ -96,3 +94,4 @@ Gallery masters are transparent cutouts, so each slide SHALL render inside one c
 #### Scenario: Legible on every background
 - **WHEN** a slide renders over the light half, the dark half, or the mobile page background
 - **THEN** the product is legible against the same ice-glass plate, with the image contained (never cropped) and elevation declared once (shadow plus glass hairline, no extra border invention)
+

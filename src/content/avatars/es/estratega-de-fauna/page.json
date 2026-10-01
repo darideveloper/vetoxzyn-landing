@@ -1,0 +1,178 @@
+{
+  "seo": {
+    "title": "vetoxzyn® para fauna y recintos | Vetoxzyn",
+    "description": "Inocuidad extrema para proyectos de fauna: higiene oxidativa en recintos y proyectos de conservación."
+  },
+  "hero": {
+    "eyebrow": "BIOSEGURIDAD PARA FAUNA Y RECINTOS",
+    "title": "vetoxzyn®: inocuidad extrema para tus proyectos de fauna.",
+    "subtitle": "Tecnología oxidativa de alta pureza para protocolos de higiene en especies sensibles.",
+    "bullets": [
+      {
+        "label": "Recintos"
+      },
+      {
+        "label": "Especies sensibles"
+      },
+      {
+        "label": "Proyectos de prestigio"
+      }
+    ],
+    "primaryCta": {
+      "label": "★ Agenda una asesoría"
+    },
+    "secondaryCta": {
+      "label": "Ver líneas"
+    },
+    "overlay": {
+      "name": "Estratega de Fauna",
+      "role": "Fauna y conservación"
+    },
+    "image": "./hero.webp",
+    "imageAlt": "Instrumental quirúrgico veterinario sobre una bandeja estéril"
+  },
+  "challenges": {
+    "eyebrow": "INOOCUIDAD QUE RESPALDA TU PROYECTO",
+    "title": "Las especies sensibles exigen un protocolo igual de serio.",
+    "subtitle": "Cada recinto permite ordenar mejor la higiene de tu proyecto.",
+    "features": [
+      {
+        "title": "Especies sensibles",
+        "challenge": "Especies sensibles que exigen inocuidad extrema.",
+        "solution": "Alta seguridad en tejido vivo, sin daño tisular severo."
+      },
+      {
+        "title": "Recintos",
+        "challenge": "Recintos difíciles de higienizar sin riesgo.",
+        "solution": "Limpieza externa especializada con tecnología oxidativa."
+      },
+      {
+        "title": "Imagen institucional",
+        "challenge": "Imagen institucional que exige cero incidentes.",
+        "solution": "Protocolos documentados de bioseguridad, sin residuos persistentes."
+      }
+    ],
+    "image": "./challenges.webp",
+    "imageAlt": "Personal veterinario atendiendo a un perro sobre una camilla clínica",
+    "badges": {
+      "top": "En tus animales",
+      "bottom": "En tus recintos"
+    }
+  },
+  "testimonials": {
+    "eyebrow": "EVIDENCIA DE CAMPO",
+    "title": "Lo que dicen los especialistas en fauna",
+    "subtitle": "Experiencias documentadas sobre la integración de tecnología oxidativa en proyectos de fauna.",
+    "entries": [
+      {
+        "quote": "“Llevamos tiempo usándolo en múltiples casos de herida y post operatorios tanto simples como complicados y hemos tenido una evolución favorable de nuestros pacientes es una excelente opción.”",
+        "name": "MVZ Daniela Ávila",
+        "role": "",
+        "accent": "orange",
+        "avatar": "./testimonial-daniela.webp"
+      },
+      {
+        "quote": "“En nuestra práctica con animales no convencionales, Vetoxzyn ha demostrado ser un excelente coadyuvante en el manejo de heridas y lesiones cutáneas. Destaca por su buena tolerancia, baja citotoxicidad y apoyo efectivo en la cicatrización, especialmente en reptiles y aves. Una herramienta confiable dentro del manejo clínico diario.”",
+        "name": "MVZ Alan Doshey Gamborino Prieto",
+        "role": "",
+        "accent": "pink",
+        "avatar": "./testimonial-alan.webp"
+      }
+    ],
+    "divider": "./divider.webp"
+  },
+  "products": {
+    "title": "Líneas para tus recintos",
+    "subtitle": "Ambas líneas permiten atender el cuidado de especies sensibles y la higiene de recintos.",
+    "lines": [
+      {
+        "line": "topico",
+        "title": "Higiene vinculada al animal",
+        "tagline": "Configuración de alta tolerancia para limpieza externa de piel y mucosas en especies sensibles.",
+        "image": "./topico.webp",
+        "imageAlt": "Entorno clínico luminoso de la línea Tópico"
+      },
+      {
+        "line": "instalaciones",
+        "title": "Higiene de espacios y recintos",
+        "tagline": "Configuración para superficies, recintos y agua, con tecnología oxidativa sin residuos persistentes.",
+        "image": "./instalaciones.webp",
+        "imageAlt": "Entorno clínico de la línea Instalaciones"
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "PROYECTOS DE FAUNA",
+    "title": "¿Listo para tus proyectos de fauna?",
+    "subtitle": "Cuéntanos sobre tus especies y recintos y te orientamos según tu contexto de trabajo.",
+    "backdropWord": "BIOSEGURIDAD",
+    "image": "./contact.webp",
+    "imageAlt": "Clínica veterinaria de alta tecnología con superficies de vidrio e instrumental metálico bajo luz blanca",
+    "faq": [
+      {
+        "question": "¿Es seguro en especies sensibles?",
+        "answer": "Es una solución oxidativa biomimética de alta pureza, con alta seguridad en tejido vivo y muy baja irritabilidad. No genera residuos persistentes ni induce resistencia microbiana; su función principal es la higiene."
+      },
+      {
+        "question": "¿Puede usarse en recintos con animales?",
+        "answer": "Sí, dentro de protocolos de higiene de superficies y recintos. El equipo orienta la dilución y el método según el tipo de recinto y de especie."
+      },
+      {
+        "question": "¿Qué respaldo técnico ofrecen?",
+        "answer": "Se acompaña el proyecto con protocolos documentados de bioseguridad y las fichas técnicas de cada línea, para respaldar tu operación e imagen institucional."
+      }
+    ],
+    "form": {
+      "eyebrow": "Cuéntanos sobre tu proyecto",
+      "title": "Recibe orientación para tu proyecto",
+      "nameLabel": "Nombre",
+      "namePlaceholder": "Juan Pérez",
+      "clinicaLabel": "Institución / Proyecto",
+      "clinicaPlaceholder": "Zoológico / Centro de rescate",
+      "telefonoLabel": "Teléfono / WhatsApp",
+      "telefonoPlaceholder": "+52 55 1234 5678",
+      "ciudadLabel": "Ciudad / estado",
+      "ciudadPlaceholder": "Celaya, Guanajuato",
+      "emailLabel": "Correo electrónico",
+      "emailPlaceholder": "contacto@proyecto.com",
+      "interestsLegend": "¿Qué configuración te interesa?",
+      "interests": {
+        "topico": "Higiene vinculada al animal",
+        "instalaciones": "Higiene de espacios y recintos",
+        "distribucion": "Distribución"
+      },
+      "medioLabel": "Medio preferido de comunicación",
+      "medioOptions": {
+        "correo": "Correo",
+        "llamada": "Llamada",
+        "whatsapp": "Mensaje de WhatsApp"
+      },
+      "motivoLabel": "Te interesa el producto porque",
+      "motivoOptions": {
+        "problema": "Puede solucionar un problema actual",
+        "informacion": "Quiero informarme más",
+        "incorporacion": "Puedo incorporarlo próximamente"
+      },
+      "messageLabel": "Mensaje personalizado",
+      "messagePlaceholder": "Especifique sus especies, recintos o dudas adicionales...",
+      "submitLabel": "Enviar mi solicitud",
+      "submittingLabel": "Enviando solicitud…",
+      "hint": "Revisaremos tu solicitud y te contactaremos por el medio indicado.",
+      "successTitle": "Gracias — tu mensaje fue registrado. Te contactaremos pronto.",
+      "successSubtitle": "Te contactaremos por el medio que indicaste.",
+      "successReset": "Enviar otro mensaje",
+      "errors": {
+        "name": "El nombre es obligatorio",
+        "emailRequired": "El correo electrónico es obligatorio",
+        "emailInvalid": "Correo electrónico inválido",
+        "message": "El mensaje debe tener al menos 10 caracteres",
+        "clinica": "La institución o proyecto es obligatorio",
+        "telefono": "Ingresa un teléfono o WhatsApp válido",
+        "ciudad": "La ciudad o estado es obligatorio",
+        "medio": "Selecciona un medio de contacto",
+        "motivo": "Selecciona el motivo de tu interés",
+        "interest": "Selecciona al menos una configuración de interés"
+      }
+    }
+  }
+}

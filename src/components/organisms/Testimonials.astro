@@ -3,27 +3,25 @@ import DividerImage from "@/components/atoms/DividerImage.astro"
 import SectionHeader from "@/components/molecules/SectionHeader.astro"
 import TestimonialCard from "@/components/molecules/TestimonialCard.astro"
 import { SECTION_IDS } from "@/data/section-ids"
-import type { Testimonial } from "@/lib/testimonials"
-import divider1 from "@/assets/dividers/divider-1.webp"
-import divider2 from "@/assets/dividers/divider-2.webp"
-
-const DIVIDERS: ImageMetadata[] = [divider1, divider2]
+import type { TestimonialsData } from "@/lib/avatars"
 
 interface Props {
-  testimonials: readonly Testimonial[]
+  data: TestimonialsData
   id?: string
   headingId?: string
 }
 
-const {
-  testimonials,
-  id = SECTION_IDS.testimonios,
-  headingId = "testimonials-heading",
-} = Astro.props
+const { data, id = SECTION_IDS.testimonios, headingId = "testimonials-heading" } = Astro.props
+
+const testimonials = data.entries
 
 if (testimonials.length !== 2 && testimonials.length !== 3) {
   throw new Error("Testimonials requires exactly 2 or 3 testimonials")
 }
+
+// A single decorative divider is reused between cards; when absent, cards
+// stack without strips.
+const divider = data.divider
 
 const gridClass = testimonials.length === 2
   ? "mt-12 grid grid-cols-1 gap-gutter min-[980px]:grid-cols-[1fr_5vw_1fr]"
@@ -38,11 +36,11 @@ const gridClass = testimonials.length === 2
     <div class="js-testimonials-header js-testimonials-reveal js-reveal mb-xl text-center">
       <SectionHeader
         align="center"
-        eyebrow="EVIDENCIA CLÍNICA"
+        eyebrow={data.eyebrow}
         id={headingId}
-        title="Lo que dicen los veterinarios"
+        title={data.title}
         titleClass="mt-4"
-        subtitle="Experiencias reales documentadas sobre la integración de matrices bioseguras en la práctica clínica diaria."
+        subtitle={data.subtitle}
         subtitleClass="mx-auto mt-4 max-w-2xl font-body-lg text-body-lg text-on-surface-variant"
       />
     </div>
@@ -50,9 +48,9 @@ const gridClass = testimonials.length === 2
       {testimonials.map((t, i) => (
         <>
           <TestimonialCard quote={t.quote} name={t.name} role={t.role} accent={t.accent} avatar={t.avatar} />
-          {i < testimonials.length - 1 && (
+          {divider && i < testimonials.length - 1 && (
             <div aria-hidden="true" class="js-testimonials-divider js-testimonials-reveal js-reveal h-24 w-full overflow-hidden rounded-xl min-[980px]:h-[60%] min-[980px]:self-center">
-              <DividerImage src={DIVIDERS[i]} />
+              <DividerImage src={divider} />
             </div>
           )}
         </>

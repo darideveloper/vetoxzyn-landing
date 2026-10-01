@@ -1,5 +1,7 @@
-## ADDED Requirements
+## Purpose
 
+Static ContactSection shell (`#contacto`) with FAQ, media/disclaimer layer, and the ContactForm island.
+## Requirements
 ### Requirement: Contact section structure and anchors
 The system SHALL render a static `organisms/ContactSection.astro` shell on `/` as `section#section-5` and reused on `/contact`, composed of a transparent shell over the global fixed wash carrying a section-local tint/blur overlay plus the section-scoped blob background (`ContactBackdrop`: organic blobs with giant rotated `BIOSEGURIDAD` massive type), an in-flow header flattened from the Stitch `lg:absolute top-left` overlay (per Products header-flattening precedent; H2 with gradient `bioseguridad` span + sub copy), and a static 12-column grid inside the standard `max-w-max-width` container: left column (5 cols) stacking FAQ panel + image + disclaimer, right column (7 cols) with the glass `ContactForm` spanning full height. Mild Stitch skew on all viewports — base tilt on mobile (form `-1deg`, FAQ `+1deg`, image `-1deg`), stronger at desktop (form `-2deg` + `hover:rotate-0`, FAQ `+3deg`, image `-3deg`) — with no inter-card overlap; float animation disabled. No client-side framework SHALL be required except the single `ContactForm` island (`client:load`) and the inline FAQ exclusive-open script.
 
@@ -20,11 +22,11 @@ The system SHALL render a static `organisms/ContactSection.astro` shell on `/` a
 - **THEN** the section shows its tinted blur overlay + organic blobs + giant `BIOSEGURIDAD` above the continuous global wash (no `bg-surface-ice` fill on the shell), reading as a distinct region with unchanged glass-panel contrast
 
 ### Requirement: Contact header and background copy
-The organism SHALL use the exact Stitch ES strings: H2 `¿Listo para elevar la bioseguridad de tu clínica?` (with `bioseguridad` as gradient `from-brand-orange to-brand-pink` span), sub `Inicie el protocolo de integración biológica. Conecte su infraestructura con la precisión clínica de nuestra matriz oxidativa.`, and background massive word `BIOSEGURIDAD` (`font-impact text-massive`, `opacity-[0.03]`, `-rotate-12`).
+The organism SHALL render its eyebrow, H2, subtitle, and background massive word from the avatar data prop (previously fixed to `¿Listo para elevar la bioseguridad de tu clínica?` with the `bioseguridad` gradient span and `BIOSEGURIDAD` backdrop word), keeping the gradient-span treatment and the `opacity-[0.03]` rotated backdrop style.
 
-#### Scenario: Copy fidelity
-- **WHEN** the section renders
-- **THEN** the H2, gradient span, sub, and background word match the Stitch source verbatim (including accents and casing)
+#### Scenario: Copy per avatar
+- **WHEN** the section renders for a given avatar
+- **THEN** the H2 (with its gradient span), sub, and background word match that avatar's JSON values verbatim, including accents and casing
 
 ### Requirement: Voted atom reuse with zero atom edits
 The section SHALL reuse standardized atoms with no atom file modifications: `Input` F1 ×4 (Nombre→`name`, Clínica / Hospital→`clinica`, Teléfono / WhatsApp→`telefono`, Correo→`email`), `Checkbox` F2 ×3 (`lineaTopico`/`lineaInstalaciones`/`lineaDistribucion` → Tópico/Instalaciones/Distribución), `Textarea` F3 ×1 (Mensaje, `rows=3`), `Button variant="primary" size="sm"` right-aligned in `flex justify-end` with an `arrow_forward` glyph passed as a `span` child (NOT the `Icon` atom — `ContactForm` is a React island and cannot import `Icon.astro`; hero/product CTA precedent), `Icon variant="circle" tone="pink" size="lg" filled name="info"` (FAQ header), `Icon variant="bare" tone="orange" name="add_circle"` ×3 with `group-open:rotate-180` toggle class, and `Icon variant="bare" tone="orange" filled name="warning"` (disclaimer). Shells SHALL be bespoke `glass-panel-heavy rounded-3xl` (NOT `Card C1`).
@@ -34,7 +36,7 @@ The section SHALL reuse standardized atoms with no atom file modifications: `Inp
 - **THEN** all 4 inputs, 3 line pills, message area, sm submit, FAQ avatar/toggles, and disclaimer icon render via the voted variants above with no new atom or variant introduced
 
 ### Requirement: FAQ accordion content and exclusive behavior
-The FAQ panel SHALL show title `Frecuencia de Diagnóstico` and exactly 3 native `<details>` items with Stitch ES Q/A verbatim (`¿Es un desinfectante clínico de grado médico?`, `¿Cura heridas profundas o infectadas?`, `¿Deja residuos en quirófano?` + their answers), each `summary` carrying the bare `add_circle` toggle; an inline section-scoped script SHALL enforce exclusive single-open (opening one closes the others), matching Stitch behavior.
+The FAQ panel SHALL render its items (2–3 native `<details>`, Q/A) from the avatar data prop, each `summary` carrying the bare `add_circle` toggle; an inline section-scoped script SHALL enforce exclusive single-open (opening one closes the others).
 
 #### Scenario: Exclusive accordion
 - **WHEN** a visitor opens the second FAQ item while the first is open
@@ -45,11 +47,15 @@ The FAQ panel SHALL show title `Frecuencia de Diagnóstico` and exactly 3 native
 - **THEN** all headings, form labels, FAQ questions, and disclaimer render as static HTML and each `<details>` still opens natively (multi-open fallback)
 
 ### Requirement: Image and disclaimer layer
-The layer SHALL render the local master `src/assets/contact/contact-clinica.webp` (3200×1800 16:9) via `astro:assets Image` (`loading="lazy"`, `widths [640, 1024, 1600]`, `decoding="async"`, `border-4 border-on-primary/80 rounded-3xl`) inside a fixed-ratio container (`aspect-[16/9] w-full overflow-hidden`, image `h-full w-full object-cover`) — no external `googleusercontent` hotlink SHALL remain — with the `glass-panel-heavy rounded-2xl border-l-4 border-l-brand-orange` disclaimer box beside/below it carrying the bare `warning` icon and caption `Aviso Importante: vetoxzyn® no es un medicamento, consulte a su médico veterinario.` The layer SHALL stack visible on mobile (deliberate deviation from Stitch `hidden lg:flex`).
+The layer SHALL render the local contact image resolved from the avatar's co-located content folder via the collection `image()` helper and `astro:assets` (`loading="lazy"`, responsive widths, `decoding="async"`, bordered rounded container) — no external hotlink SHALL remain — with the `glass-panel-heavy` disclaimer box beside/below it carrying the bare `warning` icon and the **global** disclaimer caption (`Aviso Importante: vetoxzyn® no es un medicamento, consulte a su médico veterinario.`). The layer SHALL stack visible on mobile.
 
 #### Scenario: Local optimized render
-- **WHEN** the page builds and loads `/` or `/contact`
-- **THEN** the contact image is served from the `contact-clinica.webp` build output (responsive WebP with `widths [640, 1024, 1600]`) filling its `16/9` container with cover crop, and the disclaimer caption is visible at 390px width without horizontal scroll
+- **WHEN** an avatar page builds and loads
+- **THEN** the contact image is served from that avatar's build output filling its ratio container with cover crop, and the disclaimer caption is visible at 390px width without horizontal scroll
+
+#### Scenario: Disclaimer is global and always present
+- **WHEN** any avatar page renders the contact section
+- **THEN** the disclaimer text equals the single global disclaimer definition and cannot be omitted or varied per avatar
 
 ### Requirement: Responsive overlap without overflow
 Mobile SHALL stack header → form → FAQ → image → disclaimer single-column with the base skew tilts; desktop (`lg:`) SHALL lay the same DOM order out as a static 12-column grid (left column `FAQ + image + disclaimer` on cols 1–5, form on cols 6–12 spanning all three rows, `gap-10`) with stronger skew tilts, no absolute positioning, and no inter-card overlap, inside an `overflow-x-clip` container with zero horizontal overflow at 390/768/1024/1280/1440px.
@@ -68,3 +74,4 @@ Mobile SHALL stack header → form → FAQ → image → disclaimer single-colum
 #### Scenario: Reduced motion
 - **WHEN** a visitor prefers reduced motion
 - **THEN** blob morph and float animations are disabled while all content remains fully visible and positioned
+

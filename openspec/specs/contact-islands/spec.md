@@ -1,5 +1,7 @@
-## ADDED Requirements
+## Purpose
 
+Contact form store, vanilla self-bound atoms, and the ContactForm production island.
+## Requirements
 ### Requirement: Contact store with Zod validation and persist
 The system SHALL provide `src/store/contact.ts` (contactSchema: name non-empty, email valid, message min 10 chars; `clinica`/`telefono` optional free strings; `lineaTopico`/`lineaInstalaciones`/`lineaDistribucion` booleans defaulting false; `buildFieldSchemaMap` enforcing unique field names; `setField` validating per-keystroke; `validateAll()` for submit; `reset()`; `isSubmitted`/`isLoading` transient flags) persisted to localStorage under `vetoxzyn-contact-storage` with `partialize` stripping `errors`, `isLoading`, `isSubmitted`. `src/store/useField.ts` SHALL provide the hydration-safe hook (`mounted` gate, `initialState` fallback, dotted-path support).
 
@@ -23,19 +25,20 @@ The system SHALL provide `src/store/contact.ts` (contactSchema: name non-empty, 
 - **THEN** the input displays the store value, writes through `setValue` on change, and shows the field error without any wrapper component
 
 ### Requirement: ContactForm molecule as production island
-`src/components/molecules/ContactForm.tsx` SHALL compose the atoms inside a `glass-panel-heavy rounded-3xl p-10 md:p-14` card shell with Stitch skew on all viewports (`rotate-[-1deg]` base + `hover:rotate-0`, `lg:rotate-[-2deg]` at desktop), spanning the right column of the contact grid at full height (full-width stacked on mobile): a `grid grid-cols-1 md:grid-cols-2 gap-8` of the 4 inputs (name, clinica, telefono, email), a `¿Qué línea te interesa?` pill group (`flex flex-wrap gap-3`) of the linea checkbox trio, a Mensaje textarea with `rows=3`, and a `pt-6 flex justify-end` submit row with `Button type="submit" size="sm" variant="primary"` + `arrow_forward` `span` child (NOT the `Icon` atom — React island boundary); it SHALL read `errors`/`isSubmitted` from the store, run `validateAll()` on submit, and be mounted from an Astro page with `client:load`; all surrounding page content SHALL remain static Astro HTML. Submit SHALL be handled fully client-side (`onSubmit` with `preventDefault`, button `onClick` path) and SHALL NOT trigger a native `<form>` navigation through the ClientRouter.
+`src/components/molecules/ContactForm.tsx` SHALL compose the atoms inside a `glass-panel-heavy rounded-3xl p-10 md:p-14` card shell with Stitch skew, spanning the right column of the contact grid at full height (full-width stacked on mobile): a `grid grid-cols-1 md:grid-cols-2 gap-8` of the avatar-declared inputs, the avatar's interest checkboxes, an avatar-declared message textarea, and a right-aligned submit row with `Button type="submit" size="sm" variant="primary"` + `arrow_forward` `span` child (NOT the `Icon` atom — React island boundary); it SHALL receive all per-avatar copy (labels, placeholders, interest labels, radio options, heading/eyebrow, validation messages) as serializable props, read `errors`/`isSubmitted` from the store, run validation on submit, and be mounted from the page with `client:load`; all surrounding page content SHALL remain static Astro HTML. Submit SHALL be handled fully client-side and SHALL NOT trigger a native `<form>` navigation through the ClientRouter.
 
 #### Scenario: Static page with one island
-- **WHEN** the landing page loads with JS disabled
+- **WHEN** an avatar page loads with JS disabled
 - **THEN** all headings, copy, and layout render as static HTML while only the form island requires hydration; with JS enabled the form is interactive on load
 
-#### Scenario: Glass grid shell
-- **WHEN** the form renders inside `ContactSection`
-- **THEN** inputs sit in a 2-column grid on desktop (stacked on mobile), line pills wrap in a flex group, the message area shows 3 rows, and the sm submit sits right-aligned with an arrow glyph
+#### Scenario: Per-avatar copy props
+- **WHEN** the form renders on two different avatar pages
+- **THEN** its labels, placeholders, interest options, and heading reflect each avatar's supplied copy, with safe Spanish defaults applied for any omitted string
 
 ### Requirement: ContactForm fully in Spanish
-All user-facing `ContactForm` strings SHALL be Spanish: labels (Nombre, Clínica / Hospital, Teléfono / WhatsApp, Correo, Mensaje), placeholders, submit/success buttons (Enviar solicitud, Enviar otro mensaje), success message, and Zod validation messages in `contactSchema`. NO English UI string SHALL remain in the molecule or its schema messages.
+All user-facing `ContactForm` strings SHALL be Spanish, whether supplied per avatar (labels, placeholders, interest labels, radio options, buttons, success message) or held as defaults, and the Zod validation messages SHALL be provided per avatar with Spanish defaults in `contactSchema`.
 
 #### Scenario: Spanish-only form
-- **WHEN** a user opens any page embedding `ContactForm` and submits it empty
+- **WHEN** a user opens an avatar page embedding `ContactForm` and submits it empty
 - **THEN** every label, placeholder, button, and validation error reads in Spanish with zero English strings
+

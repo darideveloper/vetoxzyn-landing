@@ -20,20 +20,27 @@ Living reference of how pages compose components (and subcomponents) in this pro
 
 ## Pages layer
 
-File-based routing, SSG (`output` default `static`, no SSR adapter). No catch-all, no content collections, no i18n.
+File-based routing, SSG (`output` default `static`, no SSR adapter). One content collection (`avatars`, JSON + co-located images). No catch-all beyond `[slug]`, no i18n.
 
 ```
 src/pages/ (prod routes — everything here ships in dist/ + sitemap)
-├── index.astro       ← landing: hero + challenges + testimonials + products + ContactForm island
+├── index.astro       ← dummy placeholder (single <h1>, noindex, excluded from sitemap)
+├── [slug].astro      ← avatar pages: getStaticPaths over `avatars` collection
+│                        → /dr-resultados, /socio-crecimiento, /ingeniero-eficiencia,
+│                          /guardian-de-aire, /estratega-de-fauna, /dueno-responsable
 ├── about.astro       ← static content page
 ├── aviso-de-privacidad.astro ← build-time Markdown privacy notice
-├── contact.astro     ← branded H1 (SectionHeader h1) + ContactSection organism
+├── contact.astro     ← branded H1 (SectionHeader h1) + ContactSection organism (DEFAULT_CONTACT)
 ├── 404.astro         ← branded ES not-found (SectionHeader h1 + B2/B3 CTAs + sitemap), flex-1 centered
 └── robots.txt.ts     ← API route (dynamic robots.txt), no components
 
+src/content/avatars/es/<slug>/ (content collection source — not a route)
+├── page.json         ← per-avatar content (hero, challenges, testimonials, products, contact, seo)
+└── *.webp + gallery/ ← co-located images (resolved via the collection `image()` helper)
+
 src/dev-pages/ (dev-only — injected via devOnlyPages() on `astro dev`,
 never emitted to dist/, never in sitemap; add top-level *.astro for a new
-dev route, `_*` files are helpers)
+dev route, `*_` files are helpers)
 ├── design-system.astro ← dev showcase: all atoms + variants (see below)
 └── _demos.tsx        ← page-local React island for design-system (demo store, never a route)
 ```
@@ -61,58 +68,49 @@ Pages are few, so per-page trees below are the reference. Overview:
 
 ## Per-page trees
 
-### index.astro tree
+### index.astro tree (dummy placeholder)
 
 ```
 index.astro
-├── Layout.astro ──► shared shell (see below)
-├── seo/PageSEO.astro ──► SEO chain (see below)
-├── organisms/Hero.astro (static shell + grid, section#inicio, scoped GSAP transform-only entrance + blob parallax script ──► lib/gsap, no client: directive)
-│   ├── molecules/SectionHeader.astro (eyebrow + h1#hero-heading string title + subtitle)
-│   ├── molecules/HeroBullets.astro (bullets const inside) ──► atoms/Icon ×5 (circle pink md filled)
-│   ├── molecules/HeroActions.astro ──► atoms/Button ×2 (primary md href="#contacto-formulario" + secondary md href="#productos") + data/section-ids
-│   └── molecules/HeroMediaCard.astro (credential chip as inner markup)
-│       ├── atoms/ResponsiveImage.astro (Picture AVIF+WebP, eager, widths [480,800,1024,1280]) ──► assets/hero/hero-clinica.webp (1122×1402 4:5 AI master)
-│       └── atoms/Icon.astro ×2 (biotech circle filled + verified bare primary)
-├── organisms/Challenges.astro (static shell + 7/5 grid, section#desafios, scoped GSAP reveal script ──► lib/gsap, no client: directive)
-│   ├── molecules/SectionHeader.astro (E2 eyebrow + h2 string title + subtitle)
-│   ├── molecules/FeatureList.astro (features const inside) ──► molecules/FeatureRow.astro ×3
-│   │   └── atoms/Icon.astro (circle orange lg per row: shield, water_drop, eco)
-│   └── molecules/MediaWithTags.astro (tilted overlapping media card)
-│       ├── atoms/ResponsiveImage.astro (Picture AVIF+WebP, widths [480,800,1024,1200]) ──► assets/challenges/challenges-clinica.webp (1122×1402 4:5 AI master)
-│       └── atoms/Badge.astro ×2 (tag dark CLINICAL GRADE + tag light icon=verified 99.9% PURE)
-├── organisms/Testimonials.astro (static, id="testimonios", tokenized fluid wash + 2 pointer-free blobs, scoped GSAP reveal + glow parallax script ──► lib/gsap, no client: directive)
-│   ├── molecules/SectionHeader.astro (E2 + h2 string title + subtitle, align center)
-│   ├── molecules/TestimonialCard.astro ×2|3 ──► lib/testimonials (type only)
-│   │   ├── atoms/Card.astro (C1 glass shell, relative h-full overflow-visible + tilt-float)
-│   │   ├── atoms/Avatar.astro (wrapper + astro:assets Image [96,192] for ImageMetadata, plain-<img> fallback for strings — avatars pipelined from src/assets)
-│   │   └── atoms/Icon.astro (bare filled format_quote, tone per accent)
-│   └── atoms/DividerImage.astro ×2 (Picture AVIF+WebP, widths [200,400], sizes `(max-width: 768px) 100vw, 5vw`, hover via pictureAttributes) ──► assets/dividers/divider-*.webp (1600×1600 AI masters)
-├── organisms/Products.astro (section shell + grid + overlap gallery strip, scoped GSAP reveal script ──► lib/gsap, no client: directive, id="productos"; frontmatter Astro wrapper resolves gallery srcsets via astro:assets getImage)
-│   ├── molecules/SectionHeader.astro (h2 string title + subtitle, align center, no eyebrow)
-│   ├── molecules/ProductPanel.astro ×2 (tone light|dark: backdrop + header + SpecGrid + CTA + vertical pill; grid columns own the width, no lg:w-1/2)
-│   │   ├── atoms/ResponsiveImage.astro (Picture AVIF+WebP, widths [768,1280,1536,2048]) ──► assets/products/topico.webp | instalaciones.webp (4096×2304 16:9 AI masters)
-│   │   ├── molecules/SpecGrid.astro (tone + items from panel SPECS const) ──► atoms/SpecItem.astro ×5 (wide? on Presentaciones)
-│   │   ├── atoms/Button.tsx (product tone light|dark href="#contacto-formulario")
-│   │   └── atoms/Badge.astro (feature vertical: water_drop | cleaning_services)
- │   ├── molecules/ProductGallery.tsx (client:visible island: Swiper + Autoplay only, calm 3.5s loop, peek+grow 1.2→2→3→4, presentational URL props from Products frontmatter; each slide is a consistent ice-glass plate (`bg-surface-ice/80` + `border-glass-border` + `backdrop-blur-md` + `shadow-card` + padding, `object-contain`, same voice as HeroMediaCard) because gallery masters are transparent cutouts; the image itself renders at `scale: 1.5` overflowing the plate (no clipping) for the oversized bleed look, easing to `1.6` on hover via `--ease-gallery-zoom` (no overshoot) with reduced-motion parity; each slide links to `#contacto-formulario` (Spanish `aria-label`, drags excluded via Swiper `preventClicks`); the swiper viewport is `overflow: visible` so the track never cuts the bleed; skipped entirely when the gallery folder is empty) ──► swiper/react + swiper/modules (Autoplay) + assets/a2-dr-resultados/gallery/*.{png,webp,jpg,avif} (auto-glob via import.meta.glob, sorted by path, filename-derived alts, empty → no strip)
-│   │   └── (pre-hydration slide geometry lives in `global.css` under `.js-products-gallery` — mirrors the breakpoints so the unhydrated markup is already a correct strip: zero CLS, real row for no-JS/crawlers)
-│   └── molecules/FormulaStrip.astro (formula banner)
-└── organisms/ContactSection.astro (static shell + tint overlay + backdrop + grid, section#contacto, scoped GSAP reveal script ──► lib/gsap, form shell only — island untouched)
-    ├── molecules/SectionHeader.astro (h2 gradient slot on SECTION_TITLE_CORE + subtitle)
-    ├── molecules/ContactBackdrop.astro (organic blobs + BIOSEGURIDAD massive type)
-    ├── molecules/ContactForm.tsx (client:load, form base layer, wrapper #contacto-formulario)
-    │   ├── molecules/FormRow.tsx ×2 ──► atoms/Input ×2 each (name/clinica, telefono/email, idPrefix="contacto-")
-    │   ├── molecules/InterestPicker.tsx ──► atoms/Checkbox ×3 (lineaTopico/Instalaciones/Distribucion, idPrefix="contacto-")
-    │   ├── molecules/FormSuccess.tsx ──► atoms/Button (reset, size sm)
-    │   ├── atoms/Textarea (message, idPrefix="contacto-") + atoms/Button (submit primary sm)
-    │   └── store/contact (validateAll, isSubmitted, reset) + data/section-ids
-    ├── molecules/FaqAccordion.astro (glass panel + header + single-open exclusivity script, root #contacto-faq)
-    │   ├── molecules/FaqItem.astro ×3 (details/summary + bare orange add_circle Icon)
-    │   └── atoms/Icon.astro (circle pink lg filled info, header)
-    ├── molecules/ContactMedia.astro ──► atoms/ResponsiveImage.astro (Picture AVIF+WebP, widths [480,768,1024]) ──► assets/contact/contact-clinica.webp (1672×941 16:9 AI master)
-    └── molecules/DisclaimerNote.astro ──► atoms/Icon.astro (bare orange filled warning)
+├── Layout.astro ──► shared shell (lang="es")
+├── seo/PageSEO.astro (currentPage="home", noindex, slot="seo")
+└── <h1>Vetoxzyn</h1> (no organisms — the marketing landing moved to /dr-resultados)
 ```
+
+### [slug].astro tree (avatar pages — one row per content entry)
+
+```
+[slug].astro
+├── getStaticPaths ──► getCollection("avatars") + lib/avatars.toPageData
+├── Layout.astro ──► shared shell (lang="es")
+├── seo/PageSEO.astro (currentPage=<slug>, title/description from page.seo, slot="seo")
+├── organisms/Hero.astro data=<HeroData>
+│   ├── molecules/SectionHeader.astro (eyebrow + h1#hero-heading + subtitle from data)
+│   ├── molecules/HeroBullets.astro labels=<string[]> ──► atoms/Icon ×N (global icons)
+│   ├── molecules/HeroActions.astro (labels from data; hrefs via data/section-ids)
+│   └── molecules/HeroMediaCard.astro image/alt/overlay from data ──► atoms/ResponsiveImage + atoms/Icon ×2
+├── organisms/Challenges.astro data=<ChallengesData>
+│   ├── molecules/SectionHeader.astro (eyebrow + h2#challenges-heading + subtitle from data)
+│   ├── molecules/FeatureList.astro features=<...> ──► molecules/FeatureRow.astro ×N (global icons)
+│   └── molecules/MediaWithTags.astro image/alt/badges from data ──► atoms/ResponsiveImage + atoms/Badge ×2
+├── organisms/Testimonials.astro data=<TestimonialsData>
+│   ├── molecules/SectionHeader.astro (eyebrow + h2 + subtitle from data)
+│   ├── molecules/TestimonialCard.astro ×2|3 (quote/name/optional role/accent/avatar from data)
+│   └── atoms/DividerImage.astro (optional, from data.divider)
+├── organisms/Products.astro data=<ProductsData> slug=<slug>
+│   ├── molecules/SectionHeader.astro (title + subtitle from data)
+│   ├── molecules/ProductPanel.astro ×1|2 (title/tagline/image from data; specs + pill from data/products.ts; single line → full-width)
+│   ├── molecules/ProductGallery.tsx (client:visible; gallery glob filtered to the avatar folder)
+│   └── molecules/FormulaStrip.astro (global formula banner)
+└── organisms/ContactSection.astro data=<ContactData>
+    ├── molecules/SectionHeader.astro (eyebrow + h2#contact-heading + subtitle from data)
+    ├── molecules/ContactBackdrop.astro word=<data.backdropWord>
+    ├── molecules/ContactForm.tsx copy=<data.form> (client:load; per-avatar labels/placeholders/errors; store/contact injects error copy)
+    ├── molecules/FaqAccordion.astro faqs=<data.faq>
+    ├── molecules/ContactMedia.astro image/alt from data
+    └── molecules/DisclaimerNote.astro (global disclaimer)
+```
+
 
 ### design-system.astro tree (dev-only: `src/dev-pages/`, injected on `astro dev`, absent from prod builds)
 
@@ -369,7 +367,8 @@ None.
 - GSAP scroll reveals (`gsap-scroll-reveals`): new `gsap@3.15.0` dep + `lib/gsap.ts` (SSR guard, `limitCallbacks`/`ignoreMobileResize`, `power4.out`/1.2s defaults, `load` + `astro:page-load` refresh); `global.css` gains `@utility js-reveal` + `.no-js .js-reveal` override and `Layout.astro` gains `<html class="no-js">` + swap script (content visible with JS off); all 5 home organisms own one scoped timeline each (`play none none none`, unhide-before-`.from()`, `matchMedia` fade-only reduce branch, VT guard/revert/page-load/after-swap, `transition:animate="none"` roots) — Hero transform-only ≤0.9s + session once-guard + blob-wrapper parallax (`scrub 0.8`), Challenges `top 75%`, Testimonials `top 80%` + glow parallax, Products `top 75%`, Contact `top 80%` (form shell only, island/inputs never tweened); `lib/kinetic-marquee.ts` + `lib/animate-counters.ts` ship as unwired patterns (hosts deferred), Swiper dropped (CSS overflow instead). No color/hover-language changes (`check:palette` clean): `js-*` hooks are behavior-only classes, layout chrome untouched. Verified `pnpm build` green.
 - Branded contact H1 (`remove-contact-intro-block`): `contact.astro` intro block (unstyled `<h1>Contacto</h1>` + phone/email `NavLink` paragraph) replaced by `<SectionHeader level="h1" title="Contáctanos" slot="page-title" />` (plain string title, no slot — canonical `SECTION_TITLE_CORE`, zero bespoke classes) projected into a new optional `page-title` slot outlet in `ContactSection` (above the in-flow header, `Astro.slots.has` guard — empty on `/`, landing output unchanged), so the H1 shares the section tint/backdrop background; the separate page-level `<section>` shell is gone (page = `Layout` + `PageSEO` + one organism). Imports drop `NavLink` + `PHONES`/`EMAIL`, keep `SectionHeader` (first page-level molecule use — permitted, pages compose). Phone/email stay reachable via shell `ContactLinks` (no `contact-channels` delta).
 
-- Outbound-contact removal (2026-09-23): `ContactLinks` now renders phone and email as static text (it no longer imports `NavLink`); `FooterMeta` retains a non-interactive Facebook SVG icon; `site-config` no longer stores WhatsApp, `tel:`, `mailto:`, Facebook, Google Maps embed, or JSON-LD `sameAs` URLs. Google Fonts stylesheet resources remain because they provide the site typography and Material icon glyphs; they are not navigation targets.
+- JSON avatar pages (`add-json-avatar-pages`, 2026-09-30): the marketing landing moved from `/` to a JSON-driven collection. New: `src/content.config.ts` (`avatars` glob collection, `base: src/content/avatars`, `pattern: es/**/page.json`, `generateId` strips the locale + `/page.json`), `src/lib/avatar-schema.ts` (`avatarSchema(image)` factory + `AvatarData`/slice types), `src/lib/avatars.ts` (`toPageData`), `src/data/products.ts` (global specs + formula banner), `src/data/copy.ts` (global disclaimer + `DEFAULT_FORM_COPY`), `src/data/default-contact.ts`, `src/pages/[slug].astro` (`getStaticPaths` over the collection → 6 routes), `src/content/avatars/es/<slug>/` (JSON + co-located images + `gallery/`). `/` is now a dummy `<h1>` (noindex + sitemap-excluded via the `@astrojs/sitemap` filter); `/dr-resultados` carries the previous home copy verbatim. All home organisms (`Hero`, `Challenges`, `Testimonials`, `Products`, `ProductPanel`, `ContactSection`, `FaqAccordion`, `ContactMedia`, `ContactBackdrop`, `Hero*`/`FeatureList`/`MediaWithTags`) take a typed `data` prop; `ContactForm.tsx` takes a `copy` prop (per-avatar labels/placeholders/errors) and injects validation messages into `store/contact` (`setErrorCopy`, `buildContactSchema`). Global vs per-avatar boundary: header/footer/logo, disclaimer, product specs + formula banner, icon names, og-image, business identity, section ids, form field keys → global; hero/challenges/testimonials/products-content/contact (incl. FAQ, media, form copy) + SEO title/description → per-avatar JSON. `src/data/testimonials.ts` demoted to a global fallback (no longer the avatar page source). Old `src/assets/a1..a6-*` + `src/assets/gallery/` folders removed; images now co-located (documented exception in `docs/astro-image-optimization.md`). Markdown rule: content text nodes rendered via `lib/markdown.ts`; attributes/meta stay plain. Spike finding: `image()` resolves relative paths in glob-loaded JSON; entry id is the folder slug via `generateId`.
+- Orphan/cleanup candidates: `src/assets/{hero,challenges,contact,products,dividers,testimonials}/` originals are now only used by `data/default-contact.ts` (contact) and `data/testimonials.ts` (testimonials fallback); the rest can be pruned once the 5 placeholder avatars get real copy (task 2.4a) and no global page needs them.
 - Testimonial refresh (2026-09-23): the first two entries in `data/testimonials.ts` are MVZ Daniela Ávila and MVZ Alan Doshey Gamborino Prieto, with their supplied local public photos at `public/testimonials/{daniela-avila,alan-gamborino}.webp`; the third testimonial remains unchanged.
 
 ### Current Products subtree (2026-09-23)
@@ -383,7 +382,7 @@ index.astro
     └── ProductGallery.tsx (client:visible; single instance — mobile-between via DOM order, desktop-overlap via grid span + explicit row/col placement; GSAP-excluded by design; pre-hydration width geometry in global.css; slides are white plates) ──► swiper (Autoplay only) + assets/gallery (7 × 400px, widths [256,320,400] AVIF-first)
 ```
 
-`molecules/FormulaStrip.astro` is intentionally unreachable: its formula, mechanism, and residue claims were removed pending final technical-document validation. Retain it only as a cleanup/reinstatement candidate.
+`molecules/FormulaStrip.astro` is rendered again by `Products.astro` on every avatar page (global formula banner from `data/products.ts`), per `add-json-avatar-pages`.
 
 ### Current Contact subtree (2026-09-23)
 

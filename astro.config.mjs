@@ -62,5 +62,13 @@ export default defineConfig({
   },
   // ponytail: devOnlyPages() injects src/dev-pages/ routes on `dev` only —
   // prod builds never see them (true 404 + clean sitemap, no filter list).
-  integrations: [react(), sitemap(), devOnlyPages()],
+  // Sitemap excludes the dummy `/` placeholder (add-json-avatar-pages): it is
+  // a noindex stub; the avatar routes carry the indexable weight.
+  integrations: [
+    react(),
+    sitemap({
+      filter: (page) => page !== `${process.env.PORTLESS_URL ?? process.env.SITE_URL ?? "https://vetoxzyncomercial.mx"}/`,
+    }),
+    devOnlyPages(),
+  ],
 });

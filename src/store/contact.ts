@@ -1,32 +1,43 @@
 import { create } from "zustand"
 import { createJSONStorage, persist } from "zustand/middleware"
 import { z } from "zod"
+import { DEFAULT_FORM_COPY } from "@/data/copy"
 
-const contactFieldsSchema = z.object({
-  name: z.string().trim().min(1, "El nombre es obligatorio"),
-  email: z.string().trim().min(1, "El correo electrónico es obligatorio").email("Correo electrónico inválido"),
-  message: z.string().trim().min(10, "El mensaje debe tener al menos 10 caracteres"),
-  clinica: z.string().trim().min(1, "La clínica u hospital es obligatorio"),
-  telefono: z.string().trim().min(7, "Ingresa un teléfono o WhatsApp válido"),
-  ciudadEstado: z.string().trim().min(1, "La ciudad o estado es obligatorio"),
-  medioContacto: z.enum(["correo", "llamada", "whatsapp"], { message: "Selecciona un medio de contacto" }),
-  motivoInteres: z.enum(["problema", "informacion", "incorporacion"], { message: "Selecciona el motivo de tu interés" }),
-  lineaTopico: z.boolean(),
-  lineaInstalaciones: z.boolean(),
-  lineaDistribucion: z.boolean(),
-})
+// Per-avatar validation messages. Shape matches DEFAULT_FORM_COPY.errors and
+// the contact.form.errors slice of the avatar schema. Pages inject their copy
+// on mount; omitted strings fall back to the global defaults.
+export type ErrorCopy = typeof DEFAULT_FORM_COPY.errors
 
-export const contactSchema = contactFieldsSchema.refine(
-  (values) => values.lineaTopico || values.lineaInstalaciones || values.lineaDistribucion,
-  { message: "Selecciona al menos una configuración de interés", path: ["lineaTopico"] },
-)
+export function buildContactSchema(errors: ErrorCopy) {
+  const fields = z.object({
+    name: z.string().trim().min(1, errors.name),
+    email: z.string().trim().min(1, errors.emailRequired).email(errors.emailInvalid),
+    message: z.string().trim().min(10, errors.message),
+    clinica: z.string().trim().min(1, errors.clinica),
+    telefono: z.string().trim().min(7, errors.telefono),
+    ciudadEstado: z.string().trim().min(1, errors.ciudad),
+    medioContacto: z.enum(["correo", "llamada", "whatsapp"], { message: errors.medio }),
+    motivoInteres: z.enum(["problema", "informacion", "incorporacion"], { message: errors.motivo }),
+    lineaTopico: z.boolean(),
+    lineaInstalaciones: z.boolean(),
+    lineaDistribucion: z.boolean(),
+  })
 
-export type ContactValues = z.infer<typeof contactSchema>
+  return fields.refine(
+    (values) => values.lineaTopico || values.lineaInstalaciones || values.lineaDistribucion,
+    { message: errors.interest, path: ["lineaTopico"] },
+  )
+}
+
+// Default schema (global Spanish messages) — used before/without injection.
+export const contactSchema = buildContactSchema(DEFAULT_FORM_COPY.errors)
+
+export type ContactValues = z.infer<ReturnType<typeof buildContactSchema>>
 
 export function buildFieldSchemaMap(schemas: z.ZodObject<any>[]): Map<string, z.ZodTypeAny> {
   const map = new Map<string, z.ZodTypeAny>()
   for (const schema of schemas) {
-    for (const [field, fieldSchema] of Object.entries(schema.shape)) {
+    for (const [field, fieldSchema] of Object.entries(schema.def.shape)) {
       if (map.has(field)) {
         throw new Error(`Field "${field}" appears in multiple schemas. Field names must be unique.`)
       }
@@ -36,7 +47,12 @@ export function buildFieldSchemaMap(schemas: z.ZodObject<any>[]): Map<string, z.
   return map
 }
 
-export const fieldSchemaMap = buildFieldSchemaMap([contactFieldsSchema])
+// The refined schema keeps its field shape on `.def.shape` (Zod v4), so the
+// per-field map can be rebuilt whenever the injected error copy changes.
+const fieldsOf = (schema: ReturnType<typeof buildContactSchema>) =>
+  buildFieldSchemaMap([schema as unknown as z.ZodObject<any>])
+
+export const fieldSchemaMap = fieldsOf(contactSchema)
 
 export const initialState: ContactValues = {
   name: "",
@@ -57,12 +73,14 @@ interface ContactStore extends ContactValues {
   isLoading: boolean
   isSubmitted: boolean
   submitError: string | null
+  errorCopy: ErrorCopy
   setField: (field: string, value: unknown) => void
   validateAll: () => boolean
   reset: () => void
   setLoading: (v: boolean) => void
   setSubmitted: (v: boolean) => void
   setSubmitError: (message: string | null) => void
+  setErrorCopy: (copy: ErrorCopy) => void
 }
 
 export function getNestedValue(obj: Record<string, any>, path: string): unknown {
@@ -110,6 +128,11 @@ const safeStorage = {
   },
 }
 
+// Build a per-field schema map lazily per error copy so injected messages
+// drive per-keystroke validation messages too.
+let activeErrorCopy: ErrorCopy = DEFAULT_FORM_COPY.errors
+let activeFieldMap = fieldSchemaMap
+
 export const useContactStore = create<ContactStore>()(
   persist(
     (set, get) => ({
@@ -118,9 +141,16 @@ export const useContactStore = create<ContactStore>()(
       isLoading: false,
       isSubmitted: false,
       submitError: null,
+      errorCopy: DEFAULT_FORM_COPY.errors,
+
+      setErrorCopy: (copy: ErrorCopy) => {
+        activeErrorCopy = copy
+        activeFieldMap = fieldsOf(buildContactSchema(copy))
+        set({ errorCopy: copy })
+      },
 
       setField: (field: string, value: unknown) => {
-        const fieldSchema = fieldSchemaMap.get(field.split(".").pop() ?? field)
+        const fieldSchema = activeFieldMap.get(field.split(".").pop() ?? field)
         set((state) => {
           const newErrors = { ...state.errors }
           if (fieldSchema) {
@@ -145,7 +175,7 @@ export const useContactStore = create<ContactStore>()(
         const state = get()
         const allErrors: Record<string, string> = {}
         const values = Object.fromEntries(Object.keys(initialState).map((field) => [field, state[field as keyof ContactValues]]))
-        const result = contactSchema.safeParse(values)
+        const result = buildContactSchema(activeErrorCopy).safeParse(values)
         if (!result.success) {
           for (const issue of result.error.issues) {
             allErrors[String(issue.path[0] ?? "form")] ??= issue.message
@@ -164,7 +194,7 @@ export const useContactStore = create<ContactStore>()(
       name: "vetoxzyn-contact-storage",
       storage: createJSONStorage(() => safeStorage),
       partialize: (state) => {
-        const { errors, isLoading, isSubmitted, submitError, ...rest } = state
+        const { errors, isLoading, isSubmitted, submitError, errorCopy, ...rest } = state
         return rest
       },
     }

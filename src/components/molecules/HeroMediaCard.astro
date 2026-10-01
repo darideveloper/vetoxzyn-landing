@@ -1,16 +1,23 @@
 ---
+import type { ImageMetadata } from "astro"
 import Icon from "../atoms/Icon.astro"
 import ResponsiveImage from "../atoms/ResponsiveImage.astro"
-import heroImg from "@/assets/hero/hero-clinica.webp"
+
+interface Props {
+  image: ImageMetadata
+  imageAlt: string
+  overlay: { name: string; role: string }
+}
+const { image, imageAlt, overlay } = Astro.props
 ---
 
 <div class="js-hero-media js-hero-reveal js-reveal glass-panel shadow-ambient tilt-float relative aspect-[4/5] w-full max-w-[28rem] overflow-hidden rounded-xl border-l-[4px] border-l-brand-pink">
   <ResponsiveImage
-    src={heroImg}
+    src={image}
     widths={[480, 800, 1024, 1280]}
     sizes="(max-width: 1024px) 100vw, 448px"
     eager
-    alt="Instrumental quirúrgico veterinario sobre una bandeja estéril"
+    alt={imageAlt}
     class="h-full w-full object-cover"
   />
   <div class="absolute right-md bottom-md left-md">
@@ -18,8 +25,8 @@ import heroImg from "@/assets/hero/hero-clinica.webp"
       <div class="flex items-center gap-sm">
         <Icon name="biotech" filled />
         <div>
-          <div class="font-label-bold text-label-bold">Dr. Resultados</div>
-          <div class="font-caption text-caption text-on-surface-variant">División Veterinaria</div>
+          <div class="font-label-bold text-label-bold">{overlay.name}</div>
+          <div class="font-caption text-caption text-on-surface-variant">{overlay.role}</div>
         </div>
       </div>
       <Icon name="verified" variant="bare" tone="primary" />

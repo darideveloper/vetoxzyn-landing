@@ -3,67 +3,46 @@ import Badge from "../atoms/Badge.astro"
 import { Button } from "@/components/atoms/Button"
 import ResponsiveImage from "../atoms/ResponsiveImage.astro"
 import SpecGrid from "./SpecGrid.astro"
-import topicoImg from "@/assets/products/topico.webp"
-import instalacionesImg from "@/assets/products/instalaciones.webp"
+import type { ImageMetadata } from "astro"
+import { PRODUCTS, type ProductLine } from "@/data/products"
 import { SECTION_IDS } from "@/data/section-ids"
 
+// Pill icons are global code constants (no per-avatar icon customization).
+const PILL_ICON: Record<ProductLine, string> = {
+  topico: "water_drop",
+  instalaciones: "cleaning_services",
+}
+
 interface Props {
-  tone?: "light" | "dark"
+  line: ProductLine
+  title: string
+  tagline: string
+  image: ImageMetadata
+  imageAlt: string
+  fullWidth?: boolean
 }
-const { tone = "light" } = Astro.props
-const dark = tone === "dark"
+const { line, title, tagline, image, imageAlt, fullWidth = false } = Astro.props
 
-const pill = "No requiere enjuague"
-const title = dark ? "Higiene de espacios y procesos" : "Higiene vinculada al paciente"
+const product = PRODUCTS[line]
+const dark = product.tone === "dark"
 const headingId = dark ? "products-instalaciones-title" : "products-topico-title"
-const tagline = dark
-  ? "Configuración orientada a espacios, superficies y procesos de higiene dentro del entorno veterinario."
-  : "Configuración destinada a contextos de higiene vinculados al paciente, conforme a los usos autorizados."
-const img = dark ? instalacionesImg : topicoImg
-const imgAlt = dark
-  ? "Entorno clínico de la línea Instalaciones"
-  : "Entorno clínico luminoso de la línea Tópico"
-const pillIcon = dark ? "cleaning_services" : "water_drop"
-
-interface Spec {
-  term: string
-  value: string
-  note?: string
-  valueClass?: string
-  wide?: boolean
-}
-
-const SPECS: Record<"light" | "dark", Spec[]> = {
-  light: [
-    { term: "Concentración", value: "100 ppm", note: "(0.010%)" },
-    { term: "pH", value: "6.0–7.5", note: "(neutro)" },
-    { term: "ORP", value: "> 850 mV", valueClass: "font-bold text-brand-orange text-xl" },
-    { term: "Toxicidad", value: "Grado 0", note: "(no irritante)", valueClass: "font-semibold text-tertiary" },
-    { term: "Presentaciones", value: "30ml a 950ml", wide: true },
-  ],
-  dark: [
-    { term: "Concentración", value: "500 ppm", note: "(0.050%)" },
-    { term: "pH", value: "6.0–7.5", note: "(neutro)" },
-    { term: "ORP", value: "> 900 mV", valueClass: "font-bold text-secondary-container text-xl" },
-    { term: "Toxicidad", value: "Grado 0", note: "(no irritante)", valueClass: "font-semibold text-tertiary-fixed" },
-    { term: "Presentaciones", value: "1L · 4L · 20L", wide: true },
-  ],
-}
+const pillIcon = PILL_ICON[line]
 ---
 
 <article
   aria-labelledby={headingId}
   class:list={[
     "js-products-panel js-products-reveal js-reveal group relative flex min-h-[100vh] w-full items-center justify-center overflow-hidden lg:h-full lg:items-start",
-    dark ? "bg-inverse-surface" : "border-r border-surface-container-highest bg-on-primary",
+    dark ? "bg-inverse-surface" : `border-r border-surface-container-highest bg-on-primary`,
+    fullWidth && "lg:min-h-[100vh]",
   ]}
 >
   <div class="absolute inset-0 z-0">
     <ResponsiveImage
-      src={img}
+      src={image}
       widths={[768, 1280, 1536, 2048]}
       sizes="(max-width: 1024px) 100vw, 50vw"
-      alt={imgAlt}
+      alt={imageAlt}
       class:list={[
         "image-pan h-full w-full object-cover mix-blend-luminosity transition-all duration-[var(--duration-hover)] ease-[var(--ease-hover)] group-hover:mix-blend-normal",
         dark ? "opacity-40" : "opacity-60",
@@ -117,8 +96,8 @@ const SPECS: Record<"light" | "dark", Spec[]> = {
         ]}
         aria-hidden="true"
       ></div>
-      <SpecGrid tone={tone} items={SPECS[tone]} />
-      <Button variant="product" tone={tone} href={`#${SECTION_IDS.contactoFormulario}`} className="mt-md">
+      <SpecGrid tone={product.tone} items={product.specs} />
+      <Button variant="product" tone={product.tone} href={`#${SECTION_IDS.contactoFormulario}`} className="mt-md">
         Revisar esta configuración
         <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span>
       </Button>
@@ -129,7 +108,7 @@ const SPECS: Record<"light" | "dark", Spec[]> = {
         dark ? "right-4" : "left-4 rotate-180",
       ]}
     >
-      <Badge icon={pillIcon} class="font-bold tracking-widest uppercase">{pill}</Badge>
+      <Badge icon={pillIcon} class="font-bold tracking-widest uppercase">{product.pill}</Badge>
     </div>
   </div>
 </article>

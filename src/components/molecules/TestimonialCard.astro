@@ -31,7 +31,7 @@ const accents = {
     <p class="mb-lg font-body-lg text-body-lg text-on-surface italic">{quote}</p>
     <div class="mt-auto border-t border-glass-border pt-4">
       <p class="font-label-bold text-label-bold text-on-surface">{name}</p>
-      <p class="font-caption text-caption text-on-surface-variant">{role}</p>
+      {role && <p class="font-caption text-caption text-on-surface-variant">{role}</p>}
     </div>
   </div>
 </Card>

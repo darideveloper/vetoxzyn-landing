@@ -4,6 +4,12 @@ import HeroBullets from "@/components/molecules/HeroBullets.astro"
 import HeroActions from "@/components/molecules/HeroActions.astro"
 import HeroMediaCard from "@/components/molecules/HeroMediaCard.astro"
 import { SECTION_IDS } from "@/data/section-ids"
+import type { HeroData } from "@/lib/avatars"
+
+interface Props {
+  data: HeroData
+}
+const { data } = Astro.props
 ---
 
 <section
@@ -22,18 +28,18 @@ import { SECTION_IDS } from "@/data/section-ids"
     <div class="z-20 flex flex-col items-center gap-md text-center md:items-start md:text-left lg:col-span-7">
       <SectionHeader
         class="js-hero-header js-hero-reveal js-reveal"
-        eyebrow="VETOXZYN® PARA PRÁCTICA VETERINARIA"
+        eyebrow={data.eyebrow}
         level="h1"
         id="hero-heading"
-        title="Los espacios de tu clínica necesitan protocolos de higiene."
-        subtitle="Cuéntanos dónde quieres integrar Vetoxzyn® y te orientamos según tu contexto de trabajo."
+        title={data.title}
+        subtitle={data.subtitle}
         subtitleClass="mx-auto mt-3 max-w-2xl font-body-lg text-body-lg text-on-surface-variant md:mx-0"
       />
-      <HeroBullets />
-      <HeroActions />
+      <HeroBullets labels={data.bullets.map((b) => b.label)} />
+      <HeroActions primaryLabel={data.primaryCta.label} secondaryLabel={data.secondaryCta.label} />
     </div>
     <div class="relative z-10 mt-lg flex justify-center lg:col-span-5 lg:mt-0 lg:justify-end">
-      <HeroMediaCard />
+      <HeroMediaCard image={data.image} imageAlt={data.imageAlt} overlay={data.overlay} />
     </div>
   </div>
 </section>

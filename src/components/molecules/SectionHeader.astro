@@ -1,5 +1,6 @@
 ---
 import Eyebrow from "../atoms/Eyebrow.astro"
+import InlineMarkdown from "../atoms/InlineMarkdown.astro"
 
 // Shared section heading: optional eyebrow + title + subtitle.
 // Canonical title core (single source of truth — identical Montserrat
@@ -41,14 +42,14 @@ const hasSubtitleSlot = Astro.slots.has("subtitle")
 ---
 
 <div class:list={[align === "center" && "text-center", cls]}>
-  {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+  {eyebrow && <Eyebrow><InlineMarkdown content={eyebrow} /></Eyebrow>}
   {title ? (
-    <Tag id={id} class={titleCls}>{title}</Tag>
+    <Tag id={id} class={titleCls}><InlineMarkdown content={title} /></Tag>
   ) : (
     hasTitleSlot && <slot name="title" />
   )}
   {subtitle ? (
-    <p class={subtitleClass}>{subtitle}</p>
+    <p class={subtitleClass}><InlineMarkdown content={subtitle} /></p>
   ) : (
     hasSubtitleSlot && <slot name="subtitle" />
   )}

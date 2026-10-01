@@ -1,7 +1,7 @@
-// Testimonial content for the 03-testimonials section (Stitch verbatim ES copy).
-// Single source of truth — organisms map over this, never duplicate literals.
-// Avatars are pipelined src assets (ImageMetadata, rendered via astro:assets
-// in Avatar); Carlos's avatar reuses the brand logo asset directly.
+// GLOBAL fallback testimonials for pages without an avatar entry (e.g.
+// /contact, /about). Avatar pages source their own testimonials from their
+// JSON (src/content/avatars/es/<slug>/page.json) — this module is no longer
+// the page source for avatar routes. Avatars are pipelined src assets.
 import alanAvatar from "@/assets/testimonials/alan-gamborino.webp"
 import danielaAvatar from "@/assets/testimonials/daniela-avila.webp"
 import type { Testimonial } from "@/lib/testimonials"

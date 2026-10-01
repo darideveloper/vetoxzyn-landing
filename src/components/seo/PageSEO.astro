@@ -8,9 +8,11 @@ interface Props {
   jsonType?: string
   extraJson?: Record<string, unknown>
   ogImage?: string
+  useTagLine?: boolean
+  noindex?: boolean
 }
 
-const { currentPage, jsonType = "LocalBusiness", extraJson = {}, ogImage, title, description } = Astro.props as Props
+const { currentPage, jsonType = "LocalBusiness", extraJson = {}, ogImage, title, description, useTagLine, noindex } = Astro.props as Props
 ---
 
 <BaseSEO
@@ -20,4 +22,6 @@ const { currentPage, jsonType = "LocalBusiness", extraJson = {}, ogImage, title,
   jsonType={jsonType}
   extraJson={extraJson}
   ogImage={ogImage}
+  useTagLine={useTagLine}
+  noindex={noindex}
 />
