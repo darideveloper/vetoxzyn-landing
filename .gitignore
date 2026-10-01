@@ -33,3 +33,6 @@ openspec/changes/*
 .*/
 
 design/stitch
+
+# local temp scratch (never commit)
+tmp/
