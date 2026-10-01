@@ -43,7 +43,7 @@ export const BUSINESS_HOURS = {
 } as const
 
 export const BUSINESS_DATA = {
-  name: "Vetoxzyn",
+  name: "vetoxzyn",
   legalName: "GRUPO HOCLIVA SAS",
   // Server-read origin chain (all importers are server-rendered .astro
   // frontmatter): per-checkout PORTLESS_URL wins in dev, explicit SITE_URL

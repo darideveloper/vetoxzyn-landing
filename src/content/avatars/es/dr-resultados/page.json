@@ -1,12 +1,12 @@
 {
   "seo": {
-    "title": "Vetoxzyn",
-    "description": "Vetoxzyn — official site."
+    "title": "vetoxzyn",
+    "description": "vetoxzyn — official site."
   },
   "hero": {
-    "eyebrow": "VETOXZYN® PARA PRÁCTICA VETERINARIA",
+    "eyebrow": "PARA PRÁCTICA VETERINARIA",
     "title": "Los espacios de tu clínica necesitan protocolos de higiene.",
-    "subtitle": "Cuéntanos dónde quieres integrar Vetoxzyn® y te orientamos según tu contexto de trabajo.",
+    "subtitle": "Cuéntanos dónde quieres integrar vetoxzyn® y te orientamos según tu contexto de trabajo.",
     "bullets": [
       { "label": "Para clínica" },
       { "label": "Áreas de trabajo" },
@@ -21,7 +21,7 @@
   "challenges": {
     "eyebrow": "EN TU CLÍNICA, CADA USO CUENTA",
     "title": "Un mejor protocolo empieza por distinguir dónde y cómo necesitas actuar.",
-    "subtitle": "Cada contexto permite orientar mejor la forma de integrar Vetoxzyn®.",
+    "subtitle": "Cada contexto permite orientar mejor la forma de integrar vetoxzyn®.",
     "features": [
       {
         "title": "Cuidado del instrumental",
@@ -31,7 +31,7 @@
       {
         "title": "Higiene vinculada al paciente",
         "challenge": "La higiene relacionada con el paciente requiere distinguir claramente el contexto de uso.",
-        "solution": "Definir primero la necesidad y trabajar únicamente con usos autorizados para Vetoxzyn®."
+        "solution": "Definir primero la necesidad y trabajar únicamente con usos autorizados para vetoxzyn®."
       },
       {
         "title": "Higiene del entorno clínico",
@@ -56,7 +56,7 @@
         "avatar": "./testimonial-daniela.webp"
       },
       {
-        "quote": "“En nuestra práctica con animales no convencionales, Vetoxzyn ha demostrado ser un excelente coadyuvante en el manejo de heridas y lesiones cutáneas. Destaca por su buena tolerancia, baja citotoxicidad y apoyo efectivo en la cicatrización, especialmente en reptiles y aves. Una herramienta confiable dentro del manejo clínico diario.”",
+        "quote": "“En nuestra práctica con animales no convencionales, vetoxzyn® ha demostrado ser un excelente coadyuvante en el manejo de heridas y lesiones cutáneas. Destaca por su buena tolerancia, baja citotoxicidad y apoyo efectivo en la cicatrización, especialmente en reptiles y aves. Una herramienta confiable dentro del manejo clínico diario.”",
         "name": "MVZ Alan Doshey Gamborino Prieto",
         "role": "",
         "accent": "pink",
@@ -87,8 +87,8 @@
   },
   "contact": {
     "eyebrow": "ORIENTACIÓN PARA TU CLÍNICA",
-    "title": "Revisemos cómo quieres integrar Vetoxzyn® en tu clínica.",
-    "subtitle": "Describe brevemente dónde quieres utilizar Vetoxzyn® y podremos orientarte según tu contexto de trabajo.",
+    "title": "Revisemos cómo quieres integrar vetoxzyn® en tu clínica.",
+    "subtitle": "Describe brevemente dónde quieres utilizar vetoxzyn® y podremos orientarte según tu contexto de trabajo.",
     "backdropWord": "BIOSEGURIDAD",
     "image": "./contact.webp",
     "imageAlt": "Clínica veterinaria de alta tecnología con superficies de vidrio e instrumental metálico bajo luz blanca",

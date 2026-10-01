@@ -28,7 +28,7 @@ const GALLERY_SOURCES = Object.entries(galleryModules)
   .map(([path, mod]) => {
     const file = path.split("/").pop() ?? path
     const base = file.replace(/\.(png|jpe?g|avif|webp)$/i, "")
-    const alt = base.replace(/[_-]+/g, " ").replace(/\s+/g, " ").trim()
+    const alt = base.replace(/[_-]+/g, " ").replace(/\s+/g, " ").trim().toLowerCase()
     const presentationMatch = base.match(/(\d+)\s*(ml|l)/i)
     const presentation = presentationMatch
       ? `${presentationMatch[1]} ${presentationMatch[2].toLowerCase() === "ml" ? "ml" : "L"}`

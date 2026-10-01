@@ -4,7 +4,7 @@
 
 ## 1. Objeto
 
-Este sitio es un canal de contacto y cotización de productos Vetoxzyn®. No se celebran compras, pagos ni contrataciones en línea: toda relación comercial se formaliza por los medios que le indiquemos al atender su solicitud (teléfono, correo o WhatsApp).
+Este sitio es un canal de contacto y cotización de productos vetoxzyn®. No se celebran compras, pagos ni contrataciones en línea: toda relación comercial se formaliza por los medios que le indiquemos al atender su solicitud (teléfono, correo o WhatsApp).
 
 ## 2. Uso aceptable
 
@@ -12,11 +12,11 @@ Usted se compromete a proporcionar datos veraces en el formulario de contacto, a
 
 ## 3. Propiedad intelectual
 
-Los contenidos del sitio (textos, imágenes, marcas Vetoxzyn®) pertenecen a su titular o a sus licenciantes. Queda prohibida su reproducción con fines comerciales sin autorización escrita.
+Los contenidos del sitio (textos, imágenes, marcas vetoxzyn®) pertenecen a su titular o a sus licenciantes. Queda prohibida su reproducción con fines comerciales sin autorización escrita.
 
 ## 4. Limitación de responsabilidad y criterio profesional
 
-La información del sitio es orientativa. Vetoxzyn® se integra en protocolos de higiene veterinaria y no sustituye el criterio profesional. Haremos esfuerzos razonables por mantener el sitio disponible, sin garantizar disponibilidad ininterrumpida ni ausencia de errores.
+La información del sitio es orientativa. vetoxzyn® se integra en protocolos de higiene veterinaria y no sustituye el criterio profesional. Haremos esfuerzos razonables por mantener el sitio disponible, sin garantizar disponibilidad ininterrumpida ni ausencia de errores.
 
 ## 5. Privacidad
 

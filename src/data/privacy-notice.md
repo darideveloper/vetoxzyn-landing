@@ -11,7 +11,7 @@ De forma directa a través de formularios instantáneos, landing pages, WhatsApp
 **Finalidades primarias y necesarias:**
 
 - Identificarle y contactarle.
-- Proporcionar información sobre nuestros productos y servicios de venta de Vetoxzyn.
+- Proporcionar información sobre nuestros productos y servicios de venta de vetoxzyn.
 - Elaborar y enviar cotizaciones.
 - Dar seguimiento a solicitudes.
 - Formalizar la relación comercial.

@@ -22,7 +22,7 @@ The system SHALL render the company line `922 223 1006` as the only phone channe
 - **THEN** the destination opens in a new tab with `rel="noopener"` and the link keeps the shared `.link` visual language
 
 ### Requirement: Facebook logo link in footer
-The system SHALL render a Facebook logo link in `FooterMeta` pointing to `https://www.facebook.com/vetoxzyn` with `target="_blank" rel="noopener"`, an accessible label (e.g. `aria-label="Vetoxzyn en Facebook"`), and no Instagram link anywhere. The link SHALL use token-only palette classes (no hardcoded hex).
+The system SHALL render a Facebook logo link in `FooterMeta` pointing to `https://www.facebook.com/vetoxzyn` with `target="_blank" rel="noopener"`, an accessible label (e.g. `aria-label="vetoxzyn en Facebook"`), and no Instagram link anywhere. The link SHALL use token-only palette classes (no hardcoded hex).
 
 #### Scenario: Visitor opens Facebook
 - **WHEN** a visitor clicks the Facebook logo in the footer

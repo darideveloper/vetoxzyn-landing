@@ -76,7 +76,7 @@ Pages are few, so per-page trees below are the reference. Overview:
 index.astro
 ├── Layout.astro ──► shared shell (lang="es")
 ├── seo/PageSEO.astro (currentPage="home", noindex, slot="seo")
-└── <h1>Vetoxzyn</h1> (no organisms — the marketing landing moved to /dr-resultados)
+└── <h1>vetoxzyn</h1> (no organisms — the marketing landing moved to /dr-resultados)
 ```
 
 ### [slug].astro tree (avatar pages — one row per content entry)
@@ -207,7 +207,7 @@ src/components/atoms/
 ├── NavLink.astro     (.link + explicit cursor-pointer <a>: color + underline-offset hover, focus-visible parity; optional target/rel passthrough for new-tab external links)
 ├── Markdown.astro    (build-time marked renderer with heading anchors and external-link behavior)
 ├── SpecItem.astro    (spec dt/dd cell: term + tone light|dark + wide? col-span-2 + valueClass override, value in slot; .hover-subtle, pointer-free)
-└── BrandLogo.astro   (Picture AVIF+WebP single 600w of src/assets/brand/logo.webp 600×244, alt Vetoxzyn, caller height class + w-auto ratio lock, loading/fetchpriority/decoding-async props; pointer-free)
+└── BrandLogo.astro   (Picture AVIF+WebP single 600w of src/assets/brand/logo.webp 600×244, alt vetoxzyn, caller height class + w-auto ratio lock, loading/fetchpriority/decoding-async props; pointer-free)
 ```
 
 ```

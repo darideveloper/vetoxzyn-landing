@@ -10,9 +10,9 @@ import { DEFAULT_FORM_COPY } from "@/data/copy"
 
 export const DEFAULT_CONTACT: ContactData = {
   eyebrow: "ORIENTACIÓN PARA TU CLÍNICA",
-  title: "Revisemos cómo quieres integrar Vetoxzyn® en tu clínica.",
+  title: "Revisemos cómo quieres integrar vetoxzyn® en tu clínica.",
   subtitle:
-    "Describe brevemente dónde quieres utilizar Vetoxzyn® y podremos orientarte según tu contexto de trabajo.",
+    "Describe brevemente dónde quieres utilizar vetoxzyn® y podremos orientarte según tu contexto de trabajo.",
   backdropWord: "BIOSEGURIDAD",
   image: contactImg,
   imageAlt:

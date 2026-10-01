@@ -1,6 +1,6 @@
 # Política de Cookies
 
-**Responsable:** GRUPO HOCLIVA SAS. Este sitio es un canal comercial de contacto y captación de clientes interesados en Vetoxzyn®; no realiza ventas ni cobros en línea.
+**Responsable:** GRUPO HOCLIVA SAS. Este sitio es un canal comercial de contacto y captación de clientes interesados en vetoxzyn®; no realiza ventas ni cobros en línea.
 
 ## 1. Qué almacenamiento utilizamos
 
