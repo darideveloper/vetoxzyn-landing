@@ -73,9 +73,8 @@ index.astro
 │   ├── molecules/SectionHeader.astro (eyebrow + h1#hero-heading string title + subtitle)
 │   ├── molecules/HeroBullets.astro (bullets const inside) ──► atoms/Icon ×5 (circle pink md filled)
 │   ├── molecules/HeroActions.astro ──► atoms/Button ×2 (primary md href="#contacto-formulario" + secondary md href="#productos") + data/section-ids
-│   └── molecules/HeroMediaCard.astro (credential chip as inner markup)
-│       ├── atoms/ResponsiveImage.astro (Picture AVIF+WebP, eager, widths [480,800,1024,1280]) ──► assets/hero/hero-clinica.webp (1122×1402 4:5 AI master)
-│       └── atoms/Icon.astro ×2 (biotech circle filled + verified bare primary)
+│   └── molecules/HeroMediaCard.astro (hero image)
+│       └── atoms/ResponsiveImage.astro (Picture AVIF+WebP, eager, widths [480,800,1024,1280]) ──► assets/hero/hero-clinica.webp (1122×1402 4:5 AI master)
 ├── organisms/Challenges.astro (static shell + 7/5 grid, section#desafios, scoped GSAP reveal script ──► lib/gsap, no client: directive)
 │   ├── molecules/SectionHeader.astro (E2 eyebrow + h2 string title + subtitle)
 │   ├── molecules/FeatureList.astro (features const inside) ──► molecules/FeatureRow.astro ×3
@@ -97,7 +96,7 @@ index.astro
 │   │   ├── molecules/SpecGrid.astro (tone + items from panel SPECS const) ──► atoms/SpecItem.astro ×5 (wide? on Presentaciones)
 │   │   ├── atoms/Button.tsx (product tone light|dark href="#contacto-formulario")
 │   │   └── atoms/Badge.astro (feature vertical: water_drop | cleaning_services)
- │   ├── molecules/ProductGallery.tsx (client:visible island: Swiper + Autoplay only, calm 3.5s loop, peek+grow 1.2→2→3→4, presentational URL props from Products frontmatter; each slide is a consistent ice-glass plate (`bg-surface-ice/80` + `border-glass-border` + `backdrop-blur-md` + `shadow-card` + padding, `object-contain`, same voice as HeroMediaCard) because gallery masters are transparent cutouts; the image itself renders at `scale: 1.5` overflowing the plate (no clipping) for the oversized bleed look, easing to `1.6` on hover via `--ease-gallery-zoom` (no overshoot) with reduced-motion parity; each slide links to `#contacto-formulario` (Spanish `aria-label`, drags excluded via Swiper `preventClicks`); the swiper viewport is `overflow: visible` so the track never cuts the bleed; skipped entirely when the gallery folder is empty) ──► swiper/react + swiper/modules (Autoplay) + assets/a2-dr-resultados/gallery/*.{png,webp,jpg,avif} (auto-glob via import.meta.glob, sorted by path, filename-derived alts, empty → no strip)
+ │   ├── molecules/ProductGallery.tsx (client:visible island: Swiper + Autoplay only, calm 3.5s loop, peek+grow 1.2→2→3→4, presentational URL props from Products frontmatter; each slide is a consistent ice-glass plate (`bg-surface-ice/80` + `border-glass-border` + `backdrop-blur-md` + `shadow-card` + padding, `object-contain`, same voice as HeroMediaCard) because gallery masters are transparent cutouts; the image itself renders at `scale: 1.5` overflowing the plate (no clipping) for the oversized bleed look, easing to `1.6` on hover via `--ease-gallery-zoom` (no overshoot) with reduced-motion parity; each slide has a decorative dark presentation cintillo (`60 ml`–`950 ml`, `4 L`, `23 L`) derived from its filename and links to `#contacto-formulario` (Spanish `aria-label`, drags excluded via Swiper `preventClicks`); the swiper viewport is `overflow: visible` so the track never cuts the bleed; skipped entirely when the gallery folder is empty) ──► swiper/react + swiper/modules (Autoplay) + assets/a2-dr-resultados/gallery/*.{png,webp,jpg,avif} (auto-glob via import.meta.glob, sorted by path, filename-derived alts, empty → no strip)
 │   │   └── (pre-hydration slide geometry lives in `global.css` under `.js-products-gallery` — mirrors the breakpoints so the unhydrated markup is already a correct strip: zero CLS, real row for no-JS/crawlers)
 │   └── molecules/FormulaStrip.astro (formula banner)
 └── organisms/ContactSection.astro (static shell + tint overlay + backdrop + grid, section#contacto, scoped GSAP reveal script ──► lib/gsap, form shell only — island untouched)
@@ -238,12 +237,12 @@ src/components/molecules/
 ├── SectionHeader.astro (eyebrow? + title + titleClass extras + level h1|h2 + id + subtitle + align left|center; locked SECTION_TITLE_CORE for both levels, title slot only for inline markup reusing the core) ──► atoms/Eyebrow
 ├── HeroBullets.astro (bullets const inside) ──► atoms/Icon ×5
 ├── HeroActions.astro (2-Button CTA group: primary → #contacto-formulario, secondary → #productos) ──► atoms/Button ×2 + data/section-ids
-├── HeroMediaCard.astro (glass image + credential chip inner markup) ──► atoms/{ResponsiveImage,Icon ×2} + assets/hero
+├── HeroMediaCard.astro (glass hero image) ──► atoms/ResponsiveImage + assets/hero
 ├── FeatureList.astro (features const inside) ──► molecules/FeatureRow ×3
 ├── FeatureRow.astro (Icon + title + desafío/solución; .hover-subtle, pointer-free) ──► atoms/Icon
 ├── MediaWithTags.astro (tilted image + gradient + 2 absolute tags) ──► atoms/{ResponsiveImage,Badge ×2} + assets/challenges
 ├── ProductPanel.astro (tone light|dark: backdrop + header + SpecGrid + CTA href="#contacto-formulario" + vertical pill; SPECS const inside) ──► atoms/{ResponsiveImage,Button,Badge} + molecules/SpecGrid + data/section-ids + assets/products
-├── ProductGallery.tsx (client:visible island, presentational: slides + sizes string props only; Swiper core CSS + Autoplay module, calm loop, breakpoints, reduced-motion gate + offscreen pause; white product plates; region carrusel, Spanish aria-label, no headings) ──► swiper/{react,modules,css} (no Navigation/Pagination)
+├── ProductGallery.tsx (client:visible island, presentational: slides, presentation labels, + sizes string props only; Swiper core CSS + Autoplay module, calm loop, breakpoints, reduced-motion gate + offscreen pause; white product plates with decorative volume cintillos; region carrusel, Spanish aria-label, no headings) ──► swiper/{react,modules,css} (no Navigation/Pagination)
 ├── SpecGrid.astro (tone + items → SpecItem grid) ──► atoms/SpecItem
 ├── FormulaStrip.astro (static formula banner)
 ├── FaqAccordion.astro (glass panel + header + single-open exclusivity script; faqs const inside; root #contacto-faq) ──► molecules/FaqItem ×3 + atoms/Icon + data/section-ids

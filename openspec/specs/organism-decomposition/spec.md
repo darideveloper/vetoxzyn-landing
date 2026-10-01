@@ -16,12 +16,12 @@ The system SHALL provide a `molecules/SectionHeader.astro` component with option
 
 ### Requirement: Hero organism decomposition
 
-The system SHALL compose `organisms/Hero.astro` from `SectionHeader`, `HeroBullets` (5 Icon+label rows), `HeroActions` (2-Button CTA group), and `HeroMediaCard` (image + credential overlay chip), with the organism holding only the section shell and grid.
+The system SHALL compose `organisms/Hero.astro` from `SectionHeader`, `HeroBullets` (5 Icon+label rows), `HeroActions` (2-Button CTA group), and `HeroMediaCard` (image), with the organism holding only the section shell and grid.
 
 #### Scenario: Hero renders identically
 
 - **WHEN** the landing page Hero renders
-- **THEN** bullets, CTAs (`#section-5`, `#section-4`), media card, and credential overlay are visually and functionally identical to before
+- **THEN** bullets, CTAs (`#section-5`, `#section-4`), and media card are visually and functionally identical to before, with no credential overlay chip
 
 ### Requirement: Challenges organism decomposition
 
